@@ -10,15 +10,17 @@ Deletes a voice consent recording.
 
 ### Returns
 
-- `id: string`
+- `VoiceConsentDeleted object { id, deleted, object }`
 
-  The consent recording identifier.
+  - `id: string`
 
-- `deleted: boolean`
+    The consent recording identifier.
 
-- `object: "audio.voice_consent"`
+  - `deleted: boolean`
 
-  - `"audio.voice_consent"`
+  - `object: "audio.voice_consent"`
+
+    - `"audio.voice_consent"`
 
 ### Example
 
@@ -28,7 +30,7 @@ curl https://api.openai.com/v1/audio/voice_consents/$CONSENT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

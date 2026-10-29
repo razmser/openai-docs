@@ -90,7 +90,7 @@ Run a grader.
 
       The text being graded against.
 
-    - `type: "text_similarity"`
+    - `type: "text_similarity" (default: "text_similarity")`
 
       The type of grader.
 
@@ -142,21 +142,29 @@ Run a grader.
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `OutputText object { text, type }`
 
@@ -179,6 +187,8 @@ Run a grader.
           - `image_url: string`
 
             The URL of the image input.
+
+            `format: uri`
 
           - `type: "input_image"`
 
@@ -250,6 +260,8 @@ Run a grader.
 
               The URL of the image input.
 
+              `format: uri`
+
             - `type: "input_image"`
 
               The type of the image input. Always `input_image`.
@@ -305,11 +317,13 @@ Run a grader.
 
       The sampling parameters for the model.
 
-      - `max_completions_tokens: optional number or null`
+      - `max_completions_tokens: optional integer or null`
 
         The maximum number of tokens the grader model may generate in its response.
 
-      - `reasoning_effort: optional ReasoningEffort or null`
+        `minimum: 1`
+
+      - `reasoning_effort: optional ReasoningEffort or null (default: "medium")`
 
         Constrains effort on reasoning for reasoning models. Currently supported
         values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -333,7 +347,7 @@ Run a grader.
 
         - `"max"`
 
-      - `seed: optional number or null`
+      - `seed: optional integer or null`
 
         A seed value to initialize the randomness, during sampling.
 
@@ -341,7 +355,7 @@ Run a grader.
 
         A higher temperature increases randomness in the outputs.
 
-      - `top_p: optional number or null`
+      - `top_p: optional number or null (default: 1)`
 
         An alternative to temperature for nucleus sampling; 1.0 includes all tokens.
 
@@ -412,6 +426,8 @@ Run a grader.
 
                 The URL of the image input.
 
+                `format: uri`
+
               - `type: "input_image"`
 
                 The type of the image input. Always `input_image`.
@@ -476,7 +492,7 @@ Run a grader.
 
       The name of the grader.
 
-    - `type: "multi"`
+    - `type: "multi" (default: "multi")`
 
       The object type, which is always `multi`.
 
@@ -538,13 +554,13 @@ Run a grader.
 
   - `token_usage: object { prompt_tokens, total_tokens, cached_tokens, completion_tokens }  or null`
 
-    - `prompt_tokens: number`
+    - `prompt_tokens: integer`
 
-    - `total_tokens: number`
+    - `total_tokens: integer`
 
-    - `cached_tokens: optional number or null`
+    - `cached_tokens: optional integer or null`
 
-    - `completion_tokens: optional number or null`
+    - `completion_tokens: optional integer or null`
 
   - `type: string`
 
@@ -572,7 +588,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/run \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -734,7 +750,7 @@ curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -870,7 +886,7 @@ Validate a grader.
 
       The text being graded against.
 
-    - `type: "text_similarity"`
+    - `type: "text_similarity" (default: "text_similarity")`
 
       The type of grader.
 
@@ -922,21 +938,29 @@ Validate a grader.
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `OutputText object { text, type }`
 
@@ -959,6 +983,8 @@ Validate a grader.
           - `image_url: string`
 
             The URL of the image input.
+
+            `format: uri`
 
           - `type: "input_image"`
 
@@ -1030,6 +1056,8 @@ Validate a grader.
 
               The URL of the image input.
 
+              `format: uri`
+
             - `type: "input_image"`
 
               The type of the image input. Always `input_image`.
@@ -1085,11 +1113,13 @@ Validate a grader.
 
       The sampling parameters for the model.
 
-      - `max_completions_tokens: optional number or null`
+      - `max_completions_tokens: optional integer or null`
 
         The maximum number of tokens the grader model may generate in its response.
 
-      - `reasoning_effort: optional ReasoningEffort or null`
+        `minimum: 1`
+
+      - `reasoning_effort: optional ReasoningEffort or null (default: "medium")`
 
         Constrains effort on reasoning for reasoning models. Currently supported
         values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -1113,7 +1143,7 @@ Validate a grader.
 
         - `"max"`
 
-      - `seed: optional number or null`
+      - `seed: optional integer or null`
 
         A seed value to initialize the randomness, during sampling.
 
@@ -1121,7 +1151,7 @@ Validate a grader.
 
         A higher temperature increases randomness in the outputs.
 
-      - `top_p: optional number or null`
+      - `top_p: optional number or null (default: 1)`
 
         An alternative to temperature for nucleus sampling; 1.0 includes all tokens.
 
@@ -1192,6 +1222,8 @@ Validate a grader.
 
                 The URL of the image input.
 
+                `format: uri`
+
               - `type: "input_image"`
 
                 The type of the image input. Always `input_image`.
@@ -1256,7 +1288,7 @@ Validate a grader.
 
       The name of the grader.
 
-    - `type: "multi"`
+    - `type: "multi" (default: "multi")`
 
       The object type, which is always `multi`.
 
@@ -1346,7 +1378,7 @@ Validate a grader.
 
       The text being graded against.
 
-    - `type: "text_similarity"`
+    - `type: "text_similarity" (default: "text_similarity")`
 
       The type of grader.
 
@@ -1398,21 +1430,29 @@ Validate a grader.
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `OutputText object { text, type }`
 
@@ -1435,6 +1475,8 @@ Validate a grader.
           - `image_url: string`
 
             The URL of the image input.
+
+            `format: uri`
 
           - `type: "input_image"`
 
@@ -1506,6 +1548,8 @@ Validate a grader.
 
               The URL of the image input.
 
+              `format: uri`
+
             - `type: "input_image"`
 
               The type of the image input. Always `input_image`.
@@ -1561,11 +1605,13 @@ Validate a grader.
 
       The sampling parameters for the model.
 
-      - `max_completions_tokens: optional number or null`
+      - `max_completions_tokens: optional integer or null`
 
         The maximum number of tokens the grader model may generate in its response.
 
-      - `reasoning_effort: optional ReasoningEffort or null`
+        `minimum: 1`
+
+      - `reasoning_effort: optional ReasoningEffort or null (default: "medium")`
 
         Constrains effort on reasoning for reasoning models. Currently supported
         values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -1589,7 +1635,7 @@ Validate a grader.
 
         - `"max"`
 
-      - `seed: optional number or null`
+      - `seed: optional integer or null`
 
         A seed value to initialize the randomness, during sampling.
 
@@ -1597,7 +1643,7 @@ Validate a grader.
 
         A higher temperature increases randomness in the outputs.
 
-      - `top_p: optional number or null`
+      - `top_p: optional number or null (default: 1)`
 
         An alternative to temperature for nucleus sampling; 1.0 includes all tokens.
 
@@ -1668,6 +1714,8 @@ Validate a grader.
 
                 The URL of the image input.
 
+                `format: uri`
+
               - `type: "input_image"`
 
                 The type of the image input. Always `input_image`.
@@ -1732,7 +1780,7 @@ Validate a grader.
 
       The name of the grader.
 
-    - `type: "multi"`
+    - `type: "multi" (default: "multi")`
 
       The object type, which is always `multi`.
 
@@ -1755,7 +1803,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -1786,7 +1834,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -1848,13 +1896,13 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
     - `token_usage: object { prompt_tokens, total_tokens, cached_tokens, completion_tokens }  or null`
 
-      - `prompt_tokens: number`
+      - `prompt_tokens: integer`
 
-      - `total_tokens: number`
+      - `total_tokens: integer`
 
-      - `cached_tokens: optional number or null`
+      - `cached_tokens: optional integer or null`
 
-      - `completion_tokens: optional number or null`
+      - `completion_tokens: optional integer or null`
 
     - `type: string`
 
@@ -1950,7 +1998,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
         The text being graded against.
 
-      - `type: "text_similarity"`
+      - `type: "text_similarity" (default: "text_similarity")`
 
         The type of grader.
 
@@ -2002,21 +2050,29 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
               The text input to the model.
 
-            - `type: "input_text"`
+            - `type: "input_text" (default: "input_text")`
 
               The type of the input item. Always `input_text`.
 
               - `"input_text"`
 
-            - `prompt_cache_breakpoint: optional object { mode }`
+            - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
+
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
 
           - `OutputText object { text, type }`
 
@@ -2039,6 +2095,8 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
             - `image_url: string`
 
               The URL of the image input.
+
+              `format: uri`
 
             - `type: "input_image"`
 
@@ -2110,6 +2168,8 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
                 The URL of the image input.
 
+                `format: uri`
+
               - `type: "input_image"`
 
                 The type of the image input. Always `input_image`.
@@ -2165,11 +2225,13 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
         The sampling parameters for the model.
 
-        - `max_completions_tokens: optional number or null`
+        - `max_completions_tokens: optional integer or null`
 
           The maximum number of tokens the grader model may generate in its response.
 
-        - `reasoning_effort: optional ReasoningEffort or null`
+          `minimum: 1`
+
+        - `reasoning_effort: optional ReasoningEffort or null (default: "medium")`
 
           Constrains effort on reasoning for reasoning models. Currently supported
           values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -2193,7 +2255,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
           - `"max"`
 
-        - `seed: optional number or null`
+        - `seed: optional integer or null`
 
           A seed value to initialize the randomness, during sampling.
 
@@ -2201,7 +2263,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
           A higher temperature increases randomness in the outputs.
 
-        - `top_p: optional number or null`
+        - `top_p: optional number or null (default: 1)`
 
           An alternative to temperature for nucleus sampling; 1.0 includes all tokens.
 
@@ -2272,6 +2334,8 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
                   The URL of the image input.
 
+                  `format: uri`
+
                 - `type: "input_image"`
 
                   The type of the image input. Always `input_image`.
@@ -2336,7 +2400,7 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/validate \
 
         The name of the grader.
 
-      - `type: "multi"`
+      - `type: "multi" (default: "multi")`
 
         The object type, which is always `multi`.
 

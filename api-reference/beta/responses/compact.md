@@ -14,17 +14,19 @@ Learn when and how to compact long-running conversations in the [conversation st
 
 ### Body Parameters
 
-- `model: "gpt-6-astra" or "gpt-6.1-sol" or "gpt-6-sol" or 106 more or string or null`
+- `model: "gpt-6-astra" or "gpt-6.1-sol" or "gpt-6.1-terra" or 107 more or string or null`
 
   Model ID used to generate the response, like `gpt-6-astra`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://developers.openai.com/api/docs/models) to browse and compare available models.
 
-  - `"gpt-6-astra" or "gpt-6.1-sol" or "gpt-6-sol" or 106 more`
+  - `"gpt-6-astra" or "gpt-6.1-sol" or "gpt-6.1-terra" or 107 more`
 
     Model ID used to generate the response, like `gpt-6-astra`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://developers.openai.com/api/docs/models) to browse and compare available models.
 
     - `"gpt-6-astra"`
 
     - `"gpt-6.1-sol"`
+
+    - `"gpt-6.1-terra"`
 
     - `"gpt-6-sol"`
 
@@ -250,9 +252,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
     A text input to the model, equivalent to a text input with the `user` role.
 
+    `maxLength: 10485760`
+
   - `array of BetaEasyInputMessage or Message { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     A list of one or many input items to the model, containing different content types.
+
+    `maxItems: 131072`
 
     - `BetaEasyInputMessage object { content, role, phase, type }`
 
@@ -284,21 +290,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The text input to the model.
 
-            - `type: "input_text"`
+            - `type: "input_text" (default: "input_text")`
 
               The type of the input item. Always `input_text`.
 
               - `"input_text"`
 
-            - `prompt_cache_breakpoint: optional object { mode }`
+            - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
+
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
 
           - `BetaResponseInputImage object { detail, type, file_id, 2 more }`
 
@@ -316,7 +330,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               - `"original"`
 
-            - `type: "input_image"`
+            - `type: "input_image" (default: "input_image")`
 
               The type of the input item. Always `input_image`.
 
@@ -330,21 +344,31 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
-            - `prompt_cache_breakpoint: optional object { mode }`
+              `format: uri`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-              - `mode: "explicit"`
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
 
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
+
           - `BetaResponseInputFile object { type, detail, file_data, 4 more }`
 
             A file input to the model.
 
-            - `type: "input_file"`
+            - `type: "input_file" (default: "input_file")`
 
               The type of the input item. Always `input_file`.
 
@@ -372,19 +396,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the file to be sent to the model.
 
+              `format: uri`
+
             - `filename: optional string`
 
               The name of the file to be sent to the model.
 
-            - `prompt_cache_breakpoint: optional object { mode }`
+            - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
+
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
 
       - `role: "user" or "assistant" or "system" or "developer"`
 
@@ -493,11 +527,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The filename of the file cited.
 
-              - `index: number`
+              - `index: integer`
 
                 The index in the output text at which to insert the file citation.
 
-              - `type: "file_citation"`
+              - `type: "file_citation" (default: "file_citation")`
 
                 The type of the file citation. Always `file_citation`.
 
@@ -507,11 +541,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               A citation for a web resource used to generate a model response.
 
-              - `end_index: number`
+              - `end_index: integer`
 
                 The index of the last character of the URL citation in the message.
 
-              - `start_index: number`
+              - `start_index: integer`
 
                 The index of the first character of the URL citation in the message.
 
@@ -519,7 +553,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The title of the web resource.
 
-              - `type: "url_citation"`
+              - `type: "url_citation" (default: "url_citation")`
 
                 The type of the URL citation. Always `url_citation`.
 
@@ -529,6 +563,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The URL of the web resource.
 
+                `format: uri`
+
             - `ContainerFileCitation object { container_id, end_index, file_id, 3 more }`
 
               A citation for a container file used to generate a model response.
@@ -537,7 +573,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The ID of the container file.
 
-              - `end_index: number`
+              - `end_index: integer`
 
                 The index of the last character of the container file citation in the message.
 
@@ -549,11 +585,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The filename of the container file cited.
 
-              - `start_index: number`
+              - `start_index: integer`
 
                 The index of the first character of the container file citation in the message.
 
-              - `type: "container_file_citation"`
+              - `type: "container_file_citation" (default: "container_file_citation")`
 
                 The type of the container file citation. Always `container_file_citation`.
 
@@ -567,7 +603,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The ID of the file.
 
-              - `index: number`
+              - `index: integer`
 
                 The index of the file in the list of files.
 
@@ -597,7 +633,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The text output from the model.
 
-          - `type: "output_text"`
+          - `type: "output_text" (default: "output_text")`
 
             The type of the output text. Always `output_text`.
 
@@ -611,7 +647,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The refusal explanation from the model.
 
-          - `type: "refusal"`
+          - `type: "refusal" (default: "refusal")`
 
             The type of the refusal. Always `refusal`.
 
@@ -714,6 +750,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `string`
 
+            `maxLength: 512`
+
           - `number`
 
           - `boolean`
@@ -729,6 +767,8 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `score: optional number`
 
           The relevance score of the file - a value between 0 and 1.
+
+          `format: float`
 
         - `text: optional string`
 
@@ -774,7 +814,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "computer_call"`
+      - `type: "computer_call" (default: "computer_call")`
 
         The type of the computer call. Always `computer_call`.
 
@@ -802,17 +842,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"forward"`
 
-          - `type: "click"`
+          - `type: "click" (default: "click")`
 
             Specifies the event type. For a click action, this property is always `click`.
 
             - `"click"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the click occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the click occurred.
 
@@ -828,17 +868,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The keys being held while double-clicking.
 
-          - `type: "double_click"`
+          - `type: "double_click" (default: "double_click")`
 
             Specifies the event type. For a double click action, this property is always set to `double_click`.
 
             - `"double_click"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the double click occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the double click occurred.
 
@@ -857,15 +897,15 @@ Learn when and how to compact long-running conversations in the [conversation st
             ]
             ```
 
-            - `x: number`
+            - `x: integer`
 
               The x-coordinate.
 
-            - `y: number`
+            - `y: integer`
 
               The y-coordinate.
 
-          - `type: "drag"`
+          - `type: "drag" (default: "drag")`
 
             Specifies the event type. For a drag action, this property is always set to `drag`.
 
@@ -883,7 +923,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key.
 
-          - `type: "keypress"`
+          - `type: "keypress" (default: "keypress")`
 
             Specifies the event type. For a keypress action, this property is always set to `keypress`.
 
@@ -893,17 +933,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A mouse move action.
 
-          - `type: "move"`
+          - `type: "move" (default: "move")`
 
             Specifies the event type. For a move action, this property is always set to `move`.
 
             - `"move"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate to move to.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate to move to.
 
@@ -915,7 +955,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A screenshot action.
 
-          - `type: "screenshot"`
+          - `type: "screenshot" (default: "screenshot")`
 
             Specifies the event type. For a screenshot action, this property is always set to `screenshot`.
 
@@ -925,25 +965,25 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A scroll action.
 
-          - `scroll_x: number`
+          - `scroll_x: integer`
 
             The horizontal scroll distance.
 
-          - `scroll_y: number`
+          - `scroll_y: integer`
 
             The vertical scroll distance.
 
-          - `type: "scroll"`
+          - `type: "scroll" (default: "scroll")`
 
             Specifies the event type. For a scroll action, this property is always set to `scroll`.
 
             - `"scroll"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the scroll occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the scroll occurred.
 
@@ -959,7 +999,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The text to type.
 
-          - `type: "type"`
+          - `type: "type" (default: "type")`
 
             Specifies the event type. For a type action, this property is always set to `type`.
 
@@ -969,7 +1009,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A wait action.
 
-          - `type: "wait"`
+          - `type: "wait" (default: "wait")`
 
             Specifies the event type. For a wait action, this property is always set to `wait`.
 
@@ -1032,11 +1072,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The ID of the computer tool call that produced the output.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: BetaResponseComputerToolCallOutputScreenshot`
 
         A computer screenshot image used with the computer use tool.
 
-        - `type: "computer_screenshot"`
+        - `type: "computer_screenshot" (default: "computer_screenshot")`
 
           Specifies the event type. For a computer screenshot, this property is
           always set to `computer_screenshot`.
@@ -1051,7 +1093,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The URL of the screenshot image.
 
-      - `type: "computer_call_output"`
+          `format: uri`
+
+      - `type: "computer_call_output" (default: "computer_call_output")`
 
         The type of the computer tool call output. Always `computer_call_output`.
 
@@ -1161,6 +1205,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the source.
 
+              `format: uri`
+
         - `OpenPage object { type, url }`
 
           Action type "open_page" - Opens a specific URL from search results.
@@ -1174,6 +1220,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `url: optional string or null`
 
             The URL opened by the model.
+
+            `format: uri`
 
         - `FindInPage object { pattern, type, url }`
 
@@ -1189,9 +1237,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"find_in_page"`
 
-          - `url: string`
+          - `url: optional string or null`
 
-            The URL of the page searched for the pattern.
+            The URL of the page searched for the pattern, when available.
+
+            `format: uri`
 
       - `agent: optional object { agent_name }  or null`
 
@@ -1246,7 +1296,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -1256,7 +1306,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -1287,6 +1337,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A JSON string of the output of the function tool call.
 
+          `maxLength: 10485760`
+
         - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
 
           An array of content outputs (text, image, file) for the function tool call.
@@ -1299,27 +1351,37 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The text input to the model.
 
-            - `type: "input_text"`
+              `maxLength: 10485760`
+
+            - `type: "input_text" (default: "input_text")`
 
               The type of the input item. Always `input_text`.
 
               - `"input_text"`
 
-            - `prompt_cache_breakpoint: optional object { mode }  or null`
+            - `prompt_cache_breakpoint: optional object { mode, ttl }  or null`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
 
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
+
           - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
 
             An image input to the model. Learn about [image inputs](https://developers.openai.com/api/docs/guides/images-vision)
 
-            - `type: "input_image"`
+            - `type: "input_image" (default: "input_image")`
 
               The type of the input item. Always `input_image`.
 
@@ -1337,21 +1399,31 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
-            - `prompt_cache_breakpoint: optional object { mode }  or null`
+              `maxLength: 20971520`, `format: uri`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            - `prompt_cache_breakpoint: optional object { mode, ttl }  or null`
 
-              - `mode: "explicit"`
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
 
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
+
           - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
 
             A file input to the model.
 
-            - `type: "input_file"`
+            - `type: "input_file" (default: "input_file")`
 
               The type of the input item. Always `input_file`.
 
@@ -1371,6 +1443,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The base64-encoded data of the file to be sent to the model.
 
+              `maxLength: 73400320`
+
             - `file_id: optional string or null`
 
               The ID of the file to be sent to the model.
@@ -1379,21 +1453,31 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the file to be sent to the model.
 
+              `format: uri`
+
             - `filename: optional string or null`
 
               The name of the file to be sent to the model.
 
-            - `prompt_cache_breakpoint: optional object { mode }  or null`
+            - `prompt_cache_breakpoint: optional object { mode, ttl }  or null`
 
-              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+              Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
                 - `"explicit"`
 
-      - `type: "function_call_output"`
+              - `ttl: optional "30m" or "12h"`
+
+                The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+                - `"30m"`
+
+                - `"12h"`
+
+      - `type: "function_call_output" (default: "function_call_output")`
 
         The type of the function tool call output. Always `function_call_output`.
 
@@ -1415,13 +1499,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the function tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `caller: optional Direct { type }  or Program { caller_id, type }  or null`
 
         The execution context that produced this tool call.
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -1433,7 +1519,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -1443,9 +1531,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The name of the tool that produced the output.
 
+        `minLength: 1`, `maxLength: 128`
+
       - `namespace: optional string or null`
 
         The namespace of the tool that produced the output.
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
 
       - `status: optional "in_progress" or "completed" or "incomplete" or null`
 
@@ -1485,7 +1577,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Opaque encrypted content.
 
-          - `type: "encrypted_content"`
+            `maxLength: 10485760`
+
+          - `type: "encrypted_content" (default: "encrypted_content")`
 
             The type of the input item. Always `encrypted_content`.
 
@@ -1495,7 +1589,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The destination agent identity.
 
-      - `type: "agent_message"`
+      - `type: "agent_message" (default: "agent_message")`
 
         The item type. Always `agent_message`.
 
@@ -1539,7 +1633,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID linking this call to its output.
 
-      - `type: "multi_agent_call"`
+        `minLength: 1`, `maxLength: 64`
+
+      - `type: "multi_agent_call" (default: "multi_agent_call")`
 
         The item type. Always `multi_agent_call`.
 
@@ -1579,6 +1675,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the multi-agent call.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: array of object { text, type, annotations }`
 
         Text output returned by the multi-agent action.
@@ -1587,7 +1685,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The text content.
 
-        - `type: "output_text"`
+          `maxLength: 10485760`
+
+        - `type: "output_text" (default: "output_text")`
 
           The content type. Always `output_text`.
 
@@ -1607,11 +1707,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The filename of the file cited.
 
-            - `index: number`
+            - `index: integer`
 
               The index of the file in the list of files.
 
-            - `type: "file_citation"`
+              `minimum: 0`
+
+            - `type: "file_citation" (default: "file_citation")`
 
               The citation type. Always `file_citation`.
 
@@ -1619,19 +1721,23 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `URLCitation object { end_index, start_index, title, 2 more }`
 
-            - `end_index: number`
+            - `end_index: integer`
 
               The index of the last character of the citation in the message.
 
-            - `start_index: number`
+              `minimum: 0`
+
+            - `start_index: integer`
 
               The index of the first character of the citation in the message.
+
+              `minimum: 0`
 
             - `title: string`
 
               The title of the cited resource.
 
-            - `type: "url_citation"`
+            - `type: "url_citation" (default: "url_citation")`
 
               The citation type. Always `url_citation`.
 
@@ -1641,15 +1747,19 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the cited resource.
 
+              `format: uri`
+
           - `ContainerFileCitation object { container_id, end_index, file_id, 3 more }`
 
             - `container_id: string`
 
               The ID of the container.
 
-            - `end_index: number`
+            - `end_index: integer`
 
               The index of the last character of the citation in the message.
+
+              `minimum: 0`
 
             - `file_id: string`
 
@@ -1659,17 +1769,19 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The filename of the container file cited.
 
-            - `start_index: number`
+            - `start_index: integer`
 
               The index of the first character of the citation in the message.
 
-            - `type: "container_file_citation"`
+              `minimum: 0`
+
+            - `type: "container_file_citation" (default: "container_file_citation")`
 
               The citation type. Always `container_file_citation`.
 
               - `"container_file_citation"`
 
-      - `type: "multi_agent_call_output"`
+      - `type: "multi_agent_call_output" (default: "multi_agent_call_output")`
 
         The item type. Always `multi_agent_call_output`.
 
@@ -1693,7 +1805,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The arguments supplied to the tool search call.
 
-      - `type: "tool_search_call"`
+      - `type: "tool_search_call" (default: "tool_search_call")`
 
         The item type. Always `tool_search_call`.
 
@@ -1714,6 +1826,8 @@ Learn when and how to compact long-running conversations in the [conversation st
       - `call_id: optional string or null`
 
         The unique ID of the tool search call generated by the model.
+
+        `minLength: 1`, `maxLength: 64`
 
       - `execution: optional "server" or "client"`
 
@@ -1755,7 +1869,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Whether strict parameter validation is enforced for this function tool.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The type of the function tool. Always `function`.
 
@@ -1787,7 +1901,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The type of the file search tool. Always `file_search`.
 
@@ -1809,7 +1923,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The key to compare against the value.
 
-              - `type: "eq" or "ne" or "gt" or 5 more`
+              - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
                 Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -1858,7 +1972,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Combine multiple filters using `and` or `or`.
 
-          - `max_num_results: optional number`
+          - `max_num_results: optional integer`
 
             The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -1894,7 +2008,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The type of the computer tool. Always `computer`.
 
@@ -1904,11 +2018,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `display_height: number`
+          - `display_height: integer`
 
             The height of the computer display.
 
-          - `display_width: number`
+          - `display_width: integer`
 
             The width of the computer display.
 
@@ -1926,7 +2040,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"browser"`
 
-          - `type: "computer_use_preview"`
+          - `type: "computer_use_preview" (default: "computer_use_preview")`
 
             The type of the computer use tool. Always `computer_use_preview`.
 
@@ -1937,7 +2051,7 @@ Learn when and how to compact long-running conversations in the [conversation st
           Search the Internet for sources related to the prompt. Learn more about the
           [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search" or "web_search_2025_08_26"`
+          - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
             The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -1945,7 +2059,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"web_search_2025_08_26"`
 
-          - `external_web_access: optional boolean`
+          - `external_web_access: optional boolean (default: true)`
 
             Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -1953,14 +2067,14 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Filters for the search.
 
-            - `allowed_domains: optional array of string or null`
+            - `allowed_domains: optional array of string or null (default: [])`
 
               Allowed domains for the search. If not provided, all domains are allowed.
               Subdomains of the provided domains are allowed as well.
 
               Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-          - `search_context_size: optional "low" or "medium" or "high"`
+          - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
             High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -1992,7 +2106,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-            - `type: optional "approximate"`
+            - `type: optional "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -2016,6 +2130,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -2095,7 +2211,7 @@ Learn when and how to compact long-running conversations in the [conversation st
             Optional HTTP headers to send to the MCP server. Use for authentication
             or other purposes.
 
-          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
             Specify which of the MCP server's tools require approval.
 
@@ -2152,10 +2268,14 @@ Learn when and how to compact long-running conversations in the [conversation st
             The URL for the MCP server. One of `server_url`, `connector_id`, or
             `tunnel_id` must be provided.
 
+            `format: uri`
+
           - `tunnel_id: optional string`
 
             The Secure MCP Tunnel ID to use instead of a direct server URL. One of
             `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+            `pattern: ^tunnel_[a-z0-9]{32}$`
 
         - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -2175,7 +2295,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-              - `type: "auto"`
+              - `type: "auto" (default: "auto")`
 
                 Always `auto`.
 
@@ -2184,6 +2304,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -2203,7 +2325,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `BetaContainerNetworkPolicyDisabled object { type }`
 
-                  - `type: "disabled"`
+                  - `type: "disabled" (default: "disabled")`
 
                     Disable outbound network access. Always `disabled`.
 
@@ -2215,7 +2337,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     A list of allowed domains when type is `allowlist`.
 
-                  - `type: "allowlist"`
+                    `minItems: 1`
+
+                  - `type: "allowlist" (default: "allowlist")`
 
                     Allow outbound network access only to specified domains. Always `allowlist`.
 
@@ -2225,17 +2349,25 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     Optional domain-scoped secrets for allowlisted domains.
 
+                    `minItems: 1`
+
                     - `domain: string`
 
                       The domain associated with the secret.
+
+                      `minLength: 1`
 
                     - `name: string`
 
                       The name of the secret to inject for the domain.
 
+                      `minLength: 1`
+
                     - `value: string`
 
                       The secret value to inject for the domain.
+
+                      `minLength: 1`, `maxLength: 10485760`
 
           - `type: "code_interpreter"`
 
@@ -2247,13 +2379,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The type of the tool. Always `programmatic_tool_calling`.
 
@@ -2279,7 +2413,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `background: optional "transparent" or "opaque" or "auto"`
+          - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
             Set the background of the generated image. One of `transparent`, `opaque`,
             or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -2297,7 +2431,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `input_fidelity: optional "high" or "low" or null`
 
-            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
             - `"high"`
 
@@ -2318,23 +2452,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `model: optional string or "gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-            The image generation model to use. One of `gpt-image-1`,
-            `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+            The image generation model to use. One of `gpt-image-1-mini`,
+            `gpt-image-1.5`, `gpt-image-2`,
             `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
             `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
             `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-            `gpt-image-1`.
+            `gpt-image-2`.
+
+            `gpt-image-1` was shut down on October 23, 2026. Use
+            `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
             - `string`
 
             - `"gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-              The image generation model to use. One of `gpt-image-1`,
-              `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+              The image generation model to use. One of `gpt-image-1-mini`,
+              `gpt-image-1.5`, `gpt-image-2`,
               `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
               `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
               `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-              `gpt-image-1`.
+              `gpt-image-2`.
+
+              `gpt-image-1` was shut down on October 23, 2026. Use
+              `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
               - `"gpt-image-1"`
 
@@ -2354,7 +2494,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               - `"gpt-image-2.5-flare-2026-09-08"`
 
-          - `moderation: optional "auto" or "low"`
+          - `moderation: optional "auto" or "low" (default: "auto")`
 
             Moderation level for the generated image. Default: `auto`.
 
@@ -2362,11 +2502,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"low"`
 
-          - `output_compression: optional number`
+          - `output_compression: optional integer (default: 100)`
 
             Compression level for the output image. Default: 100.
 
-          - `output_format: optional "png" or "webp" or "jpeg"`
+            `minimum: 0`, `maximum: 100`
+
+          - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
             The output format of the generated image. One of `png`, `webp`, or
             `jpeg`. Default: `png`.
@@ -2377,11 +2519,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"jpeg"`
 
-          - `partial_images: optional number`
+          - `partial_images: optional integer (default: 0)`
 
             Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-          - `quality: optional "low" or "medium" or "high" or 3 more`
+            `minimum: 0`, `maximum: 3`
+
+          - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
             The quality of the generated image. The GPT image models support `low`,
             `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -2400,7 +2544,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
             The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -2422,7 +2566,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands in a local environment.
 
-          - `type: "local_shell"`
+          - `type: "local_shell" (default: "local_shell")`
 
             The type of the local shell tool. Always `local_shell`.
 
@@ -2432,7 +2576,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The type of the shell tool. Always `shell`.
 
@@ -2442,6 +2586,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
@@ -2450,7 +2596,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `BetaContainerAuto object { type, file_ids, memory_limit, 2 more }`
 
-              - `type: "container_auto"`
+              - `type: "container_auto" (default: "container_auto")`
 
                 Automatically creates a container for this request
 
@@ -2459,6 +2605,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -2484,13 +2632,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 An optional list of skills referenced by id or inline data.
 
+                `maxItems: 200`
+
                 - `BetaSkillReference object { skill_id, type, version }`
 
                   - `skill_id: string`
 
                     The ID of the referenced skill.
 
-                  - `type: "skill_reference"`
+                    `minLength: 1`, `maxLength: 64`
+
+                  - `type: "skill_reference" (default: "skill_reference")`
 
                     References a skill created with the /v1/skills endpoint.
 
@@ -2518,19 +2670,21 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                       Base64-encoded skill zip bundle.
 
-                    - `media_type: "application/zip"`
+                      `minLength: 1`, `maxLength: 70254592`
+
+                    - `media_type: "application/zip" (default: "application/zip")`
 
                       The media type of the inline skill payload. Must be `application/zip`.
 
                       - `"application/zip"`
 
-                    - `type: "base64"`
+                    - `type: "base64" (default: "base64")`
 
                       The type of the inline skill source. Must be `base64`.
 
                       - `"base64"`
 
-                  - `type: "inline"`
+                  - `type: "inline" (default: "inline")`
 
                     Defines an inline skill for this request.
 
@@ -2538,7 +2692,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `BetaLocalEnvironment object { type, skills }`
 
-              - `type: "local"`
+              - `type: "local" (default: "local")`
 
                 Use a local computer environment.
 
@@ -2547,6 +2701,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `skills: optional array of BetaLocalSkill`
 
                 An optional list of skills.
+
+                `maxItems: 200`
 
                 - `description: string`
 
@@ -2566,7 +2722,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The ID of the referenced container.
 
-              - `type: "container_reference"`
+              - `type: "container_reference" (default: "container_reference")`
 
                 References a container created with the /v1/containers endpoint
 
@@ -2580,7 +2736,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The name of the custom tool, used to identify it in tool calls.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The type of the custom tool. Always `custom`.
 
@@ -2589,6 +2745,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -2614,7 +2772,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Unconstrained free-form text.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 Unconstrained text format. Always `text`.
 
@@ -2636,7 +2794,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `"regex"`
 
-              - `type: "grammar"`
+              - `type: "grammar" (default: "grammar")`
 
                 Grammar format. Always `grammar`.
 
@@ -2654,9 +2812,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
+            `minLength: 1`
+
           - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
             The function/custom tools loaded inside this namespace.
+
+            `minItems: 1`
 
             - `Function object { name, type, allowed_callers, 6 more }`
 
@@ -2664,13 +2826,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The name of the loaded function tool.
 
-              - `type: "function"`
+                `pattern: ^(?![\s\S]*[\r\n])[a-zA-Z0-9_.-]+$`, `minLength: 1`, `maxLength: 128`
+
+              - `type: "function" (default: "function")`
 
                 - `"function"`
 
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -2704,7 +2870,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The name of the custom tool, used to identify it in tool calls.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The type of the custom tool. Always `custom`.
 
@@ -2713,6 +2879,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -2738,7 +2906,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                   Unconstrained free-form text.
 
-                  - `type: "text"`
+                  - `type: "text" (default: "text")`
 
                     Unconstrained text format. Always `text`.
 
@@ -2760,13 +2928,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     - `"regex"`
 
-                  - `type: "grammar"`
+                  - `type: "grammar" (default: "grammar")`
 
                     Grammar format. Always `grammar`.
 
                     - `"grammar"`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             The type of the tool. Always `namespace`.
 
@@ -2776,7 +2944,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Hosted or BYOT tool search configuration for deferred tools.
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             The type of the tool. Always `tool_search`.
 
@@ -2802,7 +2970,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+          - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
             The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -2830,7 +2998,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-            - `type: "approximate"`
+            - `type: "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -2856,7 +3024,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Allows the assistant to create, delete, or update files using unified diffs.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The type of the tool. Always `apply_patch`.
 
@@ -2866,11 +3034,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
-      - `type: "tool_search_output"`
+      - `type: "tool_search_output" (default: "tool_search_output")`
 
         The item type. Always `tool_search_output`.
 
@@ -2892,6 +3062,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the tool search call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `execution: optional "server" or "client"`
 
         Whether tool search was executed by the server or by the client.
@@ -2912,7 +3084,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
     - `AdditionalTools object { role, tools, type, 2 more }`
 
-      - `role: "developer"`
+      - `role: "developer" (default: "developer")`
 
         The role that provided the additional tools. Only `developer` is supported.
 
@@ -2938,7 +3110,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Whether strict parameter validation is enforced for this function tool.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The type of the function tool. Always `function`.
 
@@ -2970,7 +3142,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The type of the file search tool. Always `file_search`.
 
@@ -2992,7 +3164,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The key to compare against the value.
 
-              - `type: "eq" or "ne" or "gt" or 5 more`
+              - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
                 Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -3041,7 +3213,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Combine multiple filters using `and` or `or`.
 
-          - `max_num_results: optional number`
+          - `max_num_results: optional integer`
 
             The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -3077,7 +3249,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The type of the computer tool. Always `computer`.
 
@@ -3087,11 +3259,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `display_height: number`
+          - `display_height: integer`
 
             The height of the computer display.
 
-          - `display_width: number`
+          - `display_width: integer`
 
             The width of the computer display.
 
@@ -3109,7 +3281,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"browser"`
 
-          - `type: "computer_use_preview"`
+          - `type: "computer_use_preview" (default: "computer_use_preview")`
 
             The type of the computer use tool. Always `computer_use_preview`.
 
@@ -3120,7 +3292,7 @@ Learn when and how to compact long-running conversations in the [conversation st
           Search the Internet for sources related to the prompt. Learn more about the
           [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search" or "web_search_2025_08_26"`
+          - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
             The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -3128,7 +3300,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"web_search_2025_08_26"`
 
-          - `external_web_access: optional boolean`
+          - `external_web_access: optional boolean (default: true)`
 
             Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -3136,14 +3308,14 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Filters for the search.
 
-            - `allowed_domains: optional array of string or null`
+            - `allowed_domains: optional array of string or null (default: [])`
 
               Allowed domains for the search. If not provided, all domains are allowed.
               Subdomains of the provided domains are allowed as well.
 
               Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-          - `search_context_size: optional "low" or "medium" or "high"`
+          - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
             High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -3175,7 +3347,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-            - `type: optional "approximate"`
+            - `type: optional "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -3199,6 +3371,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -3278,7 +3452,7 @@ Learn when and how to compact long-running conversations in the [conversation st
             Optional HTTP headers to send to the MCP server. Use for authentication
             or other purposes.
 
-          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
             Specify which of the MCP server's tools require approval.
 
@@ -3335,10 +3509,14 @@ Learn when and how to compact long-running conversations in the [conversation st
             The URL for the MCP server. One of `server_url`, `connector_id`, or
             `tunnel_id` must be provided.
 
+            `format: uri`
+
           - `tunnel_id: optional string`
 
             The Secure MCP Tunnel ID to use instead of a direct server URL. One of
             `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+            `pattern: ^tunnel_[a-z0-9]{32}$`
 
         - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -3358,7 +3536,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-              - `type: "auto"`
+              - `type: "auto" (default: "auto")`
 
                 Always `auto`.
 
@@ -3367,6 +3545,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -3398,13 +3578,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The type of the tool. Always `programmatic_tool_calling`.
 
@@ -3430,7 +3612,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `background: optional "transparent" or "opaque" or "auto"`
+          - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
             Set the background of the generated image. One of `transparent`, `opaque`,
             or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -3448,7 +3630,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `input_fidelity: optional "high" or "low" or null`
 
-            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
             - `"high"`
 
@@ -3469,23 +3651,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `model: optional string or "gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-            The image generation model to use. One of `gpt-image-1`,
-            `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+            The image generation model to use. One of `gpt-image-1-mini`,
+            `gpt-image-1.5`, `gpt-image-2`,
             `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
             `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
             `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-            `gpt-image-1`.
+            `gpt-image-2`.
+
+            `gpt-image-1` was shut down on October 23, 2026. Use
+            `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
             - `string`
 
             - `"gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-              The image generation model to use. One of `gpt-image-1`,
-              `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+              The image generation model to use. One of `gpt-image-1-mini`,
+              `gpt-image-1.5`, `gpt-image-2`,
               `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
               `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
               `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-              `gpt-image-1`.
+              `gpt-image-2`.
+
+              `gpt-image-1` was shut down on October 23, 2026. Use
+              `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
               - `"gpt-image-1"`
 
@@ -3505,7 +3693,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               - `"gpt-image-2.5-flare-2026-09-08"`
 
-          - `moderation: optional "auto" or "low"`
+          - `moderation: optional "auto" or "low" (default: "auto")`
 
             Moderation level for the generated image. Default: `auto`.
 
@@ -3513,11 +3701,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"low"`
 
-          - `output_compression: optional number`
+          - `output_compression: optional integer (default: 100)`
 
             Compression level for the output image. Default: 100.
 
-          - `output_format: optional "png" or "webp" or "jpeg"`
+            `minimum: 0`, `maximum: 100`
+
+          - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
             The output format of the generated image. One of `png`, `webp`, or
             `jpeg`. Default: `png`.
@@ -3528,11 +3718,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"jpeg"`
 
-          - `partial_images: optional number`
+          - `partial_images: optional integer (default: 0)`
 
             Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-          - `quality: optional "low" or "medium" or "high" or 3 more`
+            `minimum: 0`, `maximum: 3`
+
+          - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
             The quality of the generated image. The GPT image models support `low`,
             `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -3551,7 +3743,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
             The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -3573,7 +3765,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands in a local environment.
 
-          - `type: "local_shell"`
+          - `type: "local_shell" (default: "local_shell")`
 
             The type of the local shell tool. Always `local_shell`.
 
@@ -3583,7 +3775,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The type of the shell tool. Always `shell`.
 
@@ -3592,6 +3784,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -3613,7 +3807,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The name of the custom tool, used to identify it in tool calls.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The type of the custom tool. Always `custom`.
 
@@ -3622,6 +3816,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -3647,7 +3843,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Unconstrained free-form text.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 Unconstrained text format. Always `text`.
 
@@ -3669,7 +3865,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `"regex"`
 
-              - `type: "grammar"`
+              - `type: "grammar" (default: "grammar")`
 
                 Grammar format. Always `grammar`.
 
@@ -3687,21 +3883,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
+            `minLength: 1`
+
           - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
+
+            `minItems: 1`
 
             - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
-              - `type: "function"`
+                `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 128`
+
+              - `type: "function" (default: "function")`
 
                 - `"function"`
 
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -3735,7 +3939,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The name of the custom tool, used to identify it in tool calls.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The type of the custom tool. Always `custom`.
 
@@ -3744,6 +3948,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -3769,7 +3975,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                   Unconstrained free-form text.
 
-                  - `type: "text"`
+                  - `type: "text" (default: "text")`
 
                     Unconstrained text format. Always `text`.
 
@@ -3791,13 +3997,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     - `"regex"`
 
-                  - `type: "grammar"`
+                  - `type: "grammar" (default: "grammar")`
 
                     Grammar format. Always `grammar`.
 
                     - `"grammar"`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             The type of the tool. Always `namespace`.
 
@@ -3807,7 +4013,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Hosted or BYOT tool search configuration for deferred tools.
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             The type of the tool. Always `tool_search`.
 
@@ -3833,7 +4039,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+          - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
             The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -3861,7 +4067,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-            - `type: "approximate"`
+            - `type: "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -3887,7 +4093,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Allows the assistant to create, delete, or update files using unified diffs.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The type of the tool. Always `apply_patch`.
 
@@ -3897,11 +4103,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
-      - `type: "additional_tools"`
+      - `type: "additional_tools" (default: "additional_tools")`
 
         The item type. Always `additional_tools`.
 
@@ -3925,7 +4133,7 @@ Learn when and how to compact long-running conversations in the [conversation st
       remains in effect for subsequent responses until it is replaced by another
       configuration update.
 
-      - `type: "configuration_update"`
+      - `type: "configuration_update" (default: "configuration_update")`
 
         The item type. Always `configuration_update`.
 
@@ -3947,7 +4155,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         Updates to reasoning configuration. Only effort is supported.
 
-        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null (default: "medium")`
 
           The reasoning effort to use for subsequent responses until another
           configuration update replaces it.
@@ -3985,7 +4193,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A summary of the reasoning output from the model so far.
 
-        - `type: "summary_text"`
+        - `type: "summary_text" (default: "summary_text")`
 
           The type of the object. Always `summary_text`.
 
@@ -4013,7 +4221,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The reasoning text from the model.
 
-        - `type: "reasoning_text"`
+        - `type: "reasoning_text" (default: "reasoning_text")`
 
           The type of the reasoning text. Always `reasoning_text`.
 
@@ -4050,7 +4258,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The encrypted content of the compaction summary.
 
-      - `type: "compaction"`
+        `maxLength: 104857600`
+
+      - `type: "compaction" (default: "compaction")`
 
         The type of the item. Always `compaction`.
 
@@ -4068,7 +4278,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The canonical name of the agent that produced this item.
 
-    - `ImageGenerationCall object { id, result, status, 8 more }`
+    - `ImageGenerationCall object { id, result, status, 9 more }`
 
       An image generation request made by the model.
 
@@ -4125,6 +4335,44 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `"opaque"`
 
         - `"auto"`
+
+      - `error: optional object { code, message, param, 2 more }`
+
+        Details of a moderation failure, when available.
+
+        - `code: string or null`
+
+          The error code.
+
+        - `message: string`
+
+          A description of the error.
+
+        - `param: string or null`
+
+          The related request parameter.
+
+        - `type: string`
+
+          The error type.
+
+        - `moderation_details: optional object { categories, moderation_stage }`
+
+          Public details for a `moderation_blocked` error, when available.
+
+          - `categories: array of string`
+
+            Public moderation categories. New category values may be added over time.
+
+          - `moderation_stage: "input" or "output" or "unknown"`
+
+            The stage where moderation blocked the image generation call.
+
+            - `"input"`
+
+            - `"output"`
+
+            - `"unknown"`
 
       - `output_format: optional "png" or "webp" or "jpeg" or null`
 
@@ -4201,7 +4449,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The logs output from the code interpreter.
 
-          - `type: "logs"`
+          - `type: "logs" (default: "logs")`
 
             The type of the output. Always `logs`.
 
@@ -4211,7 +4459,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The image output from the code interpreter.
 
-          - `type: "image"`
+          - `type: "image" (default: "image")`
 
             The type of the output. Always `image`.
 
@@ -4220,6 +4468,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `url: string`
 
             The URL of the image output from the code interpreter.
+
+            `format: uri`
 
       - `status: "in_progress" or "completed" or "incomplete" or 2 more`
 
@@ -4235,7 +4485,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"failed"`
 
-      - `type: "code_interpreter_call"`
+      - `type: "code_interpreter_call" (default: "code_interpreter_call")`
 
         The type of the code interpreter tool call. Always `code_interpreter_call`.
 
@@ -4269,13 +4519,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Environment variables to set for the command.
 
-        - `type: "exec"`
+        - `type: "exec" (default: "exec")`
 
           The type of the local shell action. Always `exec`.
 
           - `"exec"`
 
-        - `timeout_ms: optional number or null`
+        - `timeout_ms: optional integer or null`
 
           Optional timeout in milliseconds for the command.
 
@@ -4363,11 +4613,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Ordered shell commands for the execution environment to run.
 
-        - `max_output_length: optional number or null`
+        - `max_output_length: optional integer or null`
 
           Maximum number of UTF-8 characters to capture from combined stdout and stderr output.
 
-        - `timeout_ms: optional number or null`
+        - `timeout_ms: optional integer or null`
 
           Maximum wall-clock time in milliseconds to allow the shell commands to run.
 
@@ -4375,7 +4625,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the shell tool call generated by the model.
 
-      - `type: "shell_call"`
+        `minLength: 1`, `maxLength: 64`
+
+      - `type: "shell_call" (default: "shell_call")`
 
         The type of the item. Always `shell_call`.
 
@@ -4399,7 +4651,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4411,7 +4663,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4443,6 +4697,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the shell tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: array of BetaResponseFunctionShellCallOutputContent`
 
         Captured chunks of stdout and stderr output, along with their associated outcomes.
@@ -4455,7 +4711,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Indicates that the shell call exceeded its configured time limit.
 
-            - `type: "timeout"`
+            - `type: "timeout" (default: "timeout")`
 
               The outcome type. Always `timeout`.
 
@@ -4465,11 +4721,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Indicates that the shell commands finished and returned an exit code.
 
-            - `exit_code: number`
+            - `exit_code: integer`
 
               The exit code returned by the shell process.
 
-            - `type: "exit"`
+            - `type: "exit" (default: "exit")`
 
               The outcome type. Always `exit`.
 
@@ -4479,11 +4735,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Captured stderr output for the shell call.
 
+          `maxLength: 10485760`
+
         - `stdout: string`
 
           Captured stdout output for the shell call.
 
-      - `type: "shell_call_output"`
+          `maxLength: 10485760`
+
+      - `type: "shell_call_output" (default: "shell_call_output")`
 
         The type of the item. Always `shell_call_output`.
 
@@ -4507,7 +4767,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4519,13 +4779,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
             - `"program"`
 
-      - `max_output_length: optional number or null`
+      - `max_output_length: optional integer or null`
 
         The maximum number of UTF-8 characters captured for this shell call's combined output.
 
@@ -4547,6 +4809,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the apply patch tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `operation: CreateFile { diff, path, type }  or DeleteFile { path, type }  or UpdateFile { diff, path, type }`
 
         The specific create, delete, or update instruction for the apply_patch tool call.
@@ -4559,11 +4823,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Unified diff content to apply when creating the file.
 
+            `maxLength: 10485760`
+
           - `path: string`
 
             Path of the file to create relative to the workspace root.
 
-          - `type: "create_file"`
+            `minLength: 1`
+
+          - `type: "create_file" (default: "create_file")`
 
             The operation type. Always `create_file`.
 
@@ -4577,7 +4845,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Path of the file to delete relative to the workspace root.
 
-          - `type: "delete_file"`
+            `minLength: 1`
+
+          - `type: "delete_file" (default: "delete_file")`
 
             The operation type. Always `delete_file`.
 
@@ -4591,11 +4861,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Unified diff content to apply to the existing file.
 
+            `maxLength: 10485760`
+
           - `path: string`
 
             Path of the file to update relative to the workspace root.
 
-          - `type: "update_file"`
+            `minLength: 1`
+
+          - `type: "update_file" (default: "update_file")`
 
             The operation type. Always `update_file`.
 
@@ -4609,7 +4883,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"completed"`
 
-      - `type: "apply_patch_call"`
+      - `type: "apply_patch_call" (default: "apply_patch_call")`
 
         The type of the item. Always `apply_patch_call`.
 
@@ -4633,7 +4907,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4645,7 +4919,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4659,6 +4935,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the apply patch tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `status: "completed" or "failed"`
 
         The status of the apply patch tool call output. One of `completed` or `failed`.
@@ -4667,7 +4945,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"failed"`
 
-      - `type: "apply_patch_call_output"`
+      - `type: "apply_patch_call_output" (default: "apply_patch_call_output")`
 
         The type of the item. Always `apply_patch_call_output`.
 
@@ -4691,7 +4969,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4703,7 +4981,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4712,6 +4992,8 @@ Learn when and how to compact long-running conversations in the [conversation st
       - `output: optional string or null`
 
         Optional human-readable log text from the apply patch tool (e.g., patch results or errors).
+
+        `maxLength: 10485760`
 
     - `McpListTools object { id, server_label, tools, 3 more }`
 
@@ -4876,11 +5158,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `McpProtocolError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
-          - `type: "mcp_protocol_error"`
+          - `type: "mcp_protocol_error" (default: "mcp_protocol_error")`
 
             - `"mcp_protocol_error"`
 
@@ -4888,17 +5170,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `content: unknown`
 
-          - `type: "mcp_tool_execution_error"`
+          - `type: "mcp_tool_execution_error" (default: "mcp_tool_execution_error")`
 
             - `"mcp_tool_execution_error"`
 
         - `HTTPError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
-          - `type: "http_error"`
+          - `type: "http_error" (default: "http_error")`
 
             - `"http_error"`
 
@@ -4977,7 +5259,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4989,7 +5271,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -5039,7 +5323,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -5049,7 +5333,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -5061,7 +5345,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
       Compacts the current context. Must be the final input item.
 
-      - `type: "compaction_trigger"`
+      - `type: "compaction_trigger" (default: "compaction_trigger")`
 
         The type of the item. Always `compaction_trigger`.
 
@@ -5095,7 +5379,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The canonical name of the agent that produced this item.
 
-      - `type: optional "item_reference" or null`
+      - `type: optional "item_reference" or null (default: "item_reference")`
 
         The type of item to reference. Always `item_reference`.
 
@@ -5111,15 +5395,21 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The stable call ID of the program item.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `code: string`
 
         The JavaScript source executed by programmatic tool calling.
+
+        `maxLength: 10485760`
 
       - `fingerprint: string`
 
         Opaque program replay fingerprint that must be round-tripped.
 
-      - `type: "program"`
+        `maxLength: 10485760`
+
+      - `type: "program" (default: "program")`
 
         The item type. Always `program`.
 
@@ -5143,9 +5433,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The call ID of the program item.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `result: string`
 
         The result produced by the program item.
+
+        `maxLength: 10485760`
 
       - `status: "completed" or "incomplete"`
 
@@ -5155,7 +5449,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "program_output"`
+      - `type: "program_output" (default: "program_output")`
 
         The item type. Always `program_output`.
 
@@ -5181,6 +5475,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 - `prompt_cache_key: optional string or null`
 
   A key to use when reading from or writing to the prompt cache.
+
+  `maxLength: 64`
 
 - `prompt_cache_options: optional object { mode, ttl }  or null`
 
@@ -5231,11 +5527,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
     The unique identifier for the compacted response.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the compacted conversation was created.
 
-  - `object: "response.compaction"`
+    `format: unixtime`
+
+  - `object: "response.compaction" (default: "response.compaction")`
 
     The object type. Always `response.compaction`.
 
@@ -5265,21 +5563,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `BetaResponseOutputText object { annotations, logprobs, text, type }`
 
@@ -5301,11 +5607,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The filename of the file cited.
 
-              - `index: number`
+              - `index: integer`
 
                 The index in the output text at which to insert the file citation.
 
-              - `type: "file_citation"`
+              - `type: "file_citation" (default: "file_citation")`
 
                 The type of the file citation. Always `file_citation`.
 
@@ -5315,11 +5621,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               A citation for a web resource used to generate a model response.
 
-              - `end_index: number`
+              - `end_index: integer`
 
                 The index of the last character of the URL citation in the message.
 
-              - `start_index: number`
+              - `start_index: integer`
 
                 The index of the first character of the URL citation in the message.
 
@@ -5327,7 +5633,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The title of the web resource.
 
-              - `type: "url_citation"`
+              - `type: "url_citation" (default: "url_citation")`
 
                 The type of the URL citation. Always `url_citation`.
 
@@ -5337,6 +5643,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The URL of the web resource.
 
+                `format: uri`
+
             - `ContainerFileCitation object { container_id, end_index, file_id, 3 more }`
 
               A citation for a container file used to generate a model response.
@@ -5345,7 +5653,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The ID of the container file.
 
-              - `end_index: number`
+              - `end_index: integer`
 
                 The index of the last character of the container file citation in the message.
 
@@ -5357,11 +5665,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The filename of the container file cited.
 
-              - `start_index: number`
+              - `start_index: integer`
 
                 The index of the first character of the container file citation in the message.
 
-              - `type: "container_file_citation"`
+              - `type: "container_file_citation" (default: "container_file_citation")`
 
                 The type of the container file citation. Always `container_file_citation`.
 
@@ -5375,7 +5683,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The ID of the file.
 
-              - `index: number`
+              - `index: integer`
 
                 The index of the file in the list of files.
 
@@ -5405,7 +5713,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The text output from the model.
 
-          - `type: "output_text"`
+          - `type: "output_text" (default: "output_text")`
 
             The type of the output text. Always `output_text`.
 
@@ -5417,7 +5725,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `text: string`
 
-          - `type: "text"`
+          - `type: "text" (default: "text")`
 
             - `"text"`
 
@@ -5429,7 +5737,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             A summary of the reasoning output from the model so far.
 
-          - `type: "summary_text"`
+          - `type: "summary_text" (default: "summary_text")`
 
             The type of the object. Always `summary_text`.
 
@@ -5443,7 +5751,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The reasoning text from the model.
 
-          - `type: "reasoning_text"`
+          - `type: "reasoning_text" (default: "reasoning_text")`
 
             The type of the reasoning text. Always `reasoning_text`.
 
@@ -5457,7 +5765,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The refusal explanation from the model.
 
-          - `type: "refusal"`
+          - `type: "refusal" (default: "refusal")`
 
             The type of the refusal. Always `refusal`.
 
@@ -5479,7 +5787,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"original"`
 
-          - `type: "input_image"`
+          - `type: "input_image" (default: "input_image")`
 
             The type of the input item. Always `input_image`.
 
@@ -5493,15 +5801,25 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+            `format: uri`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            - `mode: "explicit"`
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `ComputerScreenshot object { detail, file_id, image_url, 2 more }`
 
@@ -5519,27 +5837,37 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The URL of the screenshot image.
 
-          - `type: "computer_screenshot"`
+            `format: uri`
+
+          - `type: "computer_screenshot" (default: "computer_screenshot")`
 
             Specifies the event type. For a computer screenshot, this property is always set to `computer_screenshot`.
 
             - `"computer_screenshot"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
 
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
+
         - `BetaResponseInputFile object { type, detail, file_data, 4 more }`
 
           A file input to the model.
 
-          - `type: "input_file"`
+          - `type: "input_file" (default: "input_file")`
 
             The type of the input item. Always `input_file`.
 
@@ -5567,19 +5895,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The URL of the file to be sent to the model.
 
+            `format: uri`
+
           - `filename: optional string`
 
             The name of the file to be sent to the model.
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `EncryptedContent object { encrypted_content, type }`
 
@@ -5589,7 +5927,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Opaque encrypted content.
 
-          - `type: "encrypted_content"`
+          - `type: "encrypted_content" (default: "encrypted_content")`
 
             The type of the input item. Always `encrypted_content`.
 
@@ -5625,7 +5963,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "message"`
+      - `type: "message" (default: "message")`
 
         The type of the message. Always set to `message`.
 
@@ -5665,7 +6003,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         Opaque program replay fingerprint that must be round-tripped.
 
-      - `type: "program"`
+      - `type: "program" (default: "program")`
 
         The type of the item. Always `program`.
 
@@ -5701,7 +6039,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "program_output"`
+      - `type: "program_output" (default: "program_output")`
 
         The type of the item. Always `program_output`.
 
@@ -5760,7 +6098,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -5770,7 +6108,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -5819,7 +6157,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID linking this call to its output.
 
-      - `type: "multi_agent_call"`
+      - `type: "multi_agent_call" (default: "multi_agent_call")`
 
         The type of the multi-agent call. Always `multi_agent_call`.
 
@@ -5873,11 +6211,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The text output from the model.
 
-        - `type: "output_text"`
+        - `type: "output_text" (default: "output_text")`
 
           The type of the output text. Always `output_text`.
 
-      - `type: "multi_agent_call_output"`
+      - `type: "multi_agent_call_output" (default: "multi_agent_call_output")`
 
         The type of the multi-agent result. Always `multi_agent_call_output`.
 
@@ -5923,7 +6261,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "tool_search_call"`
+      - `type: "tool_search_call" (default: "tool_search_call")`
 
         The type of the item. Always `tool_search_call`.
 
@@ -5989,7 +6327,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Whether strict parameter validation is enforced for this function tool.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The type of the function tool. Always `function`.
 
@@ -6021,7 +6359,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The type of the file search tool. Always `file_search`.
 
@@ -6043,7 +6381,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The key to compare against the value.
 
-              - `type: "eq" or "ne" or "gt" or 5 more`
+              - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
                 Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -6092,7 +6430,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Combine multiple filters using `and` or `or`.
 
-          - `max_num_results: optional number`
+          - `max_num_results: optional integer`
 
             The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -6128,7 +6466,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The type of the computer tool. Always `computer`.
 
@@ -6138,11 +6476,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `display_height: number`
+          - `display_height: integer`
 
             The height of the computer display.
 
-          - `display_width: number`
+          - `display_width: integer`
 
             The width of the computer display.
 
@@ -6160,7 +6498,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"browser"`
 
-          - `type: "computer_use_preview"`
+          - `type: "computer_use_preview" (default: "computer_use_preview")`
 
             The type of the computer use tool. Always `computer_use_preview`.
 
@@ -6171,7 +6509,7 @@ Learn when and how to compact long-running conversations in the [conversation st
           Search the Internet for sources related to the prompt. Learn more about the
           [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search" or "web_search_2025_08_26"`
+          - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
             The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -6179,7 +6517,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"web_search_2025_08_26"`
 
-          - `external_web_access: optional boolean`
+          - `external_web_access: optional boolean (default: true)`
 
             Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -6187,14 +6525,14 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Filters for the search.
 
-            - `allowed_domains: optional array of string or null`
+            - `allowed_domains: optional array of string or null (default: [])`
 
               Allowed domains for the search. If not provided, all domains are allowed.
               Subdomains of the provided domains are allowed as well.
 
               Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-          - `search_context_size: optional "low" or "medium" or "high"`
+          - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
             High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -6226,7 +6564,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-            - `type: optional "approximate"`
+            - `type: optional "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -6250,6 +6588,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -6329,7 +6669,7 @@ Learn when and how to compact long-running conversations in the [conversation st
             Optional HTTP headers to send to the MCP server. Use for authentication
             or other purposes.
 
-          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
             Specify which of the MCP server's tools require approval.
 
@@ -6386,10 +6726,14 @@ Learn when and how to compact long-running conversations in the [conversation st
             The URL for the MCP server. One of `server_url`, `connector_id`, or
             `tunnel_id` must be provided.
 
+            `format: uri`
+
           - `tunnel_id: optional string`
 
             The Secure MCP Tunnel ID to use instead of a direct server URL. One of
             `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+            `pattern: ^tunnel_[a-z0-9]{32}$`
 
         - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -6409,7 +6753,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-              - `type: "auto"`
+              - `type: "auto" (default: "auto")`
 
                 Always `auto`.
 
@@ -6418,6 +6762,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -6437,7 +6783,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `BetaContainerNetworkPolicyDisabled object { type }`
 
-                  - `type: "disabled"`
+                  - `type: "disabled" (default: "disabled")`
 
                     Disable outbound network access. Always `disabled`.
 
@@ -6449,7 +6795,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     A list of allowed domains when type is `allowlist`.
 
-                  - `type: "allowlist"`
+                    `minItems: 1`
+
+                  - `type: "allowlist" (default: "allowlist")`
 
                     Allow outbound network access only to specified domains. Always `allowlist`.
 
@@ -6459,17 +6807,25 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     Optional domain-scoped secrets for allowlisted domains.
 
+                    `minItems: 1`
+
                     - `domain: string`
 
                       The domain associated with the secret.
+
+                      `minLength: 1`
 
                     - `name: string`
 
                       The name of the secret to inject for the domain.
 
+                      `minLength: 1`
+
                     - `value: string`
 
                       The secret value to inject for the domain.
+
+                      `minLength: 1`, `maxLength: 10485760`
 
           - `type: "code_interpreter"`
 
@@ -6481,13 +6837,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The type of the tool. Always `programmatic_tool_calling`.
 
@@ -6513,7 +6871,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `background: optional "transparent" or "opaque" or "auto"`
+          - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
             Set the background of the generated image. One of `transparent`, `opaque`,
             or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -6531,7 +6889,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `input_fidelity: optional "high" or "low" or null`
 
-            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
             - `"high"`
 
@@ -6552,23 +6910,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `model: optional string or "gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-            The image generation model to use. One of `gpt-image-1`,
-            `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+            The image generation model to use. One of `gpt-image-1-mini`,
+            `gpt-image-1.5`, `gpt-image-2`,
             `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
             `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
             `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-            `gpt-image-1`.
+            `gpt-image-2`.
+
+            `gpt-image-1` was shut down on October 23, 2026. Use
+            `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
             - `string`
 
             - `"gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-              The image generation model to use. One of `gpt-image-1`,
-              `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+              The image generation model to use. One of `gpt-image-1-mini`,
+              `gpt-image-1.5`, `gpt-image-2`,
               `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
               `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
               `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-              `gpt-image-1`.
+              `gpt-image-2`.
+
+              `gpt-image-1` was shut down on October 23, 2026. Use
+              `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
               - `"gpt-image-1"`
 
@@ -6588,7 +6952,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               - `"gpt-image-2.5-flare-2026-09-08"`
 
-          - `moderation: optional "auto" or "low"`
+          - `moderation: optional "auto" or "low" (default: "auto")`
 
             Moderation level for the generated image. Default: `auto`.
 
@@ -6596,11 +6960,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"low"`
 
-          - `output_compression: optional number`
+          - `output_compression: optional integer (default: 100)`
 
             Compression level for the output image. Default: 100.
 
-          - `output_format: optional "png" or "webp" or "jpeg"`
+            `minimum: 0`, `maximum: 100`
+
+          - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
             The output format of the generated image. One of `png`, `webp`, or
             `jpeg`. Default: `png`.
@@ -6611,11 +6977,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"jpeg"`
 
-          - `partial_images: optional number`
+          - `partial_images: optional integer (default: 0)`
 
             Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-          - `quality: optional "low" or "medium" or "high" or 3 more`
+            `minimum: 0`, `maximum: 3`
+
+          - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
             The quality of the generated image. The GPT image models support `low`,
             `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -6634,7 +7002,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
             The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -6656,7 +7024,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands in a local environment.
 
-          - `type: "local_shell"`
+          - `type: "local_shell" (default: "local_shell")`
 
             The type of the local shell tool. Always `local_shell`.
 
@@ -6666,7 +7034,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The type of the shell tool. Always `shell`.
 
@@ -6676,6 +7044,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
@@ -6684,7 +7054,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `BetaContainerAuto object { type, file_ids, memory_limit, 2 more }`
 
-              - `type: "container_auto"`
+              - `type: "container_auto" (default: "container_auto")`
 
                 Automatically creates a container for this request
 
@@ -6693,6 +7063,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -6718,13 +7090,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 An optional list of skills referenced by id or inline data.
 
+                `maxItems: 200`
+
                 - `BetaSkillReference object { skill_id, type, version }`
 
                   - `skill_id: string`
 
                     The ID of the referenced skill.
 
-                  - `type: "skill_reference"`
+                    `minLength: 1`, `maxLength: 64`
+
+                  - `type: "skill_reference" (default: "skill_reference")`
 
                     References a skill created with the /v1/skills endpoint.
 
@@ -6752,19 +7128,21 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                       Base64-encoded skill zip bundle.
 
-                    - `media_type: "application/zip"`
+                      `minLength: 1`, `maxLength: 70254592`
+
+                    - `media_type: "application/zip" (default: "application/zip")`
 
                       The media type of the inline skill payload. Must be `application/zip`.
 
                       - `"application/zip"`
 
-                    - `type: "base64"`
+                    - `type: "base64" (default: "base64")`
 
                       The type of the inline skill source. Must be `base64`.
 
                       - `"base64"`
 
-                  - `type: "inline"`
+                  - `type: "inline" (default: "inline")`
 
                     Defines an inline skill for this request.
 
@@ -6772,7 +7150,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `BetaLocalEnvironment object { type, skills }`
 
-              - `type: "local"`
+              - `type: "local" (default: "local")`
 
                 Use a local computer environment.
 
@@ -6781,6 +7159,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `skills: optional array of BetaLocalSkill`
 
                 An optional list of skills.
+
+                `maxItems: 200`
 
                 - `description: string`
 
@@ -6800,7 +7180,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The ID of the referenced container.
 
-              - `type: "container_reference"`
+              - `type: "container_reference" (default: "container_reference")`
 
                 References a container created with the /v1/containers endpoint
 
@@ -6814,7 +7194,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The name of the custom tool, used to identify it in tool calls.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The type of the custom tool. Always `custom`.
 
@@ -6823,6 +7203,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -6848,7 +7230,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Unconstrained free-form text.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 Unconstrained text format. Always `text`.
 
@@ -6870,7 +7252,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `"regex"`
 
-              - `type: "grammar"`
+              - `type: "grammar" (default: "grammar")`
 
                 Grammar format. Always `grammar`.
 
@@ -6888,21 +7270,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
+            `minLength: 1`
+
           - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
+
+            `minItems: 1`
 
             - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
-              - `type: "function"`
+                `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 128`
+
+              - `type: "function" (default: "function")`
 
                 - `"function"`
 
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -6936,7 +7326,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The name of the custom tool, used to identify it in tool calls.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The type of the custom tool. Always `custom`.
 
@@ -6945,6 +7335,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -6970,7 +7362,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                   Unconstrained free-form text.
 
-                  - `type: "text"`
+                  - `type: "text" (default: "text")`
 
                     Unconstrained text format. Always `text`.
 
@@ -6992,13 +7384,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     - `"regex"`
 
-                  - `type: "grammar"`
+                  - `type: "grammar" (default: "grammar")`
 
                     Grammar format. Always `grammar`.
 
                     - `"grammar"`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             The type of the tool. Always `namespace`.
 
@@ -7008,7 +7400,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Hosted or BYOT tool search configuration for deferred tools.
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             The type of the tool. Always `tool_search`.
 
@@ -7034,7 +7426,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+          - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
             The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -7062,7 +7454,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-            - `type: "approximate"`
+            - `type: "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -7088,7 +7480,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Allows the assistant to create, delete, or update files using unified diffs.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The type of the tool. Always `apply_patch`.
 
@@ -7098,11 +7490,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
-      - `type: "tool_search_output"`
+      - `type: "tool_search_output" (default: "tool_search_output")`
 
         The type of the item. Always `tool_search_output`.
 
@@ -7166,7 +7560,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Whether strict parameter validation is enforced for this function tool.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The type of the function tool. Always `function`.
 
@@ -7198,7 +7592,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The type of the file search tool. Always `file_search`.
 
@@ -7220,7 +7614,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The key to compare against the value.
 
-              - `type: "eq" or "ne" or "gt" or 5 more`
+              - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
                 Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -7269,7 +7663,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Combine multiple filters using `and` or `or`.
 
-          - `max_num_results: optional number`
+          - `max_num_results: optional integer`
 
             The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -7305,7 +7699,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The type of the computer tool. Always `computer`.
 
@@ -7315,11 +7709,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `display_height: number`
+          - `display_height: integer`
 
             The height of the computer display.
 
-          - `display_width: number`
+          - `display_width: integer`
 
             The width of the computer display.
 
@@ -7337,7 +7731,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"browser"`
 
-          - `type: "computer_use_preview"`
+          - `type: "computer_use_preview" (default: "computer_use_preview")`
 
             The type of the computer use tool. Always `computer_use_preview`.
 
@@ -7348,7 +7742,7 @@ Learn when and how to compact long-running conversations in the [conversation st
           Search the Internet for sources related to the prompt. Learn more about the
           [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search" or "web_search_2025_08_26"`
+          - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
             The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -7356,7 +7750,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"web_search_2025_08_26"`
 
-          - `external_web_access: optional boolean`
+          - `external_web_access: optional boolean (default: true)`
 
             Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -7364,14 +7758,14 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Filters for the search.
 
-            - `allowed_domains: optional array of string or null`
+            - `allowed_domains: optional array of string or null (default: [])`
 
               Allowed domains for the search. If not provided, all domains are allowed.
               Subdomains of the provided domains are allowed as well.
 
               Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-          - `search_context_size: optional "low" or "medium" or "high"`
+          - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
             High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -7403,7 +7797,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-            - `type: optional "approximate"`
+            - `type: optional "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -7427,6 +7821,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -7506,7 +7902,7 @@ Learn when and how to compact long-running conversations in the [conversation st
             Optional HTTP headers to send to the MCP server. Use for authentication
             or other purposes.
 
-          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
             Specify which of the MCP server's tools require approval.
 
@@ -7563,10 +7959,14 @@ Learn when and how to compact long-running conversations in the [conversation st
             The URL for the MCP server. One of `server_url`, `connector_id`, or
             `tunnel_id` must be provided.
 
+            `format: uri`
+
           - `tunnel_id: optional string`
 
             The Secure MCP Tunnel ID to use instead of a direct server URL. One of
             `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+            `pattern: ^tunnel_[a-z0-9]{32}$`
 
         - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -7586,7 +7986,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-              - `type: "auto"`
+              - `type: "auto" (default: "auto")`
 
                 Always `auto`.
 
@@ -7595,6 +7995,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -7626,13 +8028,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The type of the tool. Always `programmatic_tool_calling`.
 
@@ -7658,7 +8062,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `background: optional "transparent" or "opaque" or "auto"`
+          - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
             Set the background of the generated image. One of `transparent`, `opaque`,
             or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -7676,7 +8080,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `input_fidelity: optional "high" or "low" or null`
 
-            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
             - `"high"`
 
@@ -7697,23 +8101,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `model: optional string or "gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-            The image generation model to use. One of `gpt-image-1`,
-            `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+            The image generation model to use. One of `gpt-image-1-mini`,
+            `gpt-image-1.5`, `gpt-image-2`,
             `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
             `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
             `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-            `gpt-image-1`.
+            `gpt-image-2`.
+
+            `gpt-image-1` was shut down on October 23, 2026. Use
+            `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
             - `string`
 
             - `"gpt-image-1" or "gpt-image-1-mini" or "gpt-image-1.5" or 6 more`
 
-              The image generation model to use. One of `gpt-image-1`,
-              `gpt-image-1-mini`, `gpt-image-1.5`, `gpt-image-2`,
+              The image generation model to use. One of `gpt-image-1-mini`,
+              `gpt-image-1.5`, `gpt-image-2`,
               `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`,
               `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
               `gpt-image-2.5-flare-2026-09-08`, or `chatgpt-image-latest`. Default:
-              `gpt-image-1`.
+              `gpt-image-2`.
+
+              `gpt-image-1` was shut down on October 23, 2026. Use
+              `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
 
               - `"gpt-image-1"`
 
@@ -7733,7 +8143,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               - `"gpt-image-2.5-flare-2026-09-08"`
 
-          - `moderation: optional "auto" or "low"`
+          - `moderation: optional "auto" or "low" (default: "auto")`
 
             Moderation level for the generated image. Default: `auto`.
 
@@ -7741,11 +8151,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"low"`
 
-          - `output_compression: optional number`
+          - `output_compression: optional integer (default: 100)`
 
             Compression level for the output image. Default: 100.
 
-          - `output_format: optional "png" or "webp" or "jpeg"`
+            `minimum: 0`, `maximum: 100`
+
+          - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
             The output format of the generated image. One of `png`, `webp`, or
             `jpeg`. Default: `png`.
@@ -7756,11 +8168,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"jpeg"`
 
-          - `partial_images: optional number`
+          - `partial_images: optional integer (default: 0)`
 
             Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-          - `quality: optional "low" or "medium" or "high" or 3 more`
+            `minimum: 0`, `maximum: 3`
+
+          - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
             The quality of the generated image. The GPT image models support `low`,
             `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -7779,7 +8193,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"auto"`
 
-          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
             The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -7801,7 +8215,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands in a local environment.
 
-          - `type: "local_shell"`
+          - `type: "local_shell" (default: "local_shell")`
 
             The type of the local shell tool. Always `local_shell`.
 
@@ -7811,7 +8225,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A tool that allows the model to execute shell commands.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The type of the shell tool. Always `shell`.
 
@@ -7820,6 +8234,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -7841,7 +8257,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The name of the custom tool, used to identify it in tool calls.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The type of the custom tool. Always `custom`.
 
@@ -7850,6 +8266,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -7875,7 +8293,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               Unconstrained free-form text.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 Unconstrained text format. Always `text`.
 
@@ -7897,7 +8315,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `"regex"`
 
-              - `type: "grammar"`
+              - `type: "grammar" (default: "grammar")`
 
                 Grammar format. Always `grammar`.
 
@@ -7915,21 +8333,29 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
+            `minLength: 1`
+
           - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
+
+            `minItems: 1`
 
             - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
-              - `type: "function"`
+                `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 128`
+
+              - `type: "function" (default: "function")`
 
                 - `"function"`
 
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -7963,7 +8389,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 The name of the custom tool, used to identify it in tool calls.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The type of the custom tool. Always `custom`.
 
@@ -7972,6 +8398,8 @@ Learn when and how to compact long-running conversations in the [conversation st
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -7997,7 +8425,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                   Unconstrained free-form text.
 
-                  - `type: "text"`
+                  - `type: "text" (default: "text")`
 
                     Unconstrained text format. Always `text`.
 
@@ -8019,13 +8447,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                     - `"regex"`
 
-                  - `type: "grammar"`
+                  - `type: "grammar" (default: "grammar")`
 
                     Grammar format. Always `grammar`.
 
                     - `"grammar"`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             The type of the tool. Always `namespace`.
 
@@ -8035,7 +8463,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Hosted or BYOT tool search configuration for deferred tools.
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             The type of the tool. Always `tool_search`.
 
@@ -8061,7 +8489,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+          - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
             The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -8089,7 +8517,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-            - `type: "approximate"`
+            - `type: "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -8115,7 +8543,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Allows the assistant to create, delete, or update files using unified diffs.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The type of the tool. Always `apply_patch`.
 
@@ -8125,11 +8553,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
-      - `type: "additional_tools"`
+      - `type: "additional_tools" (default: "additional_tools")`
 
         The type of the item. Always `additional_tools`.
 
@@ -8171,7 +8601,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `text: string`
 
-          - `type: "text"`
+          - `type: "text" (default: "text")`
 
             - `"text"`
 
@@ -8183,7 +8613,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             A summary of the reasoning output from the model so far.
 
-          - `type: "summary_text"`
+          - `type: "summary_text" (default: "summary_text")`
 
             The type of the object. Always `summary_text`.
 
@@ -8197,7 +8627,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The reasoning text from the model.
 
-          - `type: "reasoning_text"`
+          - `type: "reasoning_text" (default: "reasoning_text")`
 
             The type of the reasoning text. Always `reasoning_text`.
 
@@ -8227,21 +8657,31 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The URL of the screenshot image.
 
-          - `type: "computer_screenshot"`
+            `format: uri`
+
+          - `type: "computer_screenshot" (default: "computer_screenshot")`
 
             Specifies the event type. For a computer screenshot, this property is always set to `computer_screenshot`.
 
             - `"computer_screenshot"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `BetaResponseInputFile object { type, detail, file_data, 4 more }`
 
@@ -8255,7 +8695,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Opaque encrypted content.
 
-          - `type: "encrypted_content"`
+          - `type: "encrypted_content" (default: "encrypted_content")`
 
             The type of the input item. Always `encrypted_content`.
 
@@ -8265,7 +8705,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The destination agent identity.
 
-      - `type: "agent_message"`
+      - `type: "agent_message" (default: "agent_message")`
 
         The type of the item. Always `agent_message`.
 
@@ -8337,7 +8777,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -8349,7 +8789,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -8430,6 +8872,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `string`
 
+            `maxLength: 512`
+
           - `number`
 
           - `boolean`
@@ -8445,6 +8889,8 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `score: optional number`
 
           The relevance score of the file - a value between 0 and 1.
+
+          `format: float`
 
         - `text: optional string`
 
@@ -8516,6 +8962,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
               The URL of the source.
 
+              `format: uri`
+
         - `OpenPage object { type, url }`
 
           Action type "open_page" - Opens a specific URL from search results.
@@ -8529,6 +8977,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `url: optional string or null`
 
             The URL opened by the model.
+
+            `format: uri`
 
         - `FindInPage object { pattern, type, url }`
 
@@ -8544,9 +8994,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"find_in_page"`
 
-          - `url: string`
+          - `url: optional string or null`
 
-            The URL of the page searched for the pattern.
+            The URL of the page searched for the pattern, when available.
+
+            `format: uri`
 
       - `agent: optional object { agent_name }  or null`
 
@@ -8556,7 +9008,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The canonical name of the agent that produced this item.
 
-    - `ImageGenerationCall object { id, result, status, 8 more }`
+    - `ImageGenerationCall object { id, result, status, 9 more }`
 
       An image generation request made by the model.
 
@@ -8613,6 +9065,44 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `"opaque"`
 
         - `"auto"`
+
+      - `error: optional object { code, message, param, 2 more }`
+
+        Details of a moderation failure, when available.
+
+        - `code: string or null`
+
+          The error code.
+
+        - `message: string`
+
+          A description of the error.
+
+        - `param: string or null`
+
+          The related request parameter.
+
+        - `type: string`
+
+          The error type.
+
+        - `moderation_details: optional object { categories, moderation_stage }`
+
+          Public details for a `moderation_blocked` error, when available.
+
+          - `categories: array of string`
+
+            Public moderation categories. New category values may be added over time.
+
+          - `moderation_stage: "input" or "output" or "unknown"`
+
+            The stage where moderation blocked the image generation call.
+
+            - `"input"`
+
+            - `"output"`
+
+            - `"unknown"`
 
       - `output_format: optional "png" or "webp" or "jpeg" or null`
 
@@ -8700,7 +9190,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "computer_call"`
+      - `type: "computer_call" (default: "computer_call")`
 
         The type of the computer call. Always `computer_call`.
 
@@ -8728,17 +9218,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"forward"`
 
-          - `type: "click"`
+          - `type: "click" (default: "click")`
 
             Specifies the event type. For a click action, this property is always `click`.
 
             - `"click"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the click occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the click occurred.
 
@@ -8754,17 +9244,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The keys being held while double-clicking.
 
-          - `type: "double_click"`
+          - `type: "double_click" (default: "double_click")`
 
             Specifies the event type. For a double click action, this property is always set to `double_click`.
 
             - `"double_click"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the double click occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the double click occurred.
 
@@ -8783,15 +9273,15 @@ Learn when and how to compact long-running conversations in the [conversation st
             ]
             ```
 
-            - `x: number`
+            - `x: integer`
 
               The x-coordinate.
 
-            - `y: number`
+            - `y: integer`
 
               The y-coordinate.
 
-          - `type: "drag"`
+          - `type: "drag" (default: "drag")`
 
             Specifies the event type. For a drag action, this property is always set to `drag`.
 
@@ -8809,7 +9299,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key.
 
-          - `type: "keypress"`
+          - `type: "keypress" (default: "keypress")`
 
             Specifies the event type. For a keypress action, this property is always set to `keypress`.
 
@@ -8819,17 +9309,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A mouse move action.
 
-          - `type: "move"`
+          - `type: "move" (default: "move")`
 
             Specifies the event type. For a move action, this property is always set to `move`.
 
             - `"move"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate to move to.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate to move to.
 
@@ -8841,7 +9331,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A screenshot action.
 
-          - `type: "screenshot"`
+          - `type: "screenshot" (default: "screenshot")`
 
             Specifies the event type. For a screenshot action, this property is always set to `screenshot`.
 
@@ -8851,25 +9341,25 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A scroll action.
 
-          - `scroll_x: number`
+          - `scroll_x: integer`
 
             The horizontal scroll distance.
 
-          - `scroll_y: number`
+          - `scroll_y: integer`
 
             The vertical scroll distance.
 
-          - `type: "scroll"`
+          - `type: "scroll" (default: "scroll")`
 
             Specifies the event type. For a scroll action, this property is always set to `scroll`.
 
             - `"scroll"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the scroll occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the scroll occurred.
 
@@ -8885,7 +9375,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The text to type.
 
-          - `type: "type"`
+          - `type: "type" (default: "type")`
 
             Specifies the event type. For a type action, this property is always set to `type`.
 
@@ -8895,7 +9385,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A wait action.
 
-          - `type: "wait"`
+          - `type: "wait" (default: "wait")`
 
             Specifies the event type. For a wait action, this property is always set to `wait`.
 
@@ -8964,7 +9454,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         A computer screenshot image used with the computer use tool.
 
-        - `type: "computer_screenshot"`
+        - `type: "computer_screenshot" (default: "computer_screenshot")`
 
           Specifies the event type. For a computer screenshot, this property is
           always set to `computer_screenshot`.
@@ -8979,6 +9469,8 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The URL of the screenshot image.
 
+          `format: uri`
+
       - `status: "completed" or "incomplete" or "failed" or "in_progress"`
 
         The status of the message input. One of `in_progress`, `completed`, or
@@ -8992,7 +9484,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"in_progress"`
 
-      - `type: "computer_call_output"`
+      - `type: "computer_call_output" (default: "computer_call_output")`
 
         The type of the computer tool call output. Always `computer_call_output`.
 
@@ -9046,7 +9538,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           A summary of the reasoning output from the model so far.
 
-        - `type: "summary_text"`
+        - `type: "summary_text" (default: "summary_text")`
 
           The type of the object. Always `summary_text`.
 
@@ -9074,7 +9566,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The reasoning text from the model.
 
-        - `type: "reasoning_text"`
+        - `type: "reasoning_text" (default: "reasoning_text")`
 
           The type of the reasoning text. Always `reasoning_text`.
 
@@ -9115,7 +9607,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The encrypted content that was produced by compaction.
 
-      - `type: "compaction"`
+      - `type: "compaction" (default: "compaction")`
 
         The type of the item. Always `compaction`.
 
@@ -9162,7 +9654,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The logs output from the code interpreter.
 
-          - `type: "logs"`
+          - `type: "logs" (default: "logs")`
 
             The type of the output. Always `logs`.
 
@@ -9172,7 +9664,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The image output from the code interpreter.
 
-          - `type: "image"`
+          - `type: "image" (default: "image")`
 
             The type of the output. Always `image`.
 
@@ -9181,6 +9673,8 @@ Learn when and how to compact long-running conversations in the [conversation st
           - `url: string`
 
             The URL of the image output from the code interpreter.
+
+            `format: uri`
 
       - `status: "in_progress" or "completed" or "incomplete" or 2 more`
 
@@ -9196,7 +9690,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"failed"`
 
-      - `type: "code_interpreter_call"`
+      - `type: "code_interpreter_call" (default: "code_interpreter_call")`
 
         The type of the code interpreter tool call. Always `code_interpreter_call`.
 
@@ -9230,13 +9724,13 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Environment variables to set for the command.
 
-        - `type: "exec"`
+        - `type: "exec" (default: "exec")`
 
           The type of the local shell action. Always `exec`.
 
           - `"exec"`
 
-        - `timeout_ms: optional number or null`
+        - `timeout_ms: optional integer or null`
 
           Optional timeout in milliseconds for the command.
 
@@ -9326,11 +9820,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `commands: array of string`
 
-        - `max_output_length: number or null`
+        - `max_output_length: integer or null`
 
           Optional maximum number of characters to return from each command.
 
-        - `timeout_ms: number or null`
+        - `timeout_ms: integer or null`
 
           Optional timeout in milliseconds for the commands.
 
@@ -9346,7 +9840,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           Represents the use of a local environment to perform shell actions.
 
-          - `type: "local"`
+          - `type: "local" (default: "local")`
 
             The environment type. Always `local`.
 
@@ -9358,7 +9852,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `container_id: string`
 
-          - `type: "container_reference"`
+          - `type: "container_reference" (default: "container_reference")`
 
             The environment type. Always `container_reference`.
 
@@ -9374,7 +9868,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "shell_call"`
+      - `type: "shell_call" (default: "shell_call")`
 
         The type of the item. Always `shell_call`.
 
@@ -9394,7 +9888,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -9404,7 +9898,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -9424,7 +9918,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The unique ID of the shell tool call generated by the model.
 
-      - `max_output_length: number or null`
+      - `max_output_length: integer or null`
 
         The maximum length of the shell command output. This is generated by the model and should be passed back with the raw output.
 
@@ -9440,7 +9934,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Indicates that the shell call exceeded its configured time limit.
 
-            - `type: "timeout"`
+            - `type: "timeout" (default: "timeout")`
 
               The outcome type. Always `timeout`.
 
@@ -9450,11 +9944,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Indicates that the shell commands finished and returned an exit code.
 
-            - `exit_code: number`
+            - `exit_code: integer`
 
               Exit code from the shell process.
 
-            - `type: "exit"`
+            - `type: "exit" (default: "exit")`
 
               The outcome type. Always `exit`.
 
@@ -9482,7 +9976,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `type: "shell_call_output"`
+      - `type: "shell_call_output" (default: "shell_call_output")`
 
         The type of the shell call output. Always `shell_call_output`.
 
@@ -9502,7 +9996,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -9512,7 +10006,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -9548,7 +10042,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Path of the file to create.
 
-          - `type: "create_file"`
+          - `type: "create_file" (default: "create_file")`
 
             Create a new file with the provided diff.
 
@@ -9562,7 +10056,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Path of the file to delete.
 
-          - `type: "delete_file"`
+          - `type: "delete_file" (default: "delete_file")`
 
             Delete the specified file.
 
@@ -9580,7 +10074,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             Path of the file to update.
 
-          - `type: "update_file"`
+          - `type: "update_file" (default: "update_file")`
 
             Update an existing file with the provided diff.
 
@@ -9594,7 +10088,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"completed"`
 
-      - `type: "apply_patch_call"`
+      - `type: "apply_patch_call" (default: "apply_patch_call")`
 
         The type of the item. Always `apply_patch_call`.
 
@@ -9614,7 +10108,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -9624,7 +10118,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -9652,7 +10146,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"failed"`
 
-      - `type: "apply_patch_call_output"`
+      - `type: "apply_patch_call_output" (default: "apply_patch_call_output")`
 
         The type of the item. Always `apply_patch_call_output`.
 
@@ -9672,7 +10166,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -9682,7 +10176,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -9857,11 +10351,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `McpProtocolError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
-          - `type: "mcp_protocol_error"`
+          - `type: "mcp_protocol_error" (default: "mcp_protocol_error")`
 
             - `"mcp_protocol_error"`
 
@@ -9869,17 +10363,17 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           - `content: unknown`
 
-          - `type: "mcp_tool_execution_error"`
+          - `type: "mcp_tool_execution_error" (default: "mcp_tool_execution_error")`
 
             - `"mcp_tool_execution_error"`
 
         - `HTTPError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
-          - `type: "http_error"`
+          - `type: "http_error" (default: "http_error")`
 
             - `"http_error"`
 
@@ -9945,7 +10439,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -9955,7 +10449,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -10020,7 +10514,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -10032,7 +10526,9 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -10042,7 +10538,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
     Token accounting for the compaction pass, including cached, reasoning, and total tokens.
 
-    - `input_tokens: number`
+    - `input_tokens: integer`
 
       The number of input tokens.
 
@@ -10050,16 +10546,16 @@ Learn when and how to compact long-running conversations in the [conversation st
 
       A detailed breakdown of the input tokens.
 
-      - `cache_write_tokens: number`
+      - `cache_write_tokens: integer`
 
         The number of input tokens that were written to the cache.
 
-      - `cached_tokens: number`
+      - `cached_tokens: integer`
 
         The number of tokens that were retrieved from the cache.
         [More on prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching).
 
-    - `output_tokens: number`
+    - `output_tokens: integer`
 
       The number of output tokens.
 
@@ -10067,11 +10563,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
       A detailed breakdown of the output tokens.
 
-      - `reasoning_tokens: number`
+      - `reasoning_tokens: integer`
 
         The number of reasoning tokens.
 
-    - `total_tokens: number`
+    - `total_tokens: integer`
 
       The total number of tokens used.
 
@@ -10087,7 +10583,7 @@ curl https://api.openai.com/v1/responses/compact \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10171,7 +10667,7 @@ curl -X POST https://api.openai.com/v1/responses/compact \
     }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

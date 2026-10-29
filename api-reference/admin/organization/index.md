@@ -12,9 +12,11 @@ Create an organization admin API key
 
 - `name: string`
 
-- `expires_in_seconds: optional number`
+- `expires_in_seconds: optional integer`
 
   The number of seconds until the API key expires. Omit this field for a key that does not expire.
+
+  `minimum: 1`, `maximum: 31536000`
 
 ### Returns
 
@@ -34,7 +36,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -69,7 +71,7 @@ curl -X POST https://api.openai.com/v1/organization/admin_api_keys \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -122,7 +124,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys/$KEY_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -140,7 +142,7 @@ curl -X DELETE https://api.openai.com/v1/organization/admin_api_keys/key_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -162,11 +164,11 @@ List organization API keys
 
   Return keys with IDs that come after this ID in the pagination order.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   Maximum number of keys to return.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Order results by creation time, ascending or descending.
 
@@ -182,13 +184,17 @@ List organization API keys
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the API key was created
 
-  - `expires_at: number or null`
+    `format: unixtime`
+
+  - `expires_at: integer or null`
 
     The Unix timestamp (in seconds) of when the API key expires
+
+    `format: unixtime`
 
   - `object: "organization.admin_api_key"`
 
@@ -202,9 +208,11 @@ List organization API keys
 
       The identifier, which can be referenced in API endpoints
 
-    - `created_at: optional number`
+    - `created_at: optional integer`
 
       The Unix timestamp (in seconds) of when the user was created
+
+      `format: unixtime`
 
     - `name: optional string`
 
@@ -226,9 +234,11 @@ List organization API keys
 
     The redacted value of the API key
 
-  - `last_used_at: optional number or null`
+  - `last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the API key was last used
+
+    `format: unixtime`
 
   - `name: optional string or null`
 
@@ -251,7 +261,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -289,7 +299,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys?after=key_abc&limit=2
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -341,13 +351,17 @@ Retrieve a single organization API key
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the API key was created
 
-  - `expires_at: number or null`
+    `format: unixtime`
+
+  - `expires_at: integer or null`
 
     The Unix timestamp (in seconds) of when the API key expires
+
+    `format: unixtime`
 
   - `object: "organization.admin_api_key"`
 
@@ -361,9 +375,11 @@ Retrieve a single organization API key
 
       The identifier, which can be referenced in API endpoints
 
-    - `created_at: optional number`
+    - `created_at: optional integer`
 
       The Unix timestamp (in seconds) of when the user was created
+
+      `format: unixtime`
 
     - `name: optional string`
 
@@ -385,9 +401,11 @@ Retrieve a single organization API key
 
     The redacted value of the API key
 
-  - `last_used_at: optional number or null`
+  - `last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the API key was last used
+
+    `format: unixtime`
 
   - `name: optional string or null`
 
@@ -400,7 +418,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys/$KEY_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -430,7 +448,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys/key_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -464,13 +482,17 @@ curl https://api.openai.com/v1/organization/admin_api_keys/key_abc \
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the API key was created
 
-  - `expires_at: number or null`
+    `format: unixtime`
+
+  - `expires_at: integer or null`
 
     The Unix timestamp (in seconds) of when the API key expires
+
+    `format: unixtime`
 
   - `object: "organization.admin_api_key"`
 
@@ -484,9 +506,11 @@ curl https://api.openai.com/v1/organization/admin_api_keys/key_abc \
 
       The identifier, which can be referenced in API endpoints
 
-    - `created_at: optional number`
+    - `created_at: optional integer`
 
       The Unix timestamp (in seconds) of when the user was created
+
+      `format: unixtime`
 
     - `name: optional string`
 
@@ -508,9 +532,11 @@ curl https://api.openai.com/v1/organization/admin_api_keys/key_abc \
 
     The redacted value of the API key
 
-  - `last_used_at: optional number or null`
+  - `last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the API key was last used
+
+    `format: unixtime`
 
   - `name: optional string or null`
 
@@ -548,11 +574,11 @@ List user actions and configuration changes within this organization.
 
 ### Query Parameters
 
-- `actor_emails: optional array of string`
+- `"actor_emails[]": optional array of string`
 
   Return only events performed by users with these emails.
 
-- `actor_ids: optional array of string`
+- `"actor_ids[]": optional array of string`
 
   Return only events performed by these actors. Can be a user ID, a service account ID, or an api key tracking ID.
 
@@ -568,23 +594,23 @@ List user actions and configuration changes within this organization.
 
   Return only events whose `effective_at` (Unix seconds) is in this range.
 
-  - `gt: optional number`
+  - `gt: optional integer`
 
     Return only events whose `effective_at` (Unix seconds) is greater than this value.
 
-  - `gte: optional number`
+  - `gte: optional integer`
 
     Return only events whose `effective_at` (Unix seconds) is greater than or equal to this value.
 
-  - `lt: optional number`
+  - `lt: optional integer`
 
     Return only events whose `effective_at` (Unix seconds) is less than this value.
 
-  - `lte: optional number`
+  - `lte: optional integer`
 
     Return only events whose `effective_at` (Unix seconds) is less than or equal to this value.
 
-- `event_types: optional array of "api_key.created" or "api_key.updated" or "api_key.deleted" or 146 more`
+- `"event_types[]": optional array of "api_key.created" or "api_key.updated" or "api_key.deleted" or 146 more`
 
   Return only events with a `type` in one of these values. For example, `project.created`. For all options, see the documentation for the [audit log object](audit_logs/index.md).
 
@@ -886,19 +912,19 @@ List user actions and configuration changes within this organization.
 
   - `"tenant.workspace_invite_email_settings.updated"`
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
-- `project_ids: optional array of string`
+- `"project_ids[]": optional array of string`
 
   Return only events for these projects.
 
-- `resource_ids: optional array of string`
+- `"resource_ids[]": optional array of string`
 
   Return only events performed on these targets. For example, a project ID updated. For ChatGPT connector role events, use the workspace connector resource ID shown in `details.id`, such as `<workspace_id>__<connector_id>`.
 
-- `tenant_only: optional boolean`
+- `tenant_only: optional boolean (default: false)`
 
   Return only tenant-scoped events associated with this organization. Required for tenant-scoped events such as `role.bound_to_resource` and `role.unbound_from_resource`. When `true`, all supplied event types must be tenant-scoped.
 
@@ -910,9 +936,11 @@ List user actions and configuration changes within this organization.
 
     The ID of this log.
 
-  - `effective_at: number`
+  - `effective_at: integer`
 
     The Unix timestamp (in seconds) of the event.
+
+    `format: unixtime`
 
   - `type: "api_key.created" or "api_key.updated" or "api_key.deleted" or 146 more`
 
@@ -1472,7 +1500,7 @@ List user actions and configuration changes within this organization.
 
           - `role_arn: string`
 
-          - `type: "aws"`
+          - `type: "aws" (default: "aws")`
 
             - `"aws"`
 
@@ -1490,7 +1518,7 @@ List user actions and configuration changes within this organization.
 
           - `tenant_id: string`
 
-          - `type: "azure"`
+          - `type: "azure" (default: "azure")`
 
             - `"azure"`
 
@@ -1502,7 +1530,7 @@ List user actions and configuration changes within this organization.
 
           - `region: string`
 
-          - `type: "gcp"`
+          - `type: "gcp" (default: "gcp")`
 
             - `"gcp"`
 
@@ -1520,7 +1548,7 @@ List user actions and configuration changes within this organization.
 
           - `tenancy_ocid: string`
 
-          - `type: "oci"`
+          - `type: "oci" (default: "oci")`
 
             - `"oci"`
 
@@ -1840,27 +1868,27 @@ List user actions and configuration changes within this organization.
 
       The payload used to update the rate limits.
 
-      - `batch_1_day_max_input_tokens: optional number`
+      - `batch_1_day_max_input_tokens: optional integer`
 
         The maximum batch input tokens per day. Only relevant for certain models.
 
-      - `max_audio_megabytes_per_1_minute: optional number`
+      - `max_audio_megabytes_per_1_minute: optional integer`
 
         The maximum audio megabytes per minute. Only relevant for certain models.
 
-      - `max_images_per_1_minute: optional number`
+      - `max_images_per_1_minute: optional integer`
 
         The maximum images per minute. Only relevant for certain models.
 
-      - `max_requests_per_1_day: optional number`
+      - `max_requests_per_1_day: optional integer`
 
         The maximum requests per day. Only relevant for certain models.
 
-      - `max_requests_per_1_minute: optional number`
+      - `max_requests_per_1_minute: optional integer`
 
         The maximum requests per minute.
 
-      - `max_tokens_per_1_minute: optional number`
+      - `max_tokens_per_1_minute: optional integer`
 
         The maximum tokens per minute.
 
@@ -2293,7 +2321,7 @@ curl https://api.openai.com/v1/organization/audit_logs \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -2679,7 +2707,7 @@ curl https://api.openai.com/v1/organization/audit_logs \
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -2755,9 +2783,11 @@ curl https://api.openai.com/v1/organization/audit_logs \
 
     The ID of this log.
 
-  - `effective_at: number`
+  - `effective_at: integer`
 
     The Unix timestamp (in seconds) of the event.
+
+    `format: unixtime`
 
   - `type: "api_key.created" or "api_key.updated" or "api_key.deleted" or 146 more`
 
@@ -3317,7 +3347,7 @@ curl https://api.openai.com/v1/organization/audit_logs \
 
           - `role_arn: string`
 
-          - `type: "aws"`
+          - `type: "aws" (default: "aws")`
 
             - `"aws"`
 
@@ -3335,7 +3365,7 @@ curl https://api.openai.com/v1/organization/audit_logs \
 
           - `tenant_id: string`
 
-          - `type: "azure"`
+          - `type: "azure" (default: "azure")`
 
             - `"azure"`
 
@@ -3347,7 +3377,7 @@ curl https://api.openai.com/v1/organization/audit_logs \
 
           - `region: string`
 
-          - `type: "gcp"`
+          - `type: "gcp" (default: "gcp")`
 
             - `"gcp"`
 
@@ -3365,7 +3395,7 @@ curl https://api.openai.com/v1/organization/audit_logs \
 
           - `tenancy_ocid: string`
 
-          - `type: "oci"`
+          - `type: "oci" (default: "oci")`
 
             - `"oci"`
 
@@ -3685,27 +3715,27 @@ curl https://api.openai.com/v1/organization/audit_logs \
 
       The payload used to update the rate limits.
 
-      - `batch_1_day_max_input_tokens: optional number`
+      - `batch_1_day_max_input_tokens: optional integer`
 
         The maximum batch input tokens per day. Only relevant for certain models.
 
-      - `max_audio_megabytes_per_1_minute: optional number`
+      - `max_audio_megabytes_per_1_minute: optional integer`
 
         The maximum audio megabytes per minute. Only relevant for certain models.
 
-      - `max_images_per_1_minute: optional number`
+      - `max_images_per_1_minute: optional integer`
 
         The maximum images per minute. Only relevant for certain models.
 
-      - `max_requests_per_1_day: optional number`
+      - `max_requests_per_1_day: optional integer`
 
         The maximum requests per day. Only relevant for certain models.
 
-      - `max_requests_per_1_minute: optional number`
+      - `max_requests_per_1_minute: optional integer`
 
         The maximum requests per minute.
 
-      - `max_tokens_per_1_minute: optional number`
+      - `max_tokens_per_1_minute: optional integer`
 
         The maximum tokens per minute.
 
@@ -4135,6 +4165,8 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -4149,17 +4181,23 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -4190,7 +4228,7 @@ curl https://api.openai.com/v1/organization/certificates/activate \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4222,7 +4260,7 @@ curl https://api.openai.com/v1/organization/certificates/activate \
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4288,17 +4326,23 @@ Organizations can upload up to 50 certificates.
 
       The content of the certificate in PEM format.
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -4333,7 +4377,7 @@ curl https://api.openai.com/v1/organization/certificates \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4362,7 +4406,7 @@ curl -X POST https://api.openai.com/v1/organization/certificates \
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4389,6 +4433,8 @@ You can atomically and idempotently deactivate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -4403,17 +4449,23 @@ You can atomically and idempotently deactivate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -4444,7 +4496,7 @@ curl https://api.openai.com/v1/organization/certificates/deactivate \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4476,7 +4528,7 @@ curl https://api.openai.com/v1/organization/certificates/deactivate \
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4540,7 +4592,7 @@ curl https://api.openai.com/v1/organization/certificates/$CERTIFICATE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4556,7 +4608,7 @@ curl -X DELETE https://api.openai.com/v1/organization/certificates/cert_abc \
 -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4577,11 +4629,11 @@ List uploaded certificates for this organization.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
 
@@ -4603,17 +4655,23 @@ List uploaded certificates for this organization.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -4642,7 +4700,7 @@ curl https://api.openai.com/v1/organization/certificates \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4673,7 +4731,7 @@ curl https://api.openai.com/v1/organization/certificates \
 -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4733,17 +4791,23 @@ You can get a certificate regardless of whether it is active or not.
 
       The content of the certificate in PEM format.
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -4774,7 +4838,7 @@ curl https://api.openai.com/v1/organization/certificates/$CERTIFICATE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4798,7 +4862,7 @@ curl "https://api.openai.com/v1/organization/certificates/cert_abc?include[]=con
 -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4846,17 +4910,23 @@ Modify a certificate. Note that only the name can be modified.
 
       The content of the certificate in PEM format.
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -4889,7 +4959,7 @@ curl https://api.openai.com/v1/organization/certificates/$CERTIFICATE_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -4917,7 +4987,7 @@ curl -X POST https://api.openai.com/v1/organization/certificates/cert_abc \
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -4950,17 +5020,23 @@ curl -X POST https://api.openai.com/v1/organization/certificates/cert_abc \
 
       The content of the certificate in PEM format.
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -5000,17 +5076,23 @@ curl -X POST https://api.openai.com/v1/organization/certificates/cert_abc \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -5038,17 +5120,23 @@ curl -X POST https://api.openai.com/v1/organization/certificates/cert_abc \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -5090,17 +5178,23 @@ curl -X POST https://api.openai.com/v1/organization/certificates/cert_abc \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -5151,7 +5245,7 @@ curl https://api.openai.com/v1/organization/data_retention \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -5168,7 +5262,7 @@ curl https://api.openai.com/v1/organization/data_retention \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5232,7 +5326,7 @@ curl https://api.openai.com/v1/organization/data_retention \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -5252,7 +5346,7 @@ curl -X POST https://api.openai.com/v1/organization/data_retention \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5287,6 +5381,697 @@ curl -X POST https://api.openai.com/v1/organization/data_retention \
 
     - `"enhanced_modified_abuse_monitoring"`
 
+# External Keys
+
+## Add an external key config for an organization
+
+**post** `/organization/external_keys`
+
+Add an external key config for an organization
+
+### Body Parameters
+
+- `body: Aws { external_id, kms_arn, name, 3 more }  or Gcp { audience, kms_key_location, kms_key_name, 9 more }  or Azure { key_name, name, tenant_id, 4 more }`
+
+  - `Aws object { external_id, kms_arn, name, 3 more }`
+
+    - `external_id: string`
+
+      The ExternalID that OpenAI will pass in the AssumeRole call for the customer's AWS account. This must be the OpenAI organization ID or an API project ID that belongs to the organization.
+
+    - `kms_arn: string`
+
+      The Key Management System ARN for the master key you manage
+
+    - `name: string`
+
+      A friendly name to identify this config
+
+    - `role_arn: string`
+
+      The Role ARN that OpenAI will assume to call your KMS
+
+      `pattern: ^arn:aws:iam::\d{12}:role/.+$`
+
+    - `type: "aws" (default: "aws")`
+
+      - `"aws"`
+
+    - `purpose: optional "ekm" or "psp_decryption"`
+
+      - `"ekm"`
+
+      - `"psp_decryption"`
+
+  - `Gcp object { audience, kms_key_location, kms_key_name, 9 more }`
+
+    - `audience: string`
+
+      The aud field in the identity token OpenAI will pass in the call to the customer's GCP STS. This must be the OpenAI organization ID or an API project ID that belongs to the organization.
+
+    - `kms_key_location: string`
+
+      The region where your Key Management System master key is located
+
+    - `kms_key_name: string`
+
+      The name of the Key Management System master key you manage
+
+    - `kms_key_ring_name: string`
+
+      The Key Management System key ring for the master key you manage
+
+    - `kms_project_id: string`
+
+      The string GCP project name where your KMS resides
+
+    - `name: string`
+
+      A friendly name to identify this config
+
+    - `type: "gcp" (default: "gcp")`
+
+      - `"gcp"`
+
+    - `workload_identity_pool_id: string`
+
+      The pool containing the Workload Identity provider that you registered for OpenAI
+
+    - `workload_identity_project_number: string`
+
+      The numeric GCP project number where you registered OpenAI's workload identity
+
+      `pattern: ^[0-9]{1,19}$`
+
+    - `workload_identity_provider_id: string`
+
+      The Workload Identity provider that you registered for OpenAI
+
+    - `kms_key_version: optional string`
+
+      An exact CryptoKeyVersion number. Required for PSP decryption; not accepted for EKM.
+
+      `pattern: ^[1-9][0-9]*$`
+
+    - `purpose: optional "ekm" or "psp_decryption"`
+
+      - `"ekm"`
+
+      - `"psp_decryption"`
+
+  - `Azure object { key_name, name, tenant_id, 4 more }`
+
+    - `key_name: string`
+
+      The name of the Azure Key Vault master key that you manage
+
+      `pattern: ^org-[0-9a-zA-Z-]*--[0-9a-zA-Z-]*$`, `maxLength: 127`
+
+    - `name: string`
+
+      A friendly name to identify this config
+
+    - `tenant_id: string`
+
+      Your Azure tenant UUID
+
+      `pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`
+
+    - `type: "azure" (default: "azure")`
+
+      - `"azure"`
+
+    - `vault_uri: string`
+
+      The URI of the Azure vault containing the master key you manage
+
+      `pattern: ^https://.+\.vault\.azure\.net/?$`
+
+    - `key_version: optional string`
+
+      An exact Azure Key Vault key version. Required for PSP decryption; not accepted for EKM.
+
+      `pattern: ^[0-9a-fA-F]{32}$`
+
+    - `purpose: optional "ekm" or "psp_decryption"`
+
+      - `"ekm"`
+
+      - `"psp_decryption"`
+
+### Returns
+
+- `ExternalKey object { id, api_project_ids, created_at, 21 more }`
+
+  - `id: string`
+
+  - `api_project_ids: array of string`
+
+  - `created_at: integer`
+
+  - `name: string`
+
+  - `object: string`
+
+  - `type: string`
+
+  - `workspace_id: string`
+
+  - `audience: optional string`
+
+  - `external_id: optional string`
+
+  - `key_name: optional string`
+
+  - `key_version: optional string`
+
+  - `kms_arn: optional string`
+
+  - `kms_key_location: optional string`
+
+  - `kms_key_name: optional string`
+
+  - `kms_key_ring_name: optional string`
+
+  - `kms_key_version: optional string`
+
+  - `kms_project_id: optional string`
+
+  - `purpose: optional "ekm" or "psp_decryption"`
+
+    - `"ekm"`
+
+    - `"psp_decryption"`
+
+  - `role_arn: optional string`
+
+  - `tenant_id: optional string`
+
+  - `vault_uri: optional string`
+
+  - `workload_identity_pool_id: optional string`
+
+  - `workload_identity_project_number: optional string`
+
+  - `workload_identity_provider_id: optional string`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/organization/external_keys \
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+    -d '{
+          "external_id": "external_id",
+          "kms_arn": "kms_arn",
+          "name": "name",
+          "role_arn": "arn:aws:iam::732166991022:role/0*bWz\"J5bo7",
+          "type": "aws"
+        }'
+```
+
+#### 200 — Example
+
+```json
+{
+  "id": "id",
+  "api_project_ids": [
+    "string"
+  ],
+  "created_at": 0,
+  "name": "name",
+  "object": "object",
+  "type": "type",
+  "workspace_id": "workspace_id",
+  "audience": "audience",
+  "external_id": "external_id",
+  "key_name": "key_name",
+  "key_version": "key_version",
+  "kms_arn": "kms_arn",
+  "kms_key_location": "kms_key_location",
+  "kms_key_name": "kms_key_name",
+  "kms_key_ring_name": "kms_key_ring_name",
+  "kms_key_version": "kms_key_version",
+  "kms_project_id": "kms_project_id",
+  "purpose": "ekm",
+  "role_arn": "role_arn",
+  "tenant_id": "tenant_id",
+  "vault_uri": "vault_uri",
+  "workload_identity_pool_id": "workload_identity_pool_id",
+  "workload_identity_project_number": "workload_identity_project_number",
+  "workload_identity_provider_id": "workload_identity_provider_id"
+}
+```
+
+## Delete an external key config for the user's organization
+
+**delete** `/organization/external_keys/{external_key_id}`
+
+Delete an external key config for the user's organization
+
+### Path Parameters
+
+- `external_key_id: string`
+
+### Returns
+
+- `ExternalKey object { id, api_project_ids, created_at, 21 more }`
+
+  - `id: string`
+
+  - `api_project_ids: array of string`
+
+  - `created_at: integer`
+
+  - `name: string`
+
+  - `object: string`
+
+  - `type: string`
+
+  - `workspace_id: string`
+
+  - `audience: optional string`
+
+  - `external_id: optional string`
+
+  - `key_name: optional string`
+
+  - `key_version: optional string`
+
+  - `kms_arn: optional string`
+
+  - `kms_key_location: optional string`
+
+  - `kms_key_name: optional string`
+
+  - `kms_key_ring_name: optional string`
+
+  - `kms_key_version: optional string`
+
+  - `kms_project_id: optional string`
+
+  - `purpose: optional "ekm" or "psp_decryption"`
+
+    - `"ekm"`
+
+    - `"psp_decryption"`
+
+  - `role_arn: optional string`
+
+  - `tenant_id: optional string`
+
+  - `vault_uri: optional string`
+
+  - `workload_identity_pool_id: optional string`
+
+  - `workload_identity_project_number: optional string`
+
+  - `workload_identity_provider_id: optional string`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/organization/external_keys/$EXTERNAL_KEY_ID \
+    -X DELETE \
+    -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
+```
+
+#### 200 — Example
+
+```json
+{
+  "id": "id",
+  "api_project_ids": [
+    "string"
+  ],
+  "created_at": 0,
+  "name": "name",
+  "object": "object",
+  "type": "type",
+  "workspace_id": "workspace_id",
+  "audience": "audience",
+  "external_id": "external_id",
+  "key_name": "key_name",
+  "key_version": "key_version",
+  "kms_arn": "kms_arn",
+  "kms_key_location": "kms_key_location",
+  "kms_key_name": "kms_key_name",
+  "kms_key_ring_name": "kms_key_ring_name",
+  "kms_key_version": "kms_key_version",
+  "kms_project_id": "kms_project_id",
+  "purpose": "ekm",
+  "role_arn": "role_arn",
+  "tenant_id": "tenant_id",
+  "vault_uri": "vault_uri",
+  "workload_identity_pool_id": "workload_identity_pool_id",
+  "workload_identity_project_number": "workload_identity_project_number",
+  "workload_identity_provider_id": "workload_identity_provider_id"
+}
+```
+
+## List the external key configs registered on the user's organization
+
+**get** `/organization/external_keys`
+
+List the external key configs registered on the user's organization
+
+### Query Parameters
+
+- `after: optional string or null`
+
+- `limit: optional integer`
+
+  `minimum: 0`, `maximum: 100`
+
+- `order: optional "asc" or "desc"`
+
+  - `"asc"`
+
+  - `"desc"`
+
+- `purpose: optional "ekm" or "psp_decryption"`
+
+  Filter by key purpose. When omitted, returns keys of all purposes.
+
+  - `"ekm"`
+
+  - `"psp_decryption"`
+
+### Returns
+
+- `data: array of ExternalKey`
+
+  - `id: string`
+
+  - `api_project_ids: array of string`
+
+  - `created_at: integer`
+
+  - `name: string`
+
+  - `object: string`
+
+  - `type: string`
+
+  - `workspace_id: string`
+
+  - `audience: optional string`
+
+  - `external_id: optional string`
+
+  - `key_name: optional string`
+
+  - `key_version: optional string`
+
+  - `kms_arn: optional string`
+
+  - `kms_key_location: optional string`
+
+  - `kms_key_name: optional string`
+
+  - `kms_key_ring_name: optional string`
+
+  - `kms_key_version: optional string`
+
+  - `kms_project_id: optional string`
+
+  - `purpose: optional "ekm" or "psp_decryption"`
+
+    - `"ekm"`
+
+    - `"psp_decryption"`
+
+  - `role_arn: optional string`
+
+  - `tenant_id: optional string`
+
+  - `vault_uri: optional string`
+
+  - `workload_identity_pool_id: optional string`
+
+  - `workload_identity_project_number: optional string`
+
+  - `workload_identity_provider_id: optional string`
+
+- `first_id: string or null`
+
+- `has_more: boolean`
+
+- `last_id: string or null`
+
+- `object: "list" (default: "list")`
+
+  - `"list"`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/organization/external_keys \
+    -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
+```
+
+#### 200 — Example
+
+```json
+{
+  "data": [
+    {
+      "id": "id",
+      "api_project_ids": [
+        "string"
+      ],
+      "created_at": 0,
+      "name": "name",
+      "object": "object",
+      "type": "type",
+      "workspace_id": "workspace_id",
+      "audience": "audience",
+      "external_id": "external_id",
+      "key_name": "key_name",
+      "key_version": "key_version",
+      "kms_arn": "kms_arn",
+      "kms_key_location": "kms_key_location",
+      "kms_key_name": "kms_key_name",
+      "kms_key_ring_name": "kms_key_ring_name",
+      "kms_key_version": "kms_key_version",
+      "kms_project_id": "kms_project_id",
+      "purpose": "ekm",
+      "role_arn": "role_arn",
+      "tenant_id": "tenant_id",
+      "vault_uri": "vault_uri",
+      "workload_identity_pool_id": "workload_identity_pool_id",
+      "workload_identity_project_number": "workload_identity_project_number",
+      "workload_identity_provider_id": "workload_identity_provider_id"
+    }
+  ],
+  "first_id": "first_id",
+  "has_more": true,
+  "last_id": "last_id",
+  "object": "list"
+}
+```
+
+## Retrieve an external key registration
+
+**get** `/organization/external_keys/{external_key_id}`
+
+Retrieve a stored external key registration for the user's organization.
+
+### Path Parameters
+
+- `external_key_id: string`
+
+### Returns
+
+- `ExternalKey object { id, api_project_ids, created_at, 21 more }`
+
+  - `id: string`
+
+  - `api_project_ids: array of string`
+
+  - `created_at: integer`
+
+  - `name: string`
+
+  - `object: string`
+
+  - `type: string`
+
+  - `workspace_id: string`
+
+  - `audience: optional string`
+
+  - `external_id: optional string`
+
+  - `key_name: optional string`
+
+  - `key_version: optional string`
+
+  - `kms_arn: optional string`
+
+  - `kms_key_location: optional string`
+
+  - `kms_key_name: optional string`
+
+  - `kms_key_ring_name: optional string`
+
+  - `kms_key_version: optional string`
+
+  - `kms_project_id: optional string`
+
+  - `purpose: optional "ekm" or "psp_decryption"`
+
+    - `"ekm"`
+
+    - `"psp_decryption"`
+
+  - `role_arn: optional string`
+
+  - `tenant_id: optional string`
+
+  - `vault_uri: optional string`
+
+  - `workload_identity_pool_id: optional string`
+
+  - `workload_identity_project_number: optional string`
+
+  - `workload_identity_provider_id: optional string`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/organization/external_keys/$EXTERNAL_KEY_ID \
+    -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
+```
+
+#### 200 — Example
+
+```json
+{
+  "id": "id",
+  "api_project_ids": [
+    "string"
+  ],
+  "created_at": 0,
+  "name": "name",
+  "object": "object",
+  "type": "type",
+  "workspace_id": "workspace_id",
+  "audience": "audience",
+  "external_id": "external_id",
+  "key_name": "key_name",
+  "key_version": "key_version",
+  "kms_arn": "kms_arn",
+  "kms_key_location": "kms_key_location",
+  "kms_key_name": "kms_key_name",
+  "kms_key_ring_name": "kms_key_ring_name",
+  "kms_key_version": "kms_key_version",
+  "kms_project_id": "kms_project_id",
+  "purpose": "ekm",
+  "role_arn": "role_arn",
+  "tenant_id": "tenant_id",
+  "vault_uri": "vault_uri",
+  "workload_identity_pool_id": "workload_identity_pool_id",
+  "workload_identity_project_number": "workload_identity_project_number",
+  "workload_identity_provider_id": "workload_identity_provider_id"
+}
+```
+
+## Validate an external key config for the user's organization
+
+**post** `/organization/external_keys/{external_key_id}/validate`
+
+Validate an external key config for the user's organization
+
+### Path Parameters
+
+- `external_key_id: string`
+
+### Returns
+
+- `status: string`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/organization/external_keys/$EXTERNAL_KEY_ID/validate \
+    -X POST \
+    -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
+```
+
+#### 200 — Example
+
+```json
+{
+  "status": "status"
+}
+```
+
+## Domain Types
+
+### External Key
+
+- `ExternalKey object { id, api_project_ids, created_at, 21 more }`
+
+  - `id: string`
+
+  - `api_project_ids: array of string`
+
+  - `created_at: integer`
+
+  - `name: string`
+
+  - `object: string`
+
+  - `type: string`
+
+  - `workspace_id: string`
+
+  - `audience: optional string`
+
+  - `external_id: optional string`
+
+  - `key_name: optional string`
+
+  - `key_version: optional string`
+
+  - `kms_arn: optional string`
+
+  - `kms_key_location: optional string`
+
+  - `kms_key_name: optional string`
+
+  - `kms_key_ring_name: optional string`
+
+  - `kms_key_version: optional string`
+
+  - `kms_project_id: optional string`
+
+  - `purpose: optional "ekm" or "psp_decryption"`
+
+    - `"ekm"`
+
+    - `"psp_decryption"`
+
+  - `role_arn: optional string`
+
+  - `tenant_id: optional string`
+
+  - `vault_uri: optional string`
+
+  - `workload_identity_pool_id: optional string`
+
+  - `workload_identity_project_number: optional string`
+
+  - `workload_identity_provider_id: optional string`
+
+### External Key Validate Response
+
+- `ExternalKeyValidateResponse object { status }`
+
+  - `status: string`
+
 # External Storage
 
 ## Create an external storage configuration
@@ -5307,7 +6092,7 @@ Register one customer-managed external storage configuration.
 
     - `role_arn: string`
 
-    - `type: "aws"`
+    - `type: "aws" (default: "aws")`
 
       - `"aws"`
 
@@ -5323,7 +6108,7 @@ Register one customer-managed external storage configuration.
 
     - `tenant_id: string`
 
-    - `type: "azure"`
+    - `type: "azure" (default: "azure")`
 
       - `"azure"`
 
@@ -5331,7 +6116,7 @@ Register one customer-managed external storage configuration.
 
     - `bucket: string`
 
-    - `type: "gcp"`
+    - `type: "gcp" (default: "gcp")`
 
       - `"gcp"`
 
@@ -5349,7 +6134,7 @@ Register one customer-managed external storage configuration.
 
     - `tenancy_ocid: string`
 
-    - `type: "oci"`
+    - `type: "oci" (default: "oci")`
 
       - `"oci"`
 
@@ -5359,11 +6144,13 @@ Register one customer-managed external storage configuration.
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `geography: string`
 
-  - `object: "organization.external_storage"`
+  - `object: "organization.external_storage" (default: "organization.external_storage")`
 
     - `"organization.external_storage"`
 
@@ -5383,7 +6170,7 @@ Register one customer-managed external storage configuration.
 
       - `role_arn: string`
 
-      - `type: "aws"`
+      - `type: "aws" (default: "aws")`
 
         - `"aws"`
 
@@ -5401,7 +6188,7 @@ Register one customer-managed external storage configuration.
 
       - `tenant_id: string`
 
-      - `type: "azure"`
+      - `type: "azure" (default: "azure")`
 
         - `"azure"`
 
@@ -5413,7 +6200,7 @@ Register one customer-managed external storage configuration.
 
       - `region: string`
 
-      - `type: "gcp"`
+      - `type: "gcp" (default: "gcp")`
 
         - `"gcp"`
 
@@ -5431,15 +6218,17 @@ Register one customer-managed external storage configuration.
 
       - `tenancy_ocid: string`
 
-      - `type: "oci"`
+      - `type: "oci" (default: "oci")`
 
         - `"oci"`
 
-  - `status: "pending" or "validated" or "unhealthy"`
+  - `status: "pending" or "validated" or "degraded" or "unhealthy"`
 
     - `"pending"`
 
     - `"validated"`
+
+    - `"degraded"`
 
     - `"unhealthy"`
 
@@ -5459,7 +6248,7 @@ curl https://api.openai.com/v1/organization/external_storage \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -5496,7 +6285,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5536,7 +6325,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5576,7 +6365,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5598,6 +6387,42 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
 }
 ```
 
+### OCI Object Storage
+
+```http
+curl -X POST https://api.openai.com/v1/organization/external_storage \
+  -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "project_id": "proj_oci123",
+    "provider": {
+      "type": "oci",
+      "tenancy_ocid": "ocid1.tenancy.oc1..example",
+      "region": "us-ashburn-1",
+      "bucket": "customer-oci-retention"
+    }
+  }'
+```
+
+#### Response example
+
+```json
+{
+  "object": "organization.external_storage",
+  "id": "extstorage_oci123",
+  "project_id": "proj_oci123",
+  "provider": {
+    "type": "oci",
+    "tenancy_ocid": "ocid1.tenancy.oc1..example",
+    "region": "us-ashburn-1",
+    "bucket": "customer-oci-retention"
+  },
+  "geography": "US",
+  "status": "pending",
+  "created_at": 1711471300
+}
+```
+
 ## Delete an external storage configuration
 
 **delete** `/organization/external_storage/{external_storage_id}`
@@ -5616,7 +6441,7 @@ Disconnect a customer-managed external storage configuration. Removing the proje
 
   - `deleted: boolean`
 
-  - `object: "organization.external_storage.deleted"`
+  - `object: "organization.external_storage.deleted" (default: "organization.external_storage.deleted")`
 
     - `"organization.external_storage.deleted"`
 
@@ -5628,7 +6453,7 @@ curl https://api.openai.com/v1/organization/external_storage/$EXTERNAL_STORAGE_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -5646,7 +6471,7 @@ curl -X DELETE https://api.openai.com/v1/organization/external_storage/extstorag
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5668,7 +6493,9 @@ List the organization's customer-managed external storage configurations.
 
   Return external storage configurations after this ID.
 
-- `limit: optional number`
+- `limit: optional integer`
+
+  `minimum: 1`, `maximum: 100`
 
 - `order: optional "asc" or "desc"`
 
@@ -5684,11 +6511,13 @@ List the organization's customer-managed external storage configurations.
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `geography: string`
 
-  - `object: "organization.external_storage"`
+  - `object: "organization.external_storage" (default: "organization.external_storage")`
 
     - `"organization.external_storage"`
 
@@ -5708,7 +6537,7 @@ List the organization's customer-managed external storage configurations.
 
       - `role_arn: string`
 
-      - `type: "aws"`
+      - `type: "aws" (default: "aws")`
 
         - `"aws"`
 
@@ -5726,7 +6555,7 @@ List the organization's customer-managed external storage configurations.
 
       - `tenant_id: string`
 
-      - `type: "azure"`
+      - `type: "azure" (default: "azure")`
 
         - `"azure"`
 
@@ -5738,7 +6567,7 @@ List the organization's customer-managed external storage configurations.
 
       - `region: string`
 
-      - `type: "gcp"`
+      - `type: "gcp" (default: "gcp")`
 
         - `"gcp"`
 
@@ -5756,15 +6585,17 @@ List the organization's customer-managed external storage configurations.
 
       - `tenancy_ocid: string`
 
-      - `type: "oci"`
+      - `type: "oci" (default: "oci")`
 
         - `"oci"`
 
-  - `status: "pending" or "validated" or "unhealthy"`
+  - `status: "pending" or "validated" or "degraded" or "unhealthy"`
 
     - `"pending"`
 
     - `"validated"`
+
+    - `"degraded"`
 
     - `"unhealthy"`
 
@@ -5774,7 +6605,7 @@ List the organization's customer-managed external storage configurations.
 
 - `last_id: string or null`
 
-- `object: "list"`
+- `object: "list" (default: "list")`
 
   - `"list"`
 
@@ -5785,7 +6616,7 @@ curl https://api.openai.com/v1/organization/external_storage \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -5822,7 +6653,7 @@ curl "https://api.openai.com/v1/organization/external_storage?limit=20&order=des
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -5877,10 +6708,24 @@ curl "https://api.openai.com/v1/organization/external_storage?limit=20&order=des
       "geography": "US",
       "status": "validated",
       "created_at": 1711471400
+    },
+    {
+      "object": "organization.external_storage",
+      "id": "extstorage_oci123",
+      "project_id": "proj_oci123",
+      "provider": {
+        "type": "oci",
+        "tenancy_ocid": "ocid1.tenancy.oc1..example",
+        "region": "us-ashburn-1",
+        "bucket": "customer-oci-retention"
+      },
+      "geography": "US",
+      "status": "validated",
+      "created_at": 1711471300
     }
   ],
   "first_id": "extstorage_abc123",
-  "last_id": "extstorage_gcp123",
+  "last_id": "extstorage_oci123",
   "has_more": false
 }
 ```
@@ -5901,11 +6746,13 @@ Get one customer-managed external storage configuration.
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `geography: string`
 
-  - `object: "organization.external_storage"`
+  - `object: "organization.external_storage" (default: "organization.external_storage")`
 
     - `"organization.external_storage"`
 
@@ -5925,7 +6772,7 @@ Get one customer-managed external storage configuration.
 
       - `role_arn: string`
 
-      - `type: "aws"`
+      - `type: "aws" (default: "aws")`
 
         - `"aws"`
 
@@ -5943,7 +6790,7 @@ Get one customer-managed external storage configuration.
 
       - `tenant_id: string`
 
-      - `type: "azure"`
+      - `type: "azure" (default: "azure")`
 
         - `"azure"`
 
@@ -5955,7 +6802,7 @@ Get one customer-managed external storage configuration.
 
       - `region: string`
 
-      - `type: "gcp"`
+      - `type: "gcp" (default: "gcp")`
 
         - `"gcp"`
 
@@ -5973,15 +6820,17 @@ Get one customer-managed external storage configuration.
 
       - `tenancy_ocid: string`
 
-      - `type: "oci"`
+      - `type: "oci" (default: "oci")`
 
         - `"oci"`
 
-  - `status: "pending" or "validated" or "unhealthy"`
+  - `status: "pending" or "validated" or "degraded" or "unhealthy"`
 
     - `"pending"`
 
     - `"validated"`
+
+    - `"degraded"`
 
     - `"unhealthy"`
 
@@ -5992,7 +6841,7 @@ curl https://api.openai.com/v1/organization/external_storage/$EXTERNAL_STORAGE_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6021,7 +6870,7 @@ curl https://api.openai.com/v1/organization/external_storage/extstorage_azure123
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6059,11 +6908,13 @@ Validate one customer-managed external storage configuration.
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `geography: string`
 
-  - `object: "organization.external_storage"`
+  - `object: "organization.external_storage" (default: "organization.external_storage")`
 
     - `"organization.external_storage"`
 
@@ -6083,7 +6934,7 @@ Validate one customer-managed external storage configuration.
 
       - `role_arn: string`
 
-      - `type: "aws"`
+      - `type: "aws" (default: "aws")`
 
         - `"aws"`
 
@@ -6101,7 +6952,7 @@ Validate one customer-managed external storage configuration.
 
       - `tenant_id: string`
 
-      - `type: "azure"`
+      - `type: "azure" (default: "azure")`
 
         - `"azure"`
 
@@ -6113,7 +6964,7 @@ Validate one customer-managed external storage configuration.
 
       - `region: string`
 
-      - `type: "gcp"`
+      - `type: "gcp" (default: "gcp")`
 
         - `"gcp"`
 
@@ -6131,15 +6982,17 @@ Validate one customer-managed external storage configuration.
 
       - `tenancy_ocid: string`
 
-      - `type: "oci"`
+      - `type: "oci" (default: "oci")`
 
         - `"oci"`
 
-  - `status: "pending" or "validated" or "unhealthy"`
+  - `status: "pending" or "validated" or "degraded" or "unhealthy"`
 
     - `"pending"`
 
     - `"validated"`
+
+    - `"degraded"`
 
     - `"unhealthy"`
 
@@ -6151,7 +7004,7 @@ curl https://api.openai.com/v1/organization/external_storage/$EXTERNAL_STORAGE_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6180,7 +7033,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6218,7 +7071,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
   - `role_arn: string`
 
-  - `type: "aws"`
+  - `type: "aws" (default: "aws")`
 
     - `"aws"`
 
@@ -6238,7 +7091,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
   - `tenant_id: string`
 
-  - `type: "azure"`
+  - `type: "azure" (default: "azure")`
 
     - `"azure"`
 
@@ -6248,11 +7101,13 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `geography: string`
 
-  - `object: "organization.external_storage"`
+  - `object: "organization.external_storage" (default: "organization.external_storage")`
 
     - `"organization.external_storage"`
 
@@ -6272,7 +7127,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
       - `role_arn: string`
 
-      - `type: "aws"`
+      - `type: "aws" (default: "aws")`
 
         - `"aws"`
 
@@ -6290,7 +7145,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
       - `tenant_id: string`
 
-      - `type: "azure"`
+      - `type: "azure" (default: "azure")`
 
         - `"azure"`
 
@@ -6302,7 +7157,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
       - `region: string`
 
-      - `type: "gcp"`
+      - `type: "gcp" (default: "gcp")`
 
         - `"gcp"`
 
@@ -6320,15 +7175,17 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
       - `tenancy_ocid: string`
 
-      - `type: "oci"`
+      - `type: "oci" (default: "oci")`
 
         - `"oci"`
 
-  - `status: "pending" or "validated" or "unhealthy"`
+  - `status: "pending" or "validated" or "degraded" or "unhealthy"`
 
     - `"pending"`
 
     - `"validated"`
+
+    - `"degraded"`
 
     - `"unhealthy"`
 
@@ -6340,7 +7197,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
   - `deleted: boolean`
 
-  - `object: "organization.external_storage.deleted"`
+  - `object: "organization.external_storage.deleted" (default: "organization.external_storage.deleted")`
 
     - `"organization.external_storage.deleted"`
 
@@ -6354,7 +7211,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
   - `region: string`
 
-  - `type: "gcp"`
+  - `type: "gcp" (default: "gcp")`
 
     - `"gcp"`
 
@@ -6374,7 +7231,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage/extstorage_
 
   - `tenancy_ocid: string`
 
-  - `type: "oci"`
+  - `type: "oci" (default: "oci")`
 
     - `"oci"`
 
@@ -6392,6 +7249,8 @@ Creates a new group in the organization.
 
   Human readable name for the group.
 
+  `minLength: 1`, `maxLength: 255`
+
 ### Returns
 
 - `Group object { id, created_at, group_type, 2 more }`
@@ -6402,9 +7261,11 @@ Creates a new group in the organization.
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `group_type: "group" or "tenant_group"`
 
@@ -6433,7 +7294,7 @@ curl https://api.openai.com/v1/organization/groups \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6456,7 +7317,7 @@ curl -X POST https://api.openai.com/v1/organization/groups \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6503,7 +7364,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6521,7 +7382,7 @@ curl -X DELETE https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6543,11 +7404,13 @@ Lists all groups in the organization.
 
   A cursor for use in pagination. `after` is a group ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with group_abc, your subsequent call can include `after=group_abc` in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 100)`
 
   A limit on the number of groups to be returned. Limit can range between 0 and 1000, and the default is 100.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 1000`
+
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Specifies the sort order of the returned groups.
 
@@ -6565,9 +7428,11 @@ Lists all groups in the organization.
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `group_type: "group" or "tenant_group"`
 
@@ -6606,7 +7471,7 @@ curl https://api.openai.com/v1/organization/groups \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6633,7 +7498,7 @@ curl https://api.openai.com/v1/organization/groups?limit=20&order=asc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6673,9 +7538,11 @@ Retrieves a group.
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `group_type: "group" or "tenant_group"`
 
@@ -6700,7 +7567,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6720,7 +7587,7 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6748,15 +7615,19 @@ Updates a group's information.
 
   New display name for the group.
 
+  `minLength: 1`, `maxLength: 255`
+
 ### Returns
 
 - `id: string`
 
   Identifier for the group.
 
-- `created_at: number`
+- `created_at: integer`
 
   Unix timestamp (in seconds) when the group was created.
+
+  `format: unixtime`
 
 - `is_scim_managed: boolean`
 
@@ -6777,7 +7648,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6799,7 +7670,7 @@ curl -X POST https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6822,9 +7693,11 @@ curl -X POST https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ \
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `group_type: "group" or "tenant_group"`
 
@@ -6872,9 +7745,11 @@ curl -X POST https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ \
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `is_scim_managed: boolean`
 
@@ -6912,9 +7787,11 @@ Assigns an organization role to a group within the organization.
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -6981,7 +7858,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7018,7 +7895,7 @@ curl -X POST https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/r
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7075,7 +7952,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7092,7 +7969,7 @@ curl -X DELETE https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7117,9 +7994,11 @@ Lists the organization roles assigned to a group within the organization.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing organization roles.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of organization role assignments to return.
+
+  `minimum: 0`, `maximum: 1000`
 
 - `order: optional "asc" or "desc"`
 
@@ -7147,9 +8026,11 @@ Lists the organization roles assigned to a group within the organization.
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -7183,9 +8064,11 @@ Lists the organization roles assigned to a group within the organization.
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -7208,7 +8091,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7253,7 +8136,7 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7317,9 +8200,11 @@ Retrieves an organization role assigned to a group.
 
   - `principal_type: string`
 
-- `created_at: number or null`
+- `created_at: integer or null`
 
   When the role was created.
+
+  `format: unixtime`
 
 - `created_by: string or null`
 
@@ -7353,9 +8238,11 @@ Retrieves an organization role assigned to a group.
 
   Resource type the role applies to.
 
-- `updated_at: number or null`
+- `updated_at: integer or null`
 
   When the role was last updated.
+
+  `format: unixtime`
 
 ### Example
 
@@ -7364,7 +8251,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7402,7 +8289,7 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles/rol
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7440,9 +8327,11 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles/rol
 
       Identifier for the group.
 
-    - `created_at: number`
+    - `created_at: integer`
 
       Unix timestamp (in seconds) when the group was created.
+
+      `format: unixtime`
 
     - `name: string`
 
@@ -7530,9 +8419,11 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles/rol
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -7566,9 +8457,11 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles/rol
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 ### Role Retrieve Response
 
@@ -7588,9 +8481,11 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles/rol
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -7624,9 +8519,11 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/roles/rol
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 # Users
 
@@ -7673,7 +8570,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/users \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7694,7 +8591,7 @@ curl -X POST https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/u
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7736,7 +8633,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/users/$USER_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7753,7 +8650,7 @@ curl -X DELETE https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7778,11 +8675,13 @@ Lists the users assigned to a group.
 
   A cursor for use in pagination. Provide the ID of the last user from the previous list response to retrieve the next page.
 
-- `limit: optional number`
+- `limit: optional integer (default: 100)`
 
   A limit on the number of users to be returned. Limit can range between 0 and 1000, and the default is 100.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 1000`
+
+- `order: optional "asc" or "desc" (default: "desc")`
 
   Specifies the sort order of users in the list.
 
@@ -7829,7 +8728,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/users \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7854,7 +8753,7 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/users?lim
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -7920,7 +8819,7 @@ curl https://api.openai.com/v1/organization/groups/$GROUP_ID/users/$USER_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -7941,7 +8840,7 @@ curl https://api.openai.com/v1/organization/groups/group_01J1F8ABCDXYZ/users/use
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8092,9 +8991,11 @@ Create an invite for a user to the organization. The invite must be accepted by 
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the invite was sent.
+
+    `format: unixtime`
 
   - `email: string`
 
@@ -8140,13 +9041,17 @@ Create an invite for a user to the organization. The invite must be accepted by 
 
     - `"pending"`
 
-  - `accepted_at: optional number or null`
+  - `accepted_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite was accepted.
 
-  - `expires_at: optional number or null`
+    `format: unixtime`
+
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite expires.
+
+    `format: unixtime`
 
 ### Example
 
@@ -8160,7 +9065,7 @@ curl https://api.openai.com/v1/organization/invites \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -8203,7 +9108,7 @@ curl -X POST https://api.openai.com/v1/organization/invites \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8258,7 +9163,7 @@ curl https://api.openai.com/v1/organization/invites/$INVITE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -8276,7 +9181,7 @@ curl -X DELETE https://api.openai.com/v1/organization/invites/invite-abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8298,7 +9203,7 @@ Returns a list of invites in the organization.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
@@ -8310,9 +9215,11 @@ Returns a list of invites in the organization.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the invite was sent.
+
+    `format: unixtime`
 
   - `email: string`
 
@@ -8358,13 +9265,17 @@ Returns a list of invites in the organization.
 
     - `"pending"`
 
-  - `accepted_at: optional number or null`
+  - `accepted_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite was accepted.
 
-  - `expires_at: optional number or null`
+    `format: unixtime`
+
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite expires.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -8391,7 +9302,7 @@ curl https://api.openai.com/v1/organization/invites \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -8428,7 +9339,7 @@ curl https://api.openai.com/v1/organization/invites?after=invite-abc&limit=20 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8472,9 +9383,11 @@ Retrieves an invite.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the invite was sent.
+
+    `format: unixtime`
 
   - `email: string`
 
@@ -8520,13 +9433,17 @@ Retrieves an invite.
 
     - `"pending"`
 
-  - `accepted_at: optional number or null`
+  - `accepted_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite was accepted.
 
-  - `expires_at: optional number or null`
+    `format: unixtime`
+
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite expires.
+
+    `format: unixtime`
 
 ### Example
 
@@ -8535,7 +9452,7 @@ curl https://api.openai.com/v1/organization/invites/$INVITE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -8564,7 +9481,7 @@ curl https://api.openai.com/v1/organization/invites/invite-abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8592,9 +9509,11 @@ curl https://api.openai.com/v1/organization/invites/invite-abc \
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the invite was sent.
+
+    `format: unixtime`
 
   - `email: string`
 
@@ -8640,13 +9559,17 @@ curl https://api.openai.com/v1/organization/invites/invite-abc \
 
     - `"pending"`
 
-  - `accepted_at: optional number or null`
+  - `accepted_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite was accepted.
 
-  - `expires_at: optional number or null`
+    `format: unixtime`
+
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the invite expires.
+
+    `format: unixtime`
 
 ### Invite Delete Response
 
@@ -8684,9 +9607,11 @@ Archives a project in the organization. Archived projects cannot be used or upda
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -8694,9 +9619,11 @@ Archives a project in the organization. Archived projects cannot be used or upda
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -8718,6 +9645,8 @@ Archives a project in the organization. Archived projects cannot be used or upda
 
     - `"JP_STORAGE"`
 
+    - `"JP_STORAGE_PROCESSING"`
+
     - `"KR_STORAGE"`
 
     - `"CA_STORAGE"`
@@ -8726,7 +9655,11 @@ Archives a project in the organization. Archived projects cannot be used or upda
 
     - `"IN_STORAGE"`
 
+    - `"IN_STORAGE_PROCESSING"`
+
     - `"AU_STORAGE"`
+
+    - `"AU_STORAGE_PROCESSING"`
 
     - `"GB_STORAGE"`
 
@@ -8746,7 +9679,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/archive \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -8769,7 +9702,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/archive \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8815,6 +9748,8 @@ Create a new project in the organization. Projects can be created and archived, 
 
   - `"JP_STORAGE"`
 
+  - `"JP_STORAGE_PROCESSING"`
+
   - `"KR_STORAGE"`
 
   - `"CA_STORAGE"`
@@ -8823,7 +9758,11 @@ Create a new project in the organization. Projects can be created and archived, 
 
   - `"IN_STORAGE"`
 
+  - `"IN_STORAGE_PROCESSING"`
+
   - `"AU_STORAGE"`
+
+  - `"AU_STORAGE_PROCESSING"`
 
   - `"GB_STORAGE"`
 
@@ -8841,9 +9780,11 @@ Create a new project in the organization. Projects can be created and archived, 
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -8851,9 +9792,11 @@ Create a new project in the organization. Projects can be created and archived, 
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -8875,6 +9818,8 @@ Create a new project in the organization. Projects can be created and archived, 
 
     - `"JP_STORAGE"`
 
+    - `"JP_STORAGE_PROCESSING"`
+
     - `"KR_STORAGE"`
 
     - `"CA_STORAGE"`
@@ -8883,7 +9828,11 @@ Create a new project in the organization. Projects can be created and archived, 
 
     - `"IN_STORAGE"`
 
+    - `"IN_STORAGE_PROCESSING"`
+
     - `"AU_STORAGE"`
+
+    - `"AU_STORAGE_PROCESSING"`
 
     - `"GB_STORAGE"`
 
@@ -8906,7 +9855,7 @@ curl https://api.openai.com/v1/organization/projects \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -8932,7 +9881,7 @@ curl -X POST https://api.openai.com/v1/organization/projects \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -8957,11 +9906,11 @@ Returns a list of projects.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `include_archived: optional boolean`
+- `include_archived: optional boolean (default: false)`
 
   If `true` returns all projects including those that have been `archived`. Archived projects are not included by default.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
@@ -8973,9 +9922,11 @@ Returns a list of projects.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -8983,9 +9934,11 @@ Returns a list of projects.
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -9007,6 +9960,8 @@ Returns a list of projects.
 
     - `"JP_STORAGE"`
 
+    - `"JP_STORAGE_PROCESSING"`
+
     - `"KR_STORAGE"`
 
     - `"CA_STORAGE"`
@@ -9015,7 +9970,11 @@ Returns a list of projects.
 
     - `"IN_STORAGE"`
 
+    - `"IN_STORAGE_PROCESSING"`
+
     - `"AU_STORAGE"`
+
+    - `"AU_STORAGE_PROCESSING"`
 
     - `"GB_STORAGE"`
 
@@ -9044,7 +10003,7 @@ curl https://api.openai.com/v1/organization/projects \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -9075,7 +10034,7 @@ curl https://api.openai.com/v1/organization/projects?after=proj_abc&limit=20&inc
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -9116,9 +10075,11 @@ Retrieves a project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -9126,9 +10087,11 @@ Retrieves a project.
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -9150,6 +10113,8 @@ Retrieves a project.
 
     - `"JP_STORAGE"`
 
+    - `"JP_STORAGE_PROCESSING"`
+
     - `"KR_STORAGE"`
 
     - `"CA_STORAGE"`
@@ -9158,7 +10123,11 @@ Retrieves a project.
 
     - `"IN_STORAGE"`
 
+    - `"IN_STORAGE_PROCESSING"`
+
     - `"AU_STORAGE"`
+
+    - `"AU_STORAGE_PROCESSING"`
 
     - `"GB_STORAGE"`
 
@@ -9177,7 +10146,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -9200,7 +10169,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -9248,9 +10217,11 @@ Modifies a project in the organization.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -9258,9 +10229,11 @@ Modifies a project in the organization.
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -9282,6 +10255,8 @@ Modifies a project in the organization.
 
     - `"JP_STORAGE"`
 
+    - `"JP_STORAGE_PROCESSING"`
+
     - `"KR_STORAGE"`
 
     - `"CA_STORAGE"`
@@ -9290,7 +10265,11 @@ Modifies a project in the organization.
 
     - `"IN_STORAGE"`
 
+    - `"IN_STORAGE_PROCESSING"`
+
     - `"AU_STORAGE"`
+
+    - `"AU_STORAGE_PROCESSING"`
 
     - `"GB_STORAGE"`
 
@@ -9311,7 +10290,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -9349,9 +10328,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -9359,9 +10340,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -9383,6 +10366,8 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
     - `"JP_STORAGE"`
 
+    - `"JP_STORAGE_PROCESSING"`
+
     - `"KR_STORAGE"`
 
     - `"CA_STORAGE"`
@@ -9391,7 +10376,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
     - `"IN_STORAGE"`
 
+    - `"IN_STORAGE_PROCESSING"`
+
     - `"AU_STORAGE"`
+
+    - `"AU_STORAGE_PROCESSING"`
 
     - `"GB_STORAGE"`
 
@@ -9405,7 +10394,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
 ### Project Residency
 
-- `ProjectResidency = "GLOBAL" or "US_STORAGE_PROCESSING" or "EU_STORAGE_PROCESSING" or 9 more`
+- `ProjectResidency = "GLOBAL" or "US_STORAGE_PROCESSING" or "EU_STORAGE_PROCESSING" or 12 more`
 
   - `"GLOBAL"`
 
@@ -9415,6 +10404,8 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
   - `"JP_STORAGE"`
 
+  - `"JP_STORAGE_PROCESSING"`
+
   - `"KR_STORAGE"`
 
   - `"CA_STORAGE"`
@@ -9423,7 +10414,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
   - `"IN_STORAGE"`
 
+  - `"IN_STORAGE_PROCESSING"`
+
   - `"AU_STORAGE"`
+
+  - `"AU_STORAGE_PROCESSING"`
 
   - `"GB_STORAGE"`
 
@@ -9437,10 +10432,12 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc \
 
 **delete** `/organization/projects/{project_id}/api_keys/{api_key_id}`
 
-Deletes an API key from the project.
+Deletes an API key from the project, including keys owned by service accounts.
 
-Returns confirmation of the key deletion, or an error if the key belonged to
-a service account.
+Requires permission to write project API keys. Deleting a service-account key
+does not delete the service account or its other keys.
+
+Returns confirmation of the key deletion.
 
 ### Path Parameters
 
@@ -9466,7 +10463,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/api_keys/$API_K
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -9484,7 +10481,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/api_keys
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -9510,7 +10507,7 @@ Returns a list of API keys in the project.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
@@ -9532,13 +10529,17 @@ Returns a list of API keys in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the API key was created
 
-  - `last_used_at: number or null`
+    `format: unixtime`
+
+  - `last_used_at: integer or null`
 
     The Unix timestamp (in seconds) of when the API key was last used.
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -9560,9 +10561,11 @@ Returns a list of API keys in the project.
 
         The identifier, which can be referenced in API endpoints
 
-      - `created_at: number`
+      - `created_at: integer`
 
         The Unix timestamp (in seconds) of when the service account was created.
+
+        `format: unixtime`
 
       - `name: string`
 
@@ -9588,9 +10591,11 @@ Returns a list of API keys in the project.
 
         The identifier, which can be referenced in API endpoints
 
-      - `created_at: number`
+      - `created_at: integer`
 
         The Unix timestamp (in seconds) of when the user was created.
+
+        `format: unixtime`
 
       - `email: string`
 
@@ -9616,9 +10621,11 @@ Returns a list of API keys in the project.
 
     The redacted value of the API key
 
-  - `expires_at: optional number or null`
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -9637,7 +10644,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/api_keys \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -9684,7 +10691,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys?after=key
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -9738,13 +10745,17 @@ Retrieves an API key in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the API key was created
 
-  - `last_used_at: number or null`
+    `format: unixtime`
+
+  - `last_used_at: integer or null`
 
     The Unix timestamp (in seconds) of when the API key was last used.
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -9766,9 +10777,11 @@ Retrieves an API key in the project.
 
         The identifier, which can be referenced in API endpoints
 
-      - `created_at: number`
+      - `created_at: integer`
 
         The Unix timestamp (in seconds) of when the service account was created.
+
+        `format: unixtime`
 
       - `name: string`
 
@@ -9794,9 +10807,11 @@ Retrieves an API key in the project.
 
         The identifier, which can be referenced in API endpoints
 
-      - `created_at: number`
+      - `created_at: integer`
 
         The Unix timestamp (in seconds) of when the user was created.
+
+        `format: unixtime`
 
       - `email: string`
 
@@ -9822,9 +10837,11 @@ Retrieves an API key in the project.
 
     The redacted value of the API key
 
-  - `expires_at: optional number or null`
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
+
+    `format: unixtime`
 
 ### Example
 
@@ -9833,7 +10850,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/api_keys/$API_K
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -9872,7 +10889,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -9890,6 +10907,231 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
             "name": "First Last",
             "email": "user@example.com",
             "role": "owner",
+            "created_at": 1711471533
+        }
+    }
+}
+```
+
+## Update project API key
+
+**post** `/organization/projects/{project_id}/api_keys/{api_key_id}`
+
+Updates the scopes and/or expiration of an existing API key in the project, including a
+service-account-owned key. Requires permission to write project API keys.
+
+Provide at least one of `scopes` or `expires_in_seconds`. Omitted fields stay
+unchanged; neither field accepts `null`. Both changes are saved together.
+
+`scopes` replaces the key's scope restrictions using the same scope identifiers
+as the dashboard. An empty array means All permissions, subject to the owner's
+effective access; it does not mean no access. Use `["api.all.read"]` for read-only
+access or specific scopes such as `["api.files.read"]` for restricted access.
+This does not change user or service-account roles or grant admin permissions.
+Scope changes follow the same authentication-cache propagation as dashboard edits.
+
+Provide `expires_in_seconds` to set the expiration relative to this request.
+The value must satisfy the organization's and project's expiry policies.
+Expired keys cannot be updated. Retrying resets the expiration relative to
+the new request. The response contains only the redacted key, not its secret.
+
+### Path Parameters
+
+- `project_id: string`
+
+- `api_key_id: string`
+
+### Body Parameters
+
+- `expires_in_seconds: optional integer`
+
+  Number of seconds from this request until the API key expires. Must comply with the organization and project expiry policies. Expired keys cannot be updated. Retrying resets the expiry relative to the new request. Omit to keep the current expiration.
+
+  `minimum: 1`, `maximum: 31536000`
+
+- `scopes: optional array of string`
+
+  Replace the API key scope restrictions. Omit to leave scopes unchanged. An empty array removes key restrictions (All permissions), subject to the owner's effective permissions. Use ["api.all.read"] for read-only access. Scopes do not change the owner's roles or grant administrative permissions.
+
+### Returns
+
+- `ProjectAPIKey object { id, created_at, last_used_at, 6 more }`
+
+  Represents an individual API key in a project.
+
+  - `id: string`
+
+    The identifier, which can be referenced in API endpoints
+
+  - `created_at: integer`
+
+    The Unix timestamp (in seconds) of when the API key was created
+
+    `format: unixtime`
+
+  - `last_used_at: integer or null`
+
+    The Unix timestamp (in seconds) of when the API key was last used.
+
+    `format: unixtime`
+
+  - `name: string`
+
+    The name of the API key
+
+  - `object: "organization.project.api_key"`
+
+    The object type, which is always `organization.project.api_key`
+
+    - `"organization.project.api_key"`
+
+  - `owner: object { service_account, type, user }`
+
+    - `service_account: optional object { id, created_at, name, role }`
+
+      The service account that owns a project API key.
+
+      - `id: string`
+
+        The identifier, which can be referenced in API endpoints
+
+      - `created_at: integer`
+
+        The Unix timestamp (in seconds) of when the service account was created.
+
+        `format: unixtime`
+
+      - `name: string`
+
+        The name of the service account.
+
+      - `role: string`
+
+        The service account's project role.
+
+    - `type: optional "user" or "service_account"`
+
+      `user` or `service_account`
+
+      - `"user"`
+
+      - `"service_account"`
+
+    - `user: optional object { id, created_at, email, 2 more }`
+
+      The user that owns a project API key.
+
+      - `id: string`
+
+        The identifier, which can be referenced in API endpoints
+
+      - `created_at: integer`
+
+        The Unix timestamp (in seconds) of when the user was created.
+
+        `format: unixtime`
+
+      - `email: string`
+
+        The email address of the user.
+
+      - `name: string`
+
+        The name of the user.
+
+      - `role: string`
+
+        The user's project role.
+
+  - `owner_project_access: "active" or "inactive"`
+
+    Whether the API key's owner currently has effective access to the project.
+
+    - `"active"`
+
+    - `"inactive"`
+
+  - `redacted_value: string`
+
+    The redacted value of the API key
+
+  - `expires_at: optional integer or null`
+
+    The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
+
+    `format: unixtime`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/api_keys/$API_KEY_ID \
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+    -d '{
+          "scopes": [
+            "api.all.read"
+          ]
+        }'
+```
+
+#### 200 — Example
+
+```json
+{
+  "id": "id",
+  "created_at": 0,
+  "last_used_at": 0,
+  "name": "name",
+  "object": "organization.project.api_key",
+  "owner": {
+    "service_account": {
+      "id": "id",
+      "created_at": 0,
+      "name": "name",
+      "role": "role"
+    },
+    "type": "user",
+    "user": {
+      "id": "id",
+      "created_at": 0,
+      "email": "email",
+      "name": "name",
+      "role": "role"
+    }
+  },
+  "owner_project_access": "active",
+  "redacted_value": "redacted_value",
+  "expires_at": 0
+}
+```
+
+### Example
+
+```http
+curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
+  -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"scopes": ["api.all.read"], "expires_in_seconds": 86400}'
+```
+
+#### Response example
+
+```json
+{
+    "object": "organization.project.api_key",
+    "redacted_value": "sk-abc...def",
+    "name": "My API Key",
+    "created_at": 1711471533,
+    "expires_at": 1711557933,
+    "last_used_at": null,
+    "id": "key_abc",
+    "owner_project_access": "active",
+    "owner": {
+        "type": "service_account",
+        "service_account": {
+            "id": "svc_acct_abc",
+            "name": "My Service Account",
+            "role": "member",
             "created_at": 1711471533
         }
     }
@@ -9920,13 +11162,17 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the API key was created
 
-  - `last_used_at: number or null`
+    `format: unixtime`
+
+  - `last_used_at: integer or null`
 
     The Unix timestamp (in seconds) of when the API key was last used.
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -9948,9 +11194,11 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
 
         The identifier, which can be referenced in API endpoints
 
-      - `created_at: number`
+      - `created_at: integer`
 
         The Unix timestamp (in seconds) of when the service account was created.
+
+        `format: unixtime`
 
       - `name: string`
 
@@ -9976,9 +11224,11 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
 
         The identifier, which can be referenced in API endpoints
 
-      - `created_at: number`
+      - `created_at: integer`
 
         The Unix timestamp (in seconds) of when the user was created.
+
+        `format: unixtime`
 
       - `email: string`
 
@@ -10004,9 +11254,11 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/api_keys/key_abc \
 
     The redacted value of the API key
 
-  - `expires_at: optional number or null`
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
+
+    `format: unixtime`
 
 # Certificates
 
@@ -10026,6 +11278,8 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -10040,17 +11294,23 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -10081,7 +11341,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates/ac
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10113,7 +11373,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates/activ
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10160,6 +11420,8 @@ idempotently deactivate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -10174,17 +11436,23 @@ idempotently deactivate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -10215,7 +11483,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates/de
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10247,7 +11515,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates/deact
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10295,11 +11563,11 @@ List certificates for this project.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
 
@@ -10321,17 +11589,23 @@ List certificates for this project.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -10360,7 +11634,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10391,7 +11665,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10433,17 +11707,23 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -10471,17 +11751,23 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -10509,17 +11795,23 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -10578,7 +11870,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/data_retention 
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10595,7 +11887,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/data_retention \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10671,7 +11963,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/data_retention 
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10691,7 +11983,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/data_reten
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10758,9 +12050,11 @@ Grants a group access to a project.
 
   Details about a group's membership in a project.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was granted project access.
+
+    `format: unixtime`
 
   - `group_id: string`
 
@@ -10800,7 +12094,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/groups \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10825,7 +12119,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc123/groups 
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10870,7 +12164,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/groups/$GROUP_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -10887,7 +12181,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc123/group
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -10912,11 +12206,13 @@ Lists the groups that have access to a project.
 
   Cursor for pagination. Provide the ID of the last group from the previous response to fetch the next page.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of project groups to return. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Sort order for the returned groups.
 
@@ -10930,9 +12226,11 @@ Lists the groups that have access to a project.
 
   Project group memberships returned in the current page.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was granted project access.
+
+    `format: unixtime`
 
   - `group_id: string`
 
@@ -10981,7 +12279,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/groups \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -11009,7 +12307,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc123/groups?limit=20
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -11043,7 +12341,7 @@ Retrieves a project's group.
 
 ### Query Parameters
 
-- `group_type: optional "group" or "tenant_group"`
+- `group_type: optional "group" or "tenant_group" (default: "group")`
 
   The type of group to retrieve.
 
@@ -11057,9 +12355,11 @@ Retrieves a project's group.
 
   Details about a group's membership in a project.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was granted project access.
+
+    `format: unixtime`
 
   - `group_id: string`
 
@@ -11094,7 +12394,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/groups/$GROUP_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -11115,7 +12415,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc123/groups/group_01
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -11152,9 +12452,11 @@ curl https://api.openai.com/v1/organization/projects/proj_abc123/groups/group_01
 
   Details about a group's membership in a project.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was granted project access.
+
+    `format: unixtime`
 
   - `group_id: string`
 
@@ -11212,9 +12514,11 @@ Assigns a project role to a group within a project.
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -11281,7 +12585,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -11318,7 +12622,7 @@ curl -X POST https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8A
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -11377,7 +12681,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles/$ROLE
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -11394,7 +12698,7 @@ curl -X DELETE https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -11421,9 +12725,11 @@ Lists the project roles assigned to a group within a project.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing project roles.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of project role assignments to return.
+
+  `minimum: 0`, `maximum: 1000`
 
 - `order: optional "asc" or "desc"`
 
@@ -11451,9 +12757,11 @@ Lists the project roles assigned to a group within a project.
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -11487,9 +12795,11 @@ Lists the project roles assigned to a group within a project.
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -11512,7 +12822,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -11557,7 +12867,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -11623,9 +12933,11 @@ Retrieves a project role assigned to a group.
 
   - `principal_type: string`
 
-- `created_at: number or null`
+- `created_at: integer or null`
 
   When the role was created.
+
+  `format: unixtime`
 
 - `created_by: string or null`
 
@@ -11659,9 +12971,11 @@ Retrieves a project role assigned to a group.
 
   Resource type the role applies to.
 
-- `updated_at: number or null`
+- `updated_at: integer or null`
 
   When the role was last updated.
+
+  `format: unixtime`
 
 ### Example
 
@@ -11670,7 +12984,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles/$ROLE
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -11708,7 +13022,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -11746,9 +13060,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
       Identifier for the group.
 
-    - `created_at: number`
+    - `created_at: integer`
 
       Unix timestamp (in seconds) when the group was created.
+
+      `format: unixtime`
 
     - `name: string`
 
@@ -11836,9 +13152,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -11872,9 +13190,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 ### Role Retrieve Response
 
@@ -11894,9 +13214,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -11930,9 +13252,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 # Hosted Tool Permissions
 
@@ -11999,7 +13323,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/hosted_tool_per
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -12029,7 +13353,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/hosted_tool_permis
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12158,7 +13482,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/hosted_tool_per
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -12196,7 +13520,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/hosted_too
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12302,7 +13626,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/model_permissio
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -12319,7 +13643,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/model_pe
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12369,7 +13693,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/model_permissio
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -12389,7 +13713,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/model_permissions 
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12464,7 +13788,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/model_permissio
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -12490,7 +13814,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/model_perm
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12566,7 +13890,7 @@ Returns the rate limits per model for a project.
 
   A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, beginning with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 100)`
 
   A limit on the number of objects to be returned. The default is 100.
 
@@ -12578,11 +13902,11 @@ Returns the rate limits per model for a project.
 
     The identifier, which can be referenced in API endpoints.
 
-  - `max_requests_per_1_minute: number`
+  - `max_requests_per_1_minute: integer`
 
     The maximum requests per minute.
 
-  - `max_tokens_per_1_minute: number`
+  - `max_tokens_per_1_minute: integer`
 
     The maximum tokens per minute.
 
@@ -12596,19 +13920,19 @@ Returns the rate limits per model for a project.
 
     - `"project.rate_limit"`
 
-  - `batch_1_day_max_input_tokens: optional number`
+  - `batch_1_day_max_input_tokens: optional integer`
 
     The maximum batch input tokens per day. Only present for relevant models.
 
-  - `max_audio_megabytes_per_1_minute: optional number`
+  - `max_audio_megabytes_per_1_minute: optional integer`
 
     The maximum audio megabytes per minute. Only present for relevant models.
 
-  - `max_images_per_1_minute: optional number`
+  - `max_images_per_1_minute: optional integer`
 
     The maximum images per minute. Only present for relevant models.
 
-  - `max_requests_per_1_day: optional number`
+  - `max_requests_per_1_day: optional integer`
 
     The maximum requests per day. Only present for relevant models.
 
@@ -12629,7 +13953,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/rate_limits \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 example 1
 
 ```json
 {
@@ -12653,6 +13977,19 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/rate_limits \
 }
 ```
 
+#### 404 — default
+
+```json
+{
+  "error": {
+    "code": "project_not_found",
+    "message": "The project proj_abc was not found",
+    "type": "invalid_request_error",
+    "param": null
+  }
+}
+```
+
 ### Example
 
 ```http
@@ -12661,7 +13998,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/rate_limits?after=
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12696,27 +14033,27 @@ Updates a project rate limit.
 
 ### Body Parameters
 
-- `batch_1_day_max_input_tokens: optional number`
+- `batch_1_day_max_input_tokens: optional integer`
 
   The maximum batch input tokens per day. Only relevant for certain models.
 
-- `max_audio_megabytes_per_1_minute: optional number`
+- `max_audio_megabytes_per_1_minute: optional integer`
 
   The maximum audio megabytes per minute. Only relevant for certain models.
 
-- `max_images_per_1_minute: optional number`
+- `max_images_per_1_minute: optional integer`
 
   The maximum images per minute. Only relevant for certain models.
 
-- `max_requests_per_1_day: optional number`
+- `max_requests_per_1_day: optional integer`
 
   The maximum requests per day. Only relevant for certain models.
 
-- `max_requests_per_1_minute: optional number`
+- `max_requests_per_1_minute: optional integer`
 
   The maximum requests per minute.
 
-- `max_tokens_per_1_minute: optional number`
+- `max_tokens_per_1_minute: optional integer`
 
   The maximum tokens per minute.
 
@@ -12730,11 +14067,11 @@ Updates a project rate limit.
 
     The identifier, which can be referenced in API endpoints.
 
-  - `max_requests_per_1_minute: number`
+  - `max_requests_per_1_minute: integer`
 
     The maximum requests per minute.
 
-  - `max_tokens_per_1_minute: number`
+  - `max_tokens_per_1_minute: integer`
 
     The maximum tokens per minute.
 
@@ -12748,19 +14085,19 @@ Updates a project rate limit.
 
     - `"project.rate_limit"`
 
-  - `batch_1_day_max_input_tokens: optional number`
+  - `batch_1_day_max_input_tokens: optional integer`
 
     The maximum batch input tokens per day. Only present for relevant models.
 
-  - `max_audio_megabytes_per_1_minute: optional number`
+  - `max_audio_megabytes_per_1_minute: optional integer`
 
     The maximum audio megabytes per minute. Only present for relevant models.
 
-  - `max_images_per_1_minute: optional number`
+  - `max_images_per_1_minute: optional integer`
 
     The maximum images per minute. Only present for relevant models.
 
-  - `max_requests_per_1_day: optional number`
+  - `max_requests_per_1_day: optional integer`
 
     The maximum requests per day. Only present for relevant models.
 
@@ -12773,7 +14110,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/rate_limits/$RA
     -d '{}'
 ```
 
-#### Response
+#### 200 example 1
 
 ```json
 {
@@ -12789,6 +14126,19 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/rate_limits/$RA
 }
 ```
 
+#### 404 — default
+
+```json
+{
+  "error": {
+    "code": "project_not_found",
+    "message": "The project proj_abc was not found",
+    "type": "invalid_request_error",
+    "param": null
+  }
+}
+```
+
 ### Example
 
 ```http
@@ -12800,7 +14150,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/rate_limit
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -12825,11 +14175,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/rate_limit
 
     The identifier, which can be referenced in API endpoints.
 
-  - `max_requests_per_1_minute: number`
+  - `max_requests_per_1_minute: integer`
 
     The maximum requests per minute.
 
-  - `max_tokens_per_1_minute: number`
+  - `max_tokens_per_1_minute: integer`
 
     The maximum tokens per minute.
 
@@ -12843,19 +14193,19 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/rate_limit
 
     - `"project.rate_limit"`
 
-  - `batch_1_day_max_input_tokens: optional number`
+  - `batch_1_day_max_input_tokens: optional integer`
 
     The maximum batch input tokens per day. Only present for relevant models.
 
-  - `max_audio_megabytes_per_1_minute: optional number`
+  - `max_audio_megabytes_per_1_minute: optional integer`
 
     The maximum audio megabytes per minute. Only present for relevant models.
 
-  - `max_images_per_1_minute: optional number`
+  - `max_images_per_1_minute: optional integer`
 
     The maximum images per minute. Only present for relevant models.
 
-  - `max_requests_per_1_day: optional number`
+  - `max_requests_per_1_day: optional integer`
 
     The maximum requests per day. Only present for relevant models.
 
@@ -12935,7 +14285,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -12967,7 +14317,7 @@ curl -X POST https://api.openai.com/v1/projects/proj_abc123/roles \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13020,7 +14370,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13038,7 +14388,7 @@ curl -X DELETE https://api.openai.com/v1/projects/proj_abc123/roles/role_01J1F8P
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13064,11 +14414,13 @@ Lists the roles configured for a project.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing roles.
 
-- `limit: optional number`
+- `limit: optional integer (default: 1000)`
 
   A limit on the number of roles to return. Defaults to 1000.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 1000`
+
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Sort order for the returned roles.
 
@@ -13133,7 +14485,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13164,7 +14516,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/roles?limit=20 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13243,7 +14595,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13267,7 +14619,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/roles/role_01J1F8PROJ \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13355,7 +14707,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/roles/$ROLE_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13387,7 +14739,7 @@ curl -X POST https://api.openai.com/v1/projects/proj_abc123/roles/role_01J1F8PRO
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13448,9 +14800,11 @@ Creates a new service account in the project. By default, this also returns an u
 
   Create the service account without default roles or an API key.
 
-- `expires_in_seconds: optional number or null`
+- `expires_in_seconds: optional integer or null`
 
   Number of seconds until the initial API key expires. If omitted or null, the key does not expire unless the effective organization or project policy requires an expiration. When a policy sets a maximum lifetime, this value must be provided and must not exceed that limit. A non-null value cannot be used when `create_service_account_only` is true.
+
+  `minimum: 1`, `maximum: 31536000`
 
 ### Returns
 
@@ -13460,7 +14814,9 @@ Creates a new service account in the project. By default, this also returns an u
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -13472,11 +14828,15 @@ Creates a new service account in the project. By default, this also returns an u
 
   - `value: string`
 
-  - `expires_at: optional number or null`
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
 
-- `created_at: number`
+    `format: unixtime`
+
+- `created_at: integer`
+
+  `format: unixtime`
 
 - `name: string`
 
@@ -13503,7 +14863,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/service_account
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13534,7 +14894,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13586,7 +14946,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/service_account
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13604,7 +14964,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/service_
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13630,7 +14990,7 @@ Returns a list of service accounts in the project.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
@@ -13642,9 +15002,11 @@ Returns a list of service accounts in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the service account was created
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -13683,7 +15045,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/service_account
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13711,7 +15073,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/service_accounts?a
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13753,9 +15115,11 @@ Retrieves a service account in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the service account was created
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -13784,7 +15148,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/service_account
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13804,7 +15168,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/service_accounts/s
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13852,9 +15216,11 @@ Updates a service account in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the service account was created
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -13885,7 +15251,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/service_account
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -13909,7 +15275,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -13933,9 +15299,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the service account was created
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -13967,7 +15335,9 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
 
     - `id: string`
 
-    - `created_at: number`
+    - `created_at: integer`
+
+      `format: unixtime`
 
     - `name: string`
 
@@ -13979,11 +15349,15 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
 
     - `value: string`
 
-    - `expires_at: optional number or null`
+    - `expires_at: optional integer or null`
 
       The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -14031,9 +15405,11 @@ Creates an API key for a service account in the project.
 
 ### Body Parameters
 
-- `expires_in_seconds: optional number or null`
+- `expires_in_seconds: optional integer or null`
 
   Number of seconds until the API key expires.
+
+  `minimum: 1`, `maximum: 31536000`
 
 - `name: optional string`
 
@@ -14049,15 +15425,17 @@ Creates an API key for a service account in the project.
 
   The identifier of the API key.
 
-- `created_at: number`
+- `created_at: integer`
 
   The Unix timestamp (in seconds) when the API key was created.
+
+  `format: unixtime`
 
 - `name: string`
 
   The name of the API key.
 
-- `object: "organization.project.service_account.api_key"`
+- `object: "organization.project.service_account.api_key" (default: "organization.project.service_account.api_key")`
 
   The object type, which is always `organization.project.service_account.api_key`
 
@@ -14067,9 +15445,11 @@ Creates an API key for a service account in the project.
 
   The unredacted API key value.
 
-- `expires_at: optional number or null`
+- `expires_at: optional integer or null`
 
   The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
+
+  `format: unixtime`
 
 ### Example
 
@@ -14079,7 +15459,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/service_account
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14104,7 +15484,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -14126,15 +15506,17 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
 
     The identifier of the API key.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) when the API key was created.
+
+    `format: unixtime`
 
   - `name: string`
 
     The name of the API key.
 
-  - `object: "organization.project.service_account.api_key"`
+  - `object: "organization.project.service_account.api_key" (default: "organization.project.service_account.api_key")`
 
     The object type, which is always `organization.project.service_account.api_key`
 
@@ -14144,9 +15526,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/service_ac
 
     The unredacted API key value.
 
-  - `expires_at: optional number or null`
+  - `expires_at: optional integer or null`
 
     The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.
+
+    `format: unixtime`
 
 # Spend Alerts
 
@@ -14192,9 +15576,11 @@ Creates a project spend alert.
 
     Optional subject prefix for alert emails.
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The alert threshold amount, in cents.
+
+  `minimum: 0`
 
 ### Returns
 
@@ -14242,7 +15628,7 @@ Creates a project spend alert.
 
     - `"project.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -14265,7 +15651,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_alerts \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14302,7 +15688,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_aler
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -14359,7 +15745,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_alerts/$A
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14377,7 +15763,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/spend_al
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -14407,11 +15793,13 @@ Lists project spend alerts.
 
   Cursor for pagination. Provide the ID of the first spend alert from the previous response to fetch the previous page.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of spend alerts to return. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Sort order for the returned spend alerts.
 
@@ -14465,7 +15853,7 @@ Lists project spend alerts.
 
     - `"project.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -14494,7 +15882,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_alerts \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14529,7 +15917,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/spend_alerts?limit
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -14612,7 +16000,7 @@ Retrieves a project spend alert.
 
     - `"project.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -14623,7 +16011,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_alerts/$A
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14650,7 +16038,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/spend_alerts/alert
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -14711,9 +16099,11 @@ Updates a project spend alert.
 
     Optional subject prefix for alert emails.
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The alert threshold amount, in cents.
+
+  `minimum: 0`
 
 ### Returns
 
@@ -14761,7 +16151,7 @@ Updates a project spend alert.
 
     - `"project.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -14784,7 +16174,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_alerts/$A
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14821,7 +16211,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_aler
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -14886,7 +16276,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_aler
 
     - `"project.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -14932,7 +16322,7 @@ Delete a project's hard spend limit.
 
     Whether the hard spend limit was deleted.
 
-  - `object: "project.spend_limit.deleted"`
+  - `object: "project.spend_limit.deleted" (default: "project.spend_limit.deleted")`
 
     The object type, which is always `project.spend_limit.deleted`.
 
@@ -14946,7 +16336,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_limit \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -14963,7 +16353,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/spend_li
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15030,13 +16420,13 @@ Get a project's hard spend limit.
 
       - `"month"`
 
-  - `object: "project.spend_limit"`
+  - `object: "project.spend_limit" (default: "project.spend_limit")`
 
     The object type, which is always `project.spend_limit`.
 
     - `"project.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -15047,7 +16437,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_limit \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15069,7 +16459,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/spend_limit \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15107,9 +16497,11 @@ Create or replace a project's hard spend limit.
 
   - `"month"`
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The hard spend limit amount, in cents.
+
+  `minimum: 1`
 
 ### Returns
 
@@ -15159,13 +16551,13 @@ Create or replace a project's hard spend limit.
 
       - `"month"`
 
-  - `object: "project.spend_limit"`
+  - `object: "project.spend_limit" (default: "project.spend_limit")`
 
     The object type, which is always `project.spend_limit`.
 
     - `"project.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -15182,7 +16574,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_limit \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15209,7 +16601,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_limi
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15273,13 +16665,13 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_limi
 
       - `"month"`
 
-  - `object: "project.spend_limit"`
+  - `object: "project.spend_limit" (default: "project.spend_limit")`
 
     The object type, which is always `project.spend_limit`.
 
     - `"project.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -15293,7 +16685,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_limi
 
     Whether the hard spend limit was deleted.
 
-  - `object: "project.spend_limit.deleted"`
+  - `object: "project.spend_limit.deleted" (default: "project.spend_limit.deleted")`
 
     The object type, which is always `project.spend_limit.deleted`.
 
@@ -15335,9 +16727,11 @@ Adds a user to the project. Users must already be members of the organization to
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the project was added.
+
+    `format: unixtime`
 
   - `object: "organization.project.user"`
 
@@ -15368,7 +16762,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/users \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15393,7 +16787,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/users \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15438,7 +16832,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/users/$USER_ID 
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15456,7 +16850,7 @@ curl -X DELETE https://api.openai.com/v1/organization/projects/proj_abc/users/us
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15482,7 +16876,7 @@ Returns a list of users in the project.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
@@ -15494,9 +16888,11 @@ Returns a list of users in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the project was added.
+
+    `format: unixtime`
 
   - `object: "organization.project.user"`
 
@@ -15531,7 +16927,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/users \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15560,7 +16956,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/users?after=user_a
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15603,9 +16999,11 @@ Retrieves a user in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the project was added.
+
+    `format: unixtime`
 
   - `object: "organization.project.user"`
 
@@ -15632,7 +17030,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/users/$USER_ID 
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15653,7 +17051,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/users/user_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15694,9 +17092,11 @@ Modifies a user's role in the project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the project was added.
+
+    `format: unixtime`
 
   - `object: "organization.project.user"`
 
@@ -15725,7 +17125,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/users/$USER_ID 
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -15749,7 +17149,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/users/user
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -15774,9 +17174,11 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/users/user
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the project was added.
+
+    `format: unixtime`
 
   - `object: "organization.project.user"`
 
@@ -15878,9 +17280,11 @@ Assigns a project role to a user within a project.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the user was added.
+
+    `format: unixtime`
 
   - `object: "organization.user"`
 
@@ -15888,13 +17292,17 @@ Assigns a project role to a user within a project.
 
     - `"organization.user"`
 
-  - `api_key_last_used_at: optional number or null`
+  - `api_key_last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of the user's last API key usage.
 
-  - `created: optional number`
+    `format: unixtime`
+
+  - `created: optional integer`
 
     The Unix timestamp (in seconds) of when the user was created.
+
+    `format: unixtime`
 
   - `developer_persona: optional string or null`
 
@@ -15960,7 +17368,9 @@ Assigns a project role to a user within a project.
 
     - `banned: optional boolean or null`
 
-    - `banned_at: optional number or null`
+    - `banned_at: optional integer or null`
+
+      `format: unixtime`
 
     - `email: optional string or null`
 
@@ -15981,7 +17391,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/users/$USER_ID/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -16047,7 +17457,7 @@ curl -X POST https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/ro
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -16107,7 +17517,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/users/$USER_ID/roles/$ROLE_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -16124,7 +17534,7 @@ curl -X DELETE https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -16151,9 +17561,11 @@ Lists the project roles assigned to a user within a project.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing project roles.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of project role assignments to return.
+
+  `minimum: 0`, `maximum: 1000`
 
 - `order: optional "asc" or "desc"`
 
@@ -16181,9 +17593,11 @@ Lists the project roles assigned to a user within a project.
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -16217,9 +17631,11 @@ Lists the project roles assigned to a user within a project.
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -16242,7 +17658,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/users/$USER_ID/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -16287,7 +17703,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -16353,9 +17769,11 @@ Retrieves a project role assigned to a user.
 
   - `principal_type: string`
 
-- `created_at: number or null`
+- `created_at: integer or null`
 
   When the role was created.
+
+  `format: unixtime`
 
 - `created_by: string or null`
 
@@ -16389,9 +17807,11 @@ Retrieves a project role assigned to a user.
 
   Resource type the role applies to.
 
-- `updated_at: number or null`
+- `updated_at: integer or null`
 
   When the role was last updated.
+
+  `format: unixtime`
 
 ### Example
 
@@ -16400,7 +17820,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/users/$USER_ID/roles/$ROLE_I
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -16438,7 +17858,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -16516,9 +17936,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
       The identifier, which can be referenced in API endpoints
 
-    - `added_at: number`
+    - `added_at: integer`
 
       The Unix timestamp (in seconds) of when the user was added.
+
+      `format: unixtime`
 
     - `object: "organization.user"`
 
@@ -16526,13 +17948,17 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
       - `"organization.user"`
 
-    - `api_key_last_used_at: optional number or null`
+    - `api_key_last_used_at: optional integer or null`
 
       The Unix timestamp (in seconds) of the user's last API key usage.
 
-    - `created: optional number`
+      `format: unixtime`
+
+    - `created: optional integer`
 
       The Unix timestamp (in seconds) of when the user was created.
+
+      `format: unixtime`
 
     - `developer_persona: optional string or null`
 
@@ -16598,7 +18024,9 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
       - `banned: optional boolean or null`
 
-      - `banned_at: optional number or null`
+      - `banned_at: optional integer or null`
+
+        `format: unixtime`
 
       - `email: optional string or null`
 
@@ -16640,9 +18068,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -16676,9 +18106,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 ### Role Retrieve Response
 
@@ -16698,9 +18130,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -16734,9 +18168,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/users/user_abc123/roles/role
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 # Roles
 
@@ -16810,7 +18246,7 @@ curl https://api.openai.com/v1/organization/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -16842,7 +18278,7 @@ curl -X POST https://api.openai.com/v1/organization/roles \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -16893,7 +18329,7 @@ curl https://api.openai.com/v1/organization/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -16911,7 +18347,7 @@ curl -X DELETE https://api.openai.com/v1/organization/roles/role_01J1F8ROLE01 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -16933,11 +18369,13 @@ Lists the roles configured for the organization.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing roles.
 
-- `limit: optional number`
+- `limit: optional integer (default: 1000)`
 
   A limit on the number of roles to return. Defaults to 1000.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 1000`
+
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Sort order for the returned roles.
 
@@ -17002,7 +18440,7 @@ curl https://api.openai.com/v1/organization/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17033,7 +18471,7 @@ curl https://api.openai.com/v1/organization/roles?limit=20 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17110,7 +18548,7 @@ curl https://api.openai.com/v1/organization/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17134,7 +18572,7 @@ curl https://api.openai.com/v1/organization/roles/role_01J1F8ROLE01 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17220,7 +18658,7 @@ curl https://api.openai.com/v1/organization/roles/$ROLE_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17252,7 +18690,7 @@ curl -X POST https://api.openai.com/v1/organization/roles/role_01J1F8ROLE01 \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17367,9 +18805,11 @@ Creates an organization spend alert.
 
     Optional subject prefix for alert emails.
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The alert threshold amount, in cents.
+
+  `minimum: 0`
 
 ### Returns
 
@@ -17417,7 +18857,7 @@ Creates an organization spend alert.
 
     - `"organization.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -17440,7 +18880,7 @@ curl https://api.openai.com/v1/organization/spend_alerts \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17477,7 +18917,7 @@ curl -X POST https://api.openai.com/v1/organization/spend_alerts \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17532,7 +18972,7 @@ curl https://api.openai.com/v1/organization/spend_alerts/$ALERT_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17550,7 +18990,7 @@ curl -X DELETE https://api.openai.com/v1/organization/spend_alerts/alert_abc123 
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17576,11 +19016,13 @@ Lists organization spend alerts.
 
   Cursor for pagination. Provide the ID of the first spend alert from the previous response to fetch the previous page.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of spend alerts to return. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `minimum: 0`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "asc")`
 
   Sort order for the returned spend alerts.
 
@@ -17634,7 +19076,7 @@ Lists organization spend alerts.
 
     - `"organization.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -17663,7 +19105,7 @@ curl https://api.openai.com/v1/organization/spend_alerts \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17698,7 +19140,7 @@ curl https://api.openai.com/v1/organization/spend_alerts?limit=20&order=asc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17779,7 +19221,7 @@ Retrieves an organization spend alert.
 
     - `"organization.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -17790,7 +19232,7 @@ curl https://api.openai.com/v1/organization/spend_alerts/$ALERT_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17817,7 +19259,7 @@ curl https://api.openai.com/v1/organization/spend_alerts/alert_abc123 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -17876,9 +19318,11 @@ Updates an organization spend alert.
 
     Optional subject prefix for alert emails.
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The alert threshold amount, in cents.
+
+  `minimum: 0`
 
 ### Returns
 
@@ -17926,7 +19370,7 @@ Updates an organization spend alert.
 
     - `"organization.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -17949,7 +19393,7 @@ curl https://api.openai.com/v1/organization/spend_alerts/$ALERT_ID \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -17986,7 +19430,7 @@ curl -X POST https://api.openai.com/v1/organization/spend_alerts/alert_abc123 \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -18051,7 +19495,7 @@ curl -X POST https://api.openai.com/v1/organization/spend_alerts/alert_abc123 \
 
     - `"organization.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -18093,7 +19537,7 @@ Delete the organization's hard spend limit.
 
     Whether the hard spend limit was deleted.
 
-  - `object: "organization.spend_limit.deleted"`
+  - `object: "organization.spend_limit.deleted" (default: "organization.spend_limit.deleted")`
 
     The object type, which is always `organization.spend_limit.deleted`.
 
@@ -18107,7 +19551,7 @@ curl https://api.openai.com/v1/organization/spend_limit \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -18124,7 +19568,7 @@ curl -X DELETE https://api.openai.com/v1/organization/spend_limit \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -18187,13 +19631,13 @@ Get the organization's hard spend limit.
 
       - `"month"`
 
-  - `object: "organization.spend_limit"`
+  - `object: "organization.spend_limit" (default: "organization.spend_limit")`
 
     The object type, which is always `organization.spend_limit`.
 
     - `"organization.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -18204,7 +19648,7 @@ curl https://api.openai.com/v1/organization/spend_limit \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -18226,7 +19670,7 @@ curl https://api.openai.com/v1/organization/spend_limit \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -18260,9 +19704,11 @@ Create or replace the organization's hard spend limit.
 
   - `"month"`
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The hard spend limit amount, in cents.
+
+  `minimum: 1`
 
 ### Returns
 
@@ -18312,13 +19758,13 @@ Create or replace the organization's hard spend limit.
 
       - `"month"`
 
-  - `object: "organization.spend_limit"`
+  - `object: "organization.spend_limit" (default: "organization.spend_limit")`
 
     The object type, which is always `organization.spend_limit`.
 
     - `"organization.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -18335,7 +19781,7 @@ curl https://api.openai.com/v1/organization/spend_limit \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -18362,7 +19808,7 @@ curl -X POST https://api.openai.com/v1/organization/spend_limit \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -18426,13 +19872,13 @@ curl -X POST https://api.openai.com/v1/organization/spend_limit \
 
       - `"month"`
 
-  - `object: "organization.spend_limit"`
+  - `object: "organization.spend_limit" (default: "organization.spend_limit")`
 
     The object type, which is always `organization.spend_limit`.
 
     - `"organization.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -18446,7 +19892,7 @@ curl -X POST https://api.openai.com/v1/organization/spend_limit \
 
     Whether the hard spend limit was deleted.
 
-  - `object: "organization.spend_limit.deleted"`
+  - `object: "organization.spend_limit.deleted" (default: "organization.spend_limit.deleted")`
 
     The object type, which is always `organization.spend_limit.deleted`.
 
@@ -18462,7 +19908,7 @@ Get audio speeches usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -18470,7 +19916,7 @@ Get audio speeches usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -18480,7 +19926,7 @@ Get audio speeches usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -18496,7 +19942,7 @@ Get audio speeches usage details for the organization.
 
   - `"model"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -18524,23 +19970,23 @@ Get audio speeches usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -18548,7 +19994,7 @@ Get audio speeches usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -18568,43 +20014,47 @@ Get audio speeches usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -18612,15 +20062,15 @@ Get audio speeches usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -18640,11 +20090,11 @@ Get audio speeches usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -18672,11 +20122,11 @@ Get audio speeches usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -18704,11 +20154,11 @@ Get audio speeches usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -18744,11 +20194,11 @@ Get audio speeches usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -18776,7 +20226,7 @@ Get audio speeches usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -18784,9 +20234,11 @@ Get audio speeches usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -18812,7 +20264,7 @@ Get audio speeches usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -18824,7 +20276,7 @@ Get audio speeches usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -18840,7 +20292,7 @@ Get audio speeches usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -18868,11 +20320,11 @@ Get audio speeches usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -18982,7 +20434,7 @@ Get audio speeches usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -18995,11 +20447,11 @@ Get audio speeches usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/audio_speeches \
+curl "https://api.openai.com/v1/organization/usage/audio_speeches?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -19018,6 +20470,7 @@ curl https://api.openai.com/v1/organization/usage/audio_speeches \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -19052,7 +20505,7 @@ curl "https://api.openai.com/v1/organization/usage/audio_speeches?start_time=173
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -19088,7 +20541,7 @@ Get audio transcriptions usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -19096,7 +20549,7 @@ Get audio transcriptions usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -19106,7 +20559,7 @@ Get audio transcriptions usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -19122,7 +20575,7 @@ Get audio transcriptions usage details for the organization.
 
   - `"model"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -19150,23 +20603,23 @@ Get audio transcriptions usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19174,7 +20627,7 @@ Get audio transcriptions usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -19194,43 +20647,47 @@ Get audio transcriptions usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -19238,15 +20695,15 @@ Get audio transcriptions usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -19266,11 +20723,11 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19298,11 +20755,11 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19330,11 +20787,11 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19370,11 +20827,11 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19402,7 +20859,7 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19410,9 +20867,11 @@ Get audio transcriptions usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -19438,7 +20897,7 @@ Get audio transcriptions usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -19450,7 +20909,7 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -19466,7 +20925,7 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -19494,11 +20953,11 @@ Get audio transcriptions usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -19608,7 +21067,7 @@ Get audio transcriptions usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -19621,11 +21080,11 @@ Get audio transcriptions usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/audio_transcriptions \
+curl "https://api.openai.com/v1/organization/usage/audio_transcriptions?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -19644,6 +21103,7 @@ curl https://api.openai.com/v1/organization/usage/audio_transcriptions \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -19678,7 +21138,7 @@ curl "https://api.openai.com/v1/organization/usage/audio_transcriptions?start_ti
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -19714,11 +21174,11 @@ Get code interpreter sessions usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -19728,7 +21188,7 @@ Get code interpreter sessions usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -19738,7 +21198,7 @@ Get code interpreter sessions usage details for the organization.
 
   - `"project_id"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -19758,23 +21218,23 @@ Get code interpreter sessions usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19782,7 +21242,7 @@ Get code interpreter sessions usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -19802,43 +21262,47 @@ Get code interpreter sessions usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -19846,15 +21310,15 @@ Get code interpreter sessions usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -19874,11 +21338,11 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19906,11 +21370,11 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19938,11 +21402,11 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -19978,11 +21442,11 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20010,7 +21474,7 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20018,9 +21482,11 @@ Get code interpreter sessions usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -20046,7 +21512,7 @@ Get code interpreter sessions usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -20058,7 +21524,7 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -20074,7 +21540,7 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -20102,11 +21568,11 @@ Get code interpreter sessions usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -20216,7 +21682,7 @@ Get code interpreter sessions usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -20229,11 +21695,11 @@ Get code interpreter sessions usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/code_interpreter_sessions \
+curl "https://api.openai.com/v1/organization/usage/code_interpreter_sessions?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -20252,6 +21718,7 @@ curl https://api.openai.com/v1/organization/usage/code_interpreter_sessions \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -20286,7 +21753,7 @@ curl "https://api.openai.com/v1/organization/usage/code_interpreter_sessions?sta
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -20318,7 +21785,7 @@ Get completions usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -20330,7 +21797,7 @@ Get completions usage details for the organization.
 
   If `true`, return batch jobs only. If `false`, return non-batch jobs only. By default, return both.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -20340,7 +21807,7 @@ Get completions usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -20362,7 +21829,7 @@ Get completions usage details for the organization.
 
   - `"api_source"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -20390,23 +21857,23 @@ Get completions usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20414,7 +21881,7 @@ Get completions usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -20434,43 +21901,47 @@ Get completions usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -20478,15 +21949,15 @@ Get completions usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -20506,11 +21977,11 @@ Get completions usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20538,11 +22009,11 @@ Get completions usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20570,11 +22041,11 @@ Get completions usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20610,11 +22081,11 @@ Get completions usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20642,7 +22113,7 @@ Get completions usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -20650,9 +22121,11 @@ Get completions usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -20678,7 +22151,7 @@ Get completions usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -20690,7 +22163,7 @@ Get completions usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -20706,7 +22179,7 @@ Get completions usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -20734,11 +22207,11 @@ Get completions usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -20848,7 +22321,7 @@ Get completions usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -20861,11 +22334,11 @@ Get completions usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/completions \
+curl "https://api.openai.com/v1/organization/usage/completions?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -20884,6 +22357,7 @@ curl https://api.openai.com/v1/organization/usage/completions \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -20918,7 +22392,7 @@ curl "https://api.openai.com/v1/organization/usage/completions?start_time=173041
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -20933,7 +22407,8 @@ curl "https://api.openai.com/v1/organization/usage/completions?start_time=173041
                     "object": "organization.usage.completions.result",
                     "input_tokens": 1000,
                     "input_cached_tokens": 400,
-                    "input_cache_write_tokens": 75,
+                    "input_cache_write_tokens": 100,
+                    "input_cache_write_30m_tokens": 75,
                     "input_cache_write_12h_tokens": 25,
                     "input_uncached_tokens": 500,
                     "output_tokens": 500,
@@ -20970,7 +22445,7 @@ Get costs details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -20978,13 +22453,13 @@ Get costs details for the organization.
 
   Return only costs for these API keys.
 
-- `bucket_width: optional "1d"`
+- `bucket_width: optional "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently only `1d` is supported, default to `1d`.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -21002,7 +22477,7 @@ Get costs details for the organization.
 
   - `"api_source"`
 
-- `limit: optional number`
+- `limit: optional integer (default: 7)`
 
   A limit on the number of buckets to be returned. Limit can range between 1 and 180, and the default is 7.
 
@@ -21022,23 +22497,23 @@ Get costs details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21046,7 +22521,7 @@ Get costs details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -21066,43 +22541,47 @@ Get costs details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -21110,15 +22589,15 @@ Get costs details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -21138,11 +22617,11 @@ Get costs details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21170,11 +22649,11 @@ Get costs details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21202,11 +22681,11 @@ Get costs details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21242,11 +22721,11 @@ Get costs details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21274,7 +22753,7 @@ Get costs details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21282,9 +22761,11 @@ Get costs details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -21310,7 +22791,7 @@ Get costs details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -21322,7 +22803,7 @@ Get costs details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -21338,7 +22819,7 @@ Get costs details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -21366,11 +22847,11 @@ Get costs details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -21480,7 +22961,7 @@ Get costs details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -21493,11 +22974,11 @@ Get costs details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/costs \
+curl "https://api.openai.com/v1/organization/costs?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -21516,6 +22997,7 @@ curl https://api.openai.com/v1/organization/costs \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -21550,7 +23032,7 @@ curl "https://api.openai.com/v1/organization/costs?start_time=1730419200&limit=1
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -21589,7 +23071,7 @@ Get Decisions API usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -21611,7 +23093,7 @@ Get Decisions API usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number or null`
+- `end_time: optional integer or null`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -21633,7 +23115,7 @@ Get Decisions API usage details for the organization.
 
   - `"api_source"`
 
-- `limit: optional number or null`
+- `limit: optional integer or null`
 
   Specifies the number of buckets to return.
 
@@ -21661,27 +23143,27 @@ Get Decisions API usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
-  - `object: "bucket"`
+  - `object: "bucket" (default: "bucket")`
 
     - `"bucket"`
 
-  - `results: array of object { input_tokens, num_model_requests, object, 21 more }`
+  - `results: array of object { input_tokens, num_model_requests, object, 22 more }`
 
-    - `input_tokens: number`
+    - `input_tokens: integer`
 
       The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-    - `num_model_requests: number`
+    - `num_model_requests: integer`
 
       The count of requests made to the model.
 
-    - `object: "organization.usage.decisions.result"`
+    - `object: "organization.usage.decisions.result" (default: "organization.usage.decisions.result")`
 
       - `"organization.usage.decisions.result"`
 
-    - `output_tokens: number`
+    - `output_tokens: integer`
 
       The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -21701,43 +23183,47 @@ Get Decisions API usage details for the organization.
 
       When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-    - `input_audio_tokens: optional number or null`
+    - `input_audio_tokens: optional integer or null`
 
       The aggregated number of uncached audio input tokens used.
 
-    - `input_cache_write_12h_tokens: optional number or null`
+    - `input_cache_write_12h_tokens: optional integer or null`
 
       The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-    - `input_cache_write_tokens: optional number or null`
+    - `input_cache_write_30m_tokens: optional integer or null`
 
       The aggregated number of input tokens written to the cache with a 30-minute retention period.
 
-    - `input_cached_audio_tokens: optional number or null`
+    - `input_cache_write_tokens: optional integer or null`
+
+      The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+    - `input_cached_audio_tokens: optional integer or null`
 
       The aggregated number of cached audio input tokens used.
 
-    - `input_cached_image_tokens: optional number or null`
+    - `input_cached_image_tokens: optional integer or null`
 
       The aggregated number of cached image input tokens used.
 
-    - `input_cached_text_tokens: optional number or null`
+    - `input_cached_text_tokens: optional integer or null`
 
       The aggregated number of cached text input tokens used.
 
-    - `input_cached_tokens: optional number or null`
+    - `input_cached_tokens: optional integer or null`
 
       The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-    - `input_image_tokens: optional number or null`
+    - `input_image_tokens: optional integer or null`
 
       The aggregated number of uncached image input tokens used.
 
-    - `input_text_tokens: optional number or null`
+    - `input_text_tokens: optional integer or null`
 
       The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-    - `input_uncached_tokens: optional number or null`
+    - `input_uncached_tokens: optional integer or null`
 
       The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -21745,15 +23231,15 @@ Get Decisions API usage details for the organization.
 
       When `group_by=model`, this field provides the model name of the grouped usage result.
 
-    - `output_audio_tokens: optional number or null`
+    - `output_audio_tokens: optional integer or null`
 
       The aggregated number of audio output tokens used.
 
-    - `output_image_tokens: optional number or null`
+    - `output_image_tokens: optional integer or null`
 
       The aggregated number of image output tokens used.
 
-    - `output_text_tokens: optional number or null`
+    - `output_text_tokens: optional integer or null`
 
       The aggregated number of text output tokens used.
 
@@ -21769,24 +23255,24 @@ Get Decisions API usage details for the organization.
 
       When `group_by=user_id`, this field provides the user ID of the grouped usage result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
 - `next_page: string or null`
 
-- `object: "page"`
+- `object: "page" (default: "page")`
 
   - `"page"`
 
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/decisions \
+curl "https://api.openai.com/v1/organization/usage/decisions?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -21805,6 +23291,7 @@ curl https://api.openai.com/v1/organization/usage/decisions \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -21843,7 +23330,7 @@ curl --get "https://api.openai.com/v1/organization/usage/decisions" \
   --data-urlencode "group_by=model"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -21883,7 +23370,7 @@ Get embeddings usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -21891,7 +23378,7 @@ Get embeddings usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -21901,7 +23388,7 @@ Get embeddings usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -21917,7 +23404,7 @@ Get embeddings usage details for the organization.
 
   - `"model"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -21945,23 +23432,23 @@ Get embeddings usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -21969,7 +23456,7 @@ Get embeddings usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -21989,43 +23476,47 @@ Get embeddings usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -22033,15 +23524,15 @@ Get embeddings usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -22061,11 +23552,11 @@ Get embeddings usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22093,11 +23584,11 @@ Get embeddings usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22125,11 +23616,11 @@ Get embeddings usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22165,11 +23656,11 @@ Get embeddings usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22197,7 +23688,7 @@ Get embeddings usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22205,9 +23696,11 @@ Get embeddings usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -22233,7 +23726,7 @@ Get embeddings usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -22245,7 +23738,7 @@ Get embeddings usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -22261,7 +23754,7 @@ Get embeddings usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -22289,11 +23782,11 @@ Get embeddings usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -22403,7 +23896,7 @@ Get embeddings usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -22416,11 +23909,11 @@ Get embeddings usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/embeddings \
+curl "https://api.openai.com/v1/organization/usage/embeddings?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -22439,6 +23932,7 @@ curl https://api.openai.com/v1/organization/usage/embeddings \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -22473,7 +23967,7 @@ curl "https://api.openai.com/v1/organization/usage/embeddings?start_time=1730419
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -22509,7 +24003,7 @@ Get file search calls usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -22517,7 +24011,7 @@ Get file search calls usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -22527,7 +24021,7 @@ Get file search calls usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -22543,7 +24037,7 @@ Get file search calls usage details for the organization.
 
   - `"vector_store_id"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -22571,23 +24065,23 @@ Get file search calls usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22595,7 +24089,7 @@ Get file search calls usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -22615,43 +24109,47 @@ Get file search calls usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -22659,15 +24157,15 @@ Get file search calls usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -22687,11 +24185,11 @@ Get file search calls usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22719,11 +24217,11 @@ Get file search calls usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22751,11 +24249,11 @@ Get file search calls usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22791,11 +24289,11 @@ Get file search calls usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22823,7 +24321,7 @@ Get file search calls usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -22831,9 +24329,11 @@ Get file search calls usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -22859,7 +24359,7 @@ Get file search calls usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -22871,7 +24371,7 @@ Get file search calls usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -22887,7 +24387,7 @@ Get file search calls usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -22915,11 +24415,11 @@ Get file search calls usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -23029,7 +24529,7 @@ Get file search calls usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -23042,11 +24542,11 @@ Get file search calls usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/file_search_calls \
+curl "https://api.openai.com/v1/organization/usage/file_search_calls?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -23065,6 +24565,7 @@ curl https://api.openai.com/v1/organization/usage/file_search_calls \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -23099,7 +24600,7 @@ curl "https://api.openai.com/v1/organization/usage/file_search_calls?start_time=
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -23134,7 +24635,7 @@ Get images usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -23142,7 +24643,7 @@ Get images usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -23152,7 +24653,7 @@ Get images usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -23172,7 +24673,7 @@ Get images usage details for the organization.
 
   - `"source"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -23224,23 +24725,23 @@ Get images usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23248,7 +24749,7 @@ Get images usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -23268,43 +24769,47 @@ Get images usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -23312,15 +24817,15 @@ Get images usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -23340,11 +24845,11 @@ Get images usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23372,11 +24877,11 @@ Get images usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23404,11 +24909,11 @@ Get images usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23444,11 +24949,11 @@ Get images usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23476,7 +24981,7 @@ Get images usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23484,9 +24989,11 @@ Get images usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -23512,7 +25019,7 @@ Get images usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -23524,7 +25031,7 @@ Get images usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -23540,7 +25047,7 @@ Get images usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -23568,11 +25075,11 @@ Get images usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -23682,7 +25189,7 @@ Get images usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -23695,11 +25202,11 @@ Get images usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/images \
+curl "https://api.openai.com/v1/organization/usage/images?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -23718,6 +25225,7 @@ curl https://api.openai.com/v1/organization/usage/images \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -23752,7 +25260,7 @@ curl "https://api.openai.com/v1/organization/usage/images?start_time=1730419200&
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -23790,7 +25298,7 @@ Get moderations usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -23798,7 +25306,7 @@ Get moderations usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -23808,7 +25316,7 @@ Get moderations usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -23824,7 +25332,7 @@ Get moderations usage details for the organization.
 
   - `"model"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -23852,23 +25360,23 @@ Get moderations usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -23876,7 +25384,7 @@ Get moderations usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -23896,43 +25404,47 @@ Get moderations usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -23940,15 +25452,15 @@ Get moderations usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -23968,11 +25480,11 @@ Get moderations usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24000,11 +25512,11 @@ Get moderations usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24032,11 +25544,11 @@ Get moderations usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24072,11 +25584,11 @@ Get moderations usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24104,7 +25616,7 @@ Get moderations usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24112,9 +25624,11 @@ Get moderations usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -24140,7 +25654,7 @@ Get moderations usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -24152,7 +25666,7 @@ Get moderations usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -24168,7 +25682,7 @@ Get moderations usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -24196,11 +25710,11 @@ Get moderations usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -24310,7 +25824,7 @@ Get moderations usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -24323,11 +25837,11 @@ Get moderations usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/moderations \
+curl "https://api.openai.com/v1/organization/usage/moderations?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -24346,6 +25860,7 @@ curl https://api.openai.com/v1/organization/usage/moderations \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -24380,7 +25895,7 @@ curl "https://api.openai.com/v1/organization/usage/moderations?start_time=173041
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -24416,11 +25931,11 @@ Get vector stores usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -24430,7 +25945,7 @@ Get vector stores usage details for the organization.
 
   - `"1d"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -24440,7 +25955,7 @@ Get vector stores usage details for the organization.
 
   - `"project_id"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -24460,23 +25975,23 @@ Get vector stores usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24484,7 +25999,7 @@ Get vector stores usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -24504,43 +26019,47 @@ Get vector stores usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -24548,15 +26067,15 @@ Get vector stores usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -24576,11 +26095,11 @@ Get vector stores usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24608,11 +26127,11 @@ Get vector stores usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24640,11 +26159,11 @@ Get vector stores usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24680,11 +26199,11 @@ Get vector stores usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24712,7 +26231,7 @@ Get vector stores usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -24720,9 +26239,11 @@ Get vector stores usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -24748,7 +26269,7 @@ Get vector stores usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -24760,7 +26281,7 @@ Get vector stores usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -24776,7 +26297,7 @@ Get vector stores usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -24804,11 +26325,11 @@ Get vector stores usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -24918,7 +26439,7 @@ Get vector stores usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -24931,11 +26452,11 @@ Get vector stores usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/vector_stores \
+curl "https://api.openai.com/v1/organization/usage/vector_stores?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -24954,6 +26475,7 @@ curl https://api.openai.com/v1/organization/usage/vector_stores \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -24988,7 +26510,7 @@ curl "https://api.openai.com/v1/organization/usage/vector_stores?start_time=1730
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -25020,7 +26542,7 @@ Get web search calls usage details for the organization.
 
 ### Query Parameters
 
-- `start_time: number`
+- `start_time: integer`
 
   Start time (Unix seconds) of the query time range, inclusive.
 
@@ -25028,7 +26550,7 @@ Get web search calls usage details for the organization.
 
   Return only usage for these API keys.
 
-- `bucket_width: optional "1m" or "1h" or "1d"`
+- `bucket_width: optional "1m" or "1h" or "1d" (default: "1d")`
 
   Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`.
 
@@ -25048,7 +26570,7 @@ Get web search calls usage details for the organization.
 
   - `"high"`
 
-- `end_time: optional number`
+- `end_time: optional integer`
 
   End time (Unix seconds) of the query time range, exclusive.
 
@@ -25068,7 +26590,7 @@ Get web search calls usage details for the organization.
 
   - `"api_source"`
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Specifies the number of buckets to return.
 
@@ -25096,23 +26618,23 @@ Get web search calls usage details for the organization.
 
 - `data: array of object { end_time, object, results, start_time }`
 
-  - `end_time: number`
+  - `end_time: integer`
 
   - `object: "bucket"`
 
     - `"bucket"`
 
-  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+  - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+    - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
       The aggregated completions usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -25120,7 +26642,7 @@ Get web search calls usage details for the organization.
 
         - `"organization.usage.completions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -25140,43 +26662,47 @@ Get web search calls usage details for the organization.
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number`
+      - `input_audio_tokens: optional integer`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number`
+      - `input_cache_write_12h_tokens: optional integer`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-      - `input_cached_audio_tokens: optional number`
+      - `input_cache_write_tokens: optional integer`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number`
+      - `input_cached_image_tokens: optional integer`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number`
+      - `input_cached_text_tokens: optional integer`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number`
+      - `input_cached_tokens: optional integer`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number`
+      - `input_image_tokens: optional integer`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number`
+      - `input_text_tokens: optional integer`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number`
+      - `input_uncached_tokens: optional integer`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -25184,15 +26710,15 @@ Get web search calls usage details for the organization.
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number`
+      - `output_audio_tokens: optional integer`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number`
+      - `output_image_tokens: optional integer`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number`
+      - `output_text_tokens: optional integer`
 
         The aggregated number of text output tokens used.
 
@@ -25212,11 +26738,11 @@ Get web search calls usage details for the organization.
 
       The aggregated embeddings usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -25244,11 +26770,11 @@ Get web search calls usage details for the organization.
 
       The aggregated moderations usage details of the specific time bucket.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -25276,11 +26802,11 @@ Get web search calls usage details for the organization.
 
       The aggregated images usage details of the specific time bucket.
 
-      - `images: number`
+      - `images: integer`
 
         The number of images processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -25316,11 +26842,11 @@ Get web search calls usage details for the organization.
 
       The aggregated audio speeches usage details of the specific time bucket.
 
-      - `characters: number`
+      - `characters: integer`
 
         The number of characters processed.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -25348,7 +26874,7 @@ Get web search calls usage details for the organization.
 
       The aggregated audio transcriptions usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
@@ -25356,9 +26882,11 @@ Get web search calls usage details for the organization.
 
         - `"organization.usage.audio_transcriptions.result"`
 
-      - `seconds: number`
+      - `seconds: integer`
 
         The number of seconds processed.
+
+        `format: int64`
 
       - `api_key_id: optional string or null`
 
@@ -25384,7 +26912,7 @@ Get web search calls usage details for the organization.
 
         - `"organization.usage.vector_stores.result"`
 
-      - `usage_bytes: number`
+      - `usage_bytes: integer`
 
         The vector stores usage in bytes.
 
@@ -25396,7 +26924,7 @@ Get web search calls usage details for the organization.
 
       The aggregated code interpreter sessions usage details of the specific time bucket.
 
-      - `num_sessions: number`
+      - `num_sessions: integer`
 
         The number of code interpreter sessions.
 
@@ -25412,7 +26940,7 @@ Get web search calls usage details for the organization.
 
       The aggregated file search calls usage details of the specific time bucket.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of file search calls.
 
@@ -25440,11 +26968,11 @@ Get web search calls usage details for the organization.
 
       The aggregated web search calls usage details of the specific time bucket.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of model requests.
 
-      - `num_requests: number`
+      - `num_requests: integer`
 
         The count of web search calls.
 
@@ -25554,7 +27082,7 @@ Get web search calls usage details for the organization.
 
         When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-  - `start_time: number`
+  - `start_time: integer`
 
 - `has_more: boolean`
 
@@ -25567,11 +27095,11 @@ Get web search calls usage details for the organization.
 ### Example
 
 ```http
-curl https://api.openai.com/v1/organization/usage/web_search_calls \
+curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=0" \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -25590,6 +27118,7 @@ curl https://api.openai.com/v1/organization/usage/web_search_calls \
           "batch": true,
           "input_audio_tokens": 0,
           "input_cache_write_12h_tokens": 0,
+          "input_cache_write_30m_tokens": 0,
           "input_cache_write_tokens": 0,
           "input_cached_audio_tokens": 0,
           "input_cached_image_tokens": 0,
@@ -25624,7 +27153,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -25689,23 +27218,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -25713,7 +27242,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -25733,43 +27262,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -25777,15 +27310,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -25805,11 +27338,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -25837,11 +27370,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -25869,11 +27402,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -25909,11 +27442,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -25941,7 +27474,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -25949,9 +27482,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -25977,7 +27512,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -25989,7 +27524,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -26005,7 +27540,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -26033,11 +27568,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -26147,7 +27682,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -26163,23 +27698,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26187,7 +27722,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -26207,43 +27742,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -26251,15 +27790,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -26279,11 +27818,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26311,11 +27850,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26343,11 +27882,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26383,11 +27922,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26415,7 +27954,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26423,9 +27962,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -26451,7 +27992,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -26463,7 +28004,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -26479,7 +28020,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -26507,11 +28048,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -26621,7 +28162,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -26637,23 +28178,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26661,7 +28202,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -26681,43 +28222,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -26725,15 +28270,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -26753,11 +28298,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26785,11 +28330,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26817,11 +28362,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26857,11 +28402,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26889,7 +28434,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -26897,9 +28442,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -26925,7 +28472,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -26937,7 +28484,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -26953,7 +28500,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -26981,11 +28528,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -27095,7 +28642,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -27111,23 +28658,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27135,7 +28682,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -27155,43 +28702,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -27199,15 +28750,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -27227,11 +28778,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27259,11 +28810,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27291,11 +28842,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27331,11 +28882,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27363,7 +28914,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27371,9 +28922,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -27399,7 +28952,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -27411,7 +28964,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -27427,7 +28980,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -27455,11 +29008,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -27569,7 +29122,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -27585,23 +29138,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27609,7 +29162,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -27629,43 +29182,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -27673,15 +29230,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -27701,11 +29258,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27733,11 +29290,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27765,11 +29322,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27805,11 +29362,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27837,7 +29394,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -27845,9 +29402,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -27873,7 +29432,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -27885,7 +29444,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -27901,7 +29460,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -27929,11 +29488,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -28043,7 +29602,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -28059,27 +29618,27 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
-    - `object: "bucket"`
+    - `object: "bucket" (default: "bucket")`
 
       - `"bucket"`
 
-    - `results: array of object { input_tokens, num_model_requests, object, 21 more }`
+    - `results: array of object { input_tokens, num_model_requests, object, 22 more }`
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `num_model_requests: number`
+      - `num_model_requests: integer`
 
         The count of requests made to the model.
 
-      - `object: "organization.usage.decisions.result"`
+      - `object: "organization.usage.decisions.result" (default: "organization.usage.decisions.result")`
 
         - `"organization.usage.decisions.result"`
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -28099,43 +29658,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-      - `input_audio_tokens: optional number or null`
+      - `input_audio_tokens: optional integer or null`
 
         The aggregated number of uncached audio input tokens used.
 
-      - `input_cache_write_12h_tokens: optional number or null`
+      - `input_cache_write_12h_tokens: optional integer or null`
 
         The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-      - `input_cache_write_tokens: optional number or null`
+      - `input_cache_write_30m_tokens: optional integer or null`
 
         The aggregated number of input tokens written to the cache with a 30-minute retention period.
 
-      - `input_cached_audio_tokens: optional number or null`
+      - `input_cache_write_tokens: optional integer or null`
+
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+      - `input_cached_audio_tokens: optional integer or null`
 
         The aggregated number of cached audio input tokens used.
 
-      - `input_cached_image_tokens: optional number or null`
+      - `input_cached_image_tokens: optional integer or null`
 
         The aggregated number of cached image input tokens used.
 
-      - `input_cached_text_tokens: optional number or null`
+      - `input_cached_text_tokens: optional integer or null`
 
         The aggregated number of cached text input tokens used.
 
-      - `input_cached_tokens: optional number or null`
+      - `input_cached_tokens: optional integer or null`
 
         The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-      - `input_image_tokens: optional number or null`
+      - `input_image_tokens: optional integer or null`
 
         The aggregated number of uncached image input tokens used.
 
-      - `input_text_tokens: optional number or null`
+      - `input_text_tokens: optional integer or null`
 
         The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-      - `input_uncached_tokens: optional number or null`
+      - `input_uncached_tokens: optional integer or null`
 
         The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -28143,15 +29706,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         When `group_by=model`, this field provides the model name of the grouped usage result.
 
-      - `output_audio_tokens: optional number or null`
+      - `output_audio_tokens: optional integer or null`
 
         The aggregated number of audio output tokens used.
 
-      - `output_image_tokens: optional number or null`
+      - `output_image_tokens: optional integer or null`
 
         The aggregated number of image output tokens used.
 
-      - `output_text_tokens: optional number or null`
+      - `output_text_tokens: optional integer or null`
 
         The aggregated number of text output tokens used.
 
@@ -28167,13 +29730,13 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         When `group_by=user_id`, this field provides the user ID of the grouped usage result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
   - `next_page: string or null`
 
-  - `object: "page"`
+  - `object: "page" (default: "page")`
 
     - `"page"`
 
@@ -28183,23 +29746,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28207,7 +29770,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -28227,43 +29790,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -28271,15 +29838,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -28299,11 +29866,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28331,11 +29898,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28363,11 +29930,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28403,11 +29970,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28435,7 +30002,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28443,9 +30010,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -28471,7 +30040,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -28483,7 +30052,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -28499,7 +30068,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -28527,11 +30096,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -28641,7 +30210,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -28657,23 +30226,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28681,7 +30250,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -28701,43 +30270,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -28745,15 +30318,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -28773,11 +30346,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28805,11 +30378,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28837,11 +30410,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28877,11 +30450,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28909,7 +30482,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -28917,9 +30490,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -28945,7 +30520,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -28957,7 +30532,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -28973,7 +30548,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -29001,11 +30576,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -29115,7 +30690,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -29131,23 +30706,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29155,7 +30730,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -29175,43 +30750,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -29219,15 +30798,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -29247,11 +30826,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29279,11 +30858,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29311,11 +30890,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29351,11 +30930,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29383,7 +30962,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29391,9 +30970,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -29419,7 +31000,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -29431,7 +31012,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -29447,7 +31028,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -29475,11 +31056,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -29589,7 +31170,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -29605,23 +31186,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29629,7 +31210,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -29649,43 +31230,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -29693,15 +31278,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -29721,11 +31306,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29753,11 +31338,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29785,11 +31370,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29825,11 +31410,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29857,7 +31442,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -29865,9 +31450,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -29893,7 +31480,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -29905,7 +31492,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -29921,7 +31508,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -29949,11 +31536,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -30063,7 +31650,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -30079,23 +31666,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30103,7 +31690,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -30123,43 +31710,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -30167,15 +31758,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -30195,11 +31786,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30227,11 +31818,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30259,11 +31850,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30299,11 +31890,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30331,7 +31922,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30339,9 +31930,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -30367,7 +31960,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -30379,7 +31972,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -30395,7 +31988,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -30423,11 +32016,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -30537,7 +32130,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -30553,23 +32146,23 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
   - `data: array of object { end_time, object, results, start_time }`
 
-    - `end_time: number`
+    - `end_time: integer`
 
     - `object: "bucket"`
 
       - `"bucket"`
 
-    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 21 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
+    - `results: array of OrganizationUsageCompletionsResult { input_tokens, num_model_requests, object, 22 more }  or OrganizationUsageEmbeddingsResult { input_tokens, num_model_requests, object, 4 more }  or OrganizationUsageModerationsResult { input_tokens, num_model_requests, object, 4 more }  or 8 more`
 
-      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 21 more }`
+      - `OrganizationUsageCompletionsResult object { input_tokens, num_model_requests, object, 22 more }`
 
         The aggregated completions usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30577,7 +32170,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.completions.result"`
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
@@ -30597,43 +32190,47 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=batch`, this field tells whether the grouped usage result is batch or not.
 
-        - `input_audio_tokens: optional number`
+        - `input_audio_tokens: optional integer`
 
           The aggregated number of uncached audio input tokens used.
 
-        - `input_cache_write_12h_tokens: optional number`
+        - `input_cache_write_12h_tokens: optional integer`
 
           The aggregated number of input tokens written to the cache with a 12-hour retention period.
 
-        - `input_cache_write_tokens: optional number`
+        - `input_cache_write_30m_tokens: optional integer or null`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache with a 30-minute retention period. May be absent or null for older responses.
 
-        - `input_cached_audio_tokens: optional number`
+        - `input_cache_write_tokens: optional integer`
+
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
+
+        - `input_cached_audio_tokens: optional integer`
 
           The aggregated number of cached audio input tokens used.
 
-        - `input_cached_image_tokens: optional number`
+        - `input_cached_image_tokens: optional integer`
 
           The aggregated number of cached image input tokens used.
 
-        - `input_cached_text_tokens: optional number`
+        - `input_cached_text_tokens: optional integer`
 
           The aggregated number of cached text input tokens used.
 
-        - `input_cached_tokens: optional number`
+        - `input_cached_tokens: optional integer`
 
           The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.
 
-        - `input_image_tokens: optional number`
+        - `input_image_tokens: optional integer`
 
           The aggregated number of uncached image input tokens used.
 
-        - `input_text_tokens: optional number`
+        - `input_text_tokens: optional integer`
 
           The aggregated number of uncached text input tokens used, excluding cache-write tokens.
 
-        - `input_uncached_tokens: optional number`
+        - `input_uncached_tokens: optional integer`
 
           The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens.
 
@@ -30641,15 +32238,15 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=model`, this field provides the model name of the grouped usage result.
 
-        - `output_audio_tokens: optional number`
+        - `output_audio_tokens: optional integer`
 
           The aggregated number of audio output tokens used.
 
-        - `output_image_tokens: optional number`
+        - `output_image_tokens: optional integer`
 
           The aggregated number of image output tokens used.
 
-        - `output_text_tokens: optional number`
+        - `output_text_tokens: optional integer`
 
           The aggregated number of text output tokens used.
 
@@ -30669,11 +32266,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated embeddings usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30701,11 +32298,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated moderations usage details of the specific time bucket.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The aggregated number of input tokens used.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30733,11 +32330,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated images usage details of the specific time bucket.
 
-        - `images: number`
+        - `images: integer`
 
           The number of images processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30773,11 +32370,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio speeches usage details of the specific time bucket.
 
-        - `characters: number`
+        - `characters: integer`
 
           The number of characters processed.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30805,7 +32402,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated audio transcriptions usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of requests made to the model.
 
@@ -30813,9 +32410,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.audio_transcriptions.result"`
 
-        - `seconds: number`
+        - `seconds: integer`
 
           The number of seconds processed.
+
+          `format: int64`
 
         - `api_key_id: optional string or null`
 
@@ -30841,7 +32440,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           - `"organization.usage.vector_stores.result"`
 
-        - `usage_bytes: number`
+        - `usage_bytes: integer`
 
           The vector stores usage in bytes.
 
@@ -30853,7 +32452,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated code interpreter sessions usage details of the specific time bucket.
 
-        - `num_sessions: number`
+        - `num_sessions: integer`
 
           The number of code interpreter sessions.
 
@@ -30869,7 +32468,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated file search calls usage details of the specific time bucket.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of file search calls.
 
@@ -30897,11 +32496,11 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         The aggregated web search calls usage details of the specific time bucket.
 
-        - `num_model_requests: number`
+        - `num_model_requests: integer`
 
           The count of model requests.
 
-        - `num_requests: number`
+        - `num_requests: integer`
 
           The count of web search calls.
 
@@ -31011,7 +32610,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
           When `group_by=user_id`, this field provides the user ID of the grouped costs result.
 
-    - `start_time: number`
+    - `start_time: integer`
 
   - `has_more: boolean`
 
@@ -31051,7 +32650,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -31069,7 +32668,7 @@ curl -X DELETE https://api.openai.com/v1/organization/users/user_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -31095,7 +32694,7 @@ Lists all of the users in the organization.
 
   Filter by the email address of users.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
@@ -31107,9 +32706,11 @@ Lists all of the users in the organization.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the user was added.
+
+    `format: unixtime`
 
   - `object: "organization.user"`
 
@@ -31117,13 +32718,17 @@ Lists all of the users in the organization.
 
     - `"organization.user"`
 
-  - `api_key_last_used_at: optional number or null`
+  - `api_key_last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of the user's last API key usage.
 
-  - `created: optional number`
+    `format: unixtime`
+
+  - `created: optional integer`
 
     The Unix timestamp (in seconds) of when the user was created.
+
+    `format: unixtime`
 
   - `developer_persona: optional string or null`
 
@@ -31189,7 +32794,9 @@ Lists all of the users in the organization.
 
     - `banned: optional boolean or null`
 
-    - `banned_at: optional number or null`
+    - `banned_at: optional integer or null`
+
+      `format: unixtime`
 
     - `email: optional string or null`
 
@@ -31216,7 +32823,7 @@ curl https://api.openai.com/v1/organization/users \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -31273,7 +32880,7 @@ curl https://api.openai.com/v1/organization/users?after=user_abc&limit=20 \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -31314,9 +32921,11 @@ Retrieves a user by their identifier.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the user was added.
+
+    `format: unixtime`
 
   - `object: "organization.user"`
 
@@ -31324,13 +32933,17 @@ Retrieves a user by their identifier.
 
     - `"organization.user"`
 
-  - `api_key_last_used_at: optional number or null`
+  - `api_key_last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of the user's last API key usage.
 
-  - `created: optional number`
+    `format: unixtime`
+
+  - `created: optional integer`
 
     The Unix timestamp (in seconds) of when the user was created.
+
+    `format: unixtime`
 
   - `developer_persona: optional string or null`
 
@@ -31396,7 +33009,9 @@ Retrieves a user by their identifier.
 
     - `banned: optional boolean or null`
 
-    - `banned_at: optional number or null`
+    - `banned_at: optional integer or null`
+
+      `format: unixtime`
 
     - `email: optional string or null`
 
@@ -31413,7 +33028,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -31462,7 +33077,7 @@ curl https://api.openai.com/v1/organization/users/user_abc \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -31513,9 +33128,11 @@ Modifies a user's role in the organization.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the user was added.
+
+    `format: unixtime`
 
   - `object: "organization.user"`
 
@@ -31523,13 +33140,17 @@ Modifies a user's role in the organization.
 
     - `"organization.user"`
 
-  - `api_key_last_used_at: optional number or null`
+  - `api_key_last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of the user's last API key usage.
 
-  - `created: optional number`
+    `format: unixtime`
+
+  - `created: optional integer`
 
     The Unix timestamp (in seconds) of when the user was created.
+
+    `format: unixtime`
 
   - `developer_persona: optional string or null`
 
@@ -31595,7 +33216,9 @@ Modifies a user's role in the organization.
 
     - `banned: optional boolean or null`
 
-    - `banned_at: optional number or null`
+    - `banned_at: optional integer or null`
+
+      `format: unixtime`
 
     - `email: optional string or null`
 
@@ -31614,7 +33237,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -31666,7 +33289,7 @@ curl -X POST https://api.openai.com/v1/organization/users/user_abc \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -31691,9 +33314,11 @@ curl -X POST https://api.openai.com/v1/organization/users/user_abc \
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the user was added.
+
+    `format: unixtime`
 
   - `object: "organization.user"`
 
@@ -31701,13 +33326,17 @@ curl -X POST https://api.openai.com/v1/organization/users/user_abc \
 
     - `"organization.user"`
 
-  - `api_key_last_used_at: optional number or null`
+  - `api_key_last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of the user's last API key usage.
 
-  - `created: optional number`
+    `format: unixtime`
+
+  - `created: optional integer`
 
     The Unix timestamp (in seconds) of when the user was created.
+
+    `format: unixtime`
 
   - `developer_persona: optional string or null`
 
@@ -31773,7 +33402,9 @@ curl -X POST https://api.openai.com/v1/organization/users/user_abc \
 
     - `banned: optional boolean or null`
 
-    - `banned_at: optional number or null`
+    - `banned_at: optional integer or null`
+
+      `format: unixtime`
 
     - `email: optional string or null`
 
@@ -31863,9 +33494,11 @@ Assigns an organization role to a user within the organization.
 
     The identifier, which can be referenced in API endpoints
 
-  - `added_at: number`
+  - `added_at: integer`
 
     The Unix timestamp (in seconds) of when the user was added.
+
+    `format: unixtime`
 
   - `object: "organization.user"`
 
@@ -31873,13 +33506,17 @@ Assigns an organization role to a user within the organization.
 
     - `"organization.user"`
 
-  - `api_key_last_used_at: optional number or null`
+  - `api_key_last_used_at: optional integer or null`
 
     The Unix timestamp (in seconds) of the user's last API key usage.
 
-  - `created: optional number`
+    `format: unixtime`
+
+  - `created: optional integer`
 
     The Unix timestamp (in seconds) of when the user was created.
+
+    `format: unixtime`
 
   - `developer_persona: optional string or null`
 
@@ -31945,7 +33582,9 @@ Assigns an organization role to a user within the organization.
 
     - `banned: optional boolean or null`
 
-    - `banned_at: optional number or null`
+    - `banned_at: optional integer or null`
+
+      `format: unixtime`
 
     - `email: optional string or null`
 
@@ -31966,7 +33605,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -32032,7 +33671,7 @@ curl -X POST https://api.openai.com/v1/organization/users/user_abc123/roles \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -32090,7 +33729,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -32107,7 +33746,7 @@ curl -X DELETE https://api.openai.com/v1/organization/users/user_abc123/roles/ro
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -32132,9 +33771,11 @@ Lists the organization roles assigned to a user within the organization.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing organization roles.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of organization role assignments to return.
+
+  `minimum: 0`, `maximum: 1000`
 
 - `order: optional "asc" or "desc"`
 
@@ -32162,9 +33803,11 @@ Lists the organization roles assigned to a user within the organization.
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -32198,9 +33841,11 @@ Lists the organization roles assigned to a user within the organization.
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -32223,7 +33868,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -32268,7 +33913,7 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -32332,9 +33977,11 @@ Retrieves an organization role assigned to a user.
 
   - `principal_type: string`
 
-- `created_at: number or null`
+- `created_at: integer or null`
 
   When the role was created.
+
+  `format: unixtime`
 
 - `created_by: string or null`
 
@@ -32368,9 +34015,11 @@ Retrieves an organization role assigned to a user.
 
   Resource type the role applies to.
 
-- `updated_at: number or null`
+- `updated_at: integer or null`
 
   When the role was last updated.
+
+  `format: unixtime`
 
 ### Example
 
@@ -32379,7 +34028,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -32417,7 +34066,7 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -32495,9 +34144,11 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
       The identifier, which can be referenced in API endpoints
 
-    - `added_at: number`
+    - `added_at: integer`
 
       The Unix timestamp (in seconds) of when the user was added.
+
+      `format: unixtime`
 
     - `object: "organization.user"`
 
@@ -32505,13 +34156,17 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
       - `"organization.user"`
 
-    - `api_key_last_used_at: optional number or null`
+    - `api_key_last_used_at: optional integer or null`
 
       The Unix timestamp (in seconds) of the user's last API key usage.
 
-    - `created: optional number`
+      `format: unixtime`
+
+    - `created: optional integer`
 
       The Unix timestamp (in seconds) of when the user was created.
+
+      `format: unixtime`
 
     - `developer_persona: optional string or null`
 
@@ -32577,7 +34232,9 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
       - `banned: optional boolean or null`
 
-      - `banned_at: optional number or null`
+      - `banned_at: optional integer or null`
+
+        `format: unixtime`
 
       - `email: optional string or null`
 
@@ -32619,9 +34276,11 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -32655,9 +34314,11 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 ### Role Retrieve Response
 
@@ -32677,9 +34338,11 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -32713,6 +34376,8 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`

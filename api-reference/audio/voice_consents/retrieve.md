@@ -10,27 +10,33 @@ Retrieves a voice consent recording.
 
 ### Returns
 
-- `id: string`
+- `VoiceConsent object { id, created_at, language, 2 more }`
 
-  The consent recording identifier.
+  A consent recording used to authorize creation of a custom voice.
 
-- `created_at: number`
+  - `id: string`
 
-  The Unix timestamp (in seconds) for when the consent recording was created.
+    The consent recording identifier.
 
-- `language: string`
+  - `created_at: integer`
 
-  The BCP 47 language tag for the consent phrase (for example, `en-US`).
+    The Unix timestamp (in seconds) for when the consent recording was created.
 
-- `name: string`
+    `format: unixtime`
 
-  The label provided when the consent recording was uploaded.
+  - `language: string`
 
-- `object: "audio.voice_consent"`
+    The BCP 47 language tag for the consent phrase (for example, `en-US`).
 
-  The object type, which is always `audio.voice_consent`.
+  - `name: string`
 
-  - `"audio.voice_consent"`
+    The label provided when the consent recording was uploaded.
+
+  - `object: "audio.voice_consent"`
+
+    The object type, which is always `audio.voice_consent`.
+
+    - `"audio.voice_consent"`
 
 ### Example
 
@@ -39,7 +45,7 @@ curl https://api.openai.com/v1/audio/voice_consents/$CONSENT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

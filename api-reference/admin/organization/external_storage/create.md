@@ -16,7 +16,7 @@ Register one customer-managed external storage configuration.
 
     - `role_arn: string`
 
-    - `type: "aws"`
+    - `type: "aws" (default: "aws")`
 
       - `"aws"`
 
@@ -32,7 +32,7 @@ Register one customer-managed external storage configuration.
 
     - `tenant_id: string`
 
-    - `type: "azure"`
+    - `type: "azure" (default: "azure")`
 
       - `"azure"`
 
@@ -40,7 +40,7 @@ Register one customer-managed external storage configuration.
 
     - `bucket: string`
 
-    - `type: "gcp"`
+    - `type: "gcp" (default: "gcp")`
 
       - `"gcp"`
 
@@ -58,7 +58,7 @@ Register one customer-managed external storage configuration.
 
     - `tenancy_ocid: string`
 
-    - `type: "oci"`
+    - `type: "oci" (default: "oci")`
 
       - `"oci"`
 
@@ -68,11 +68,13 @@ Register one customer-managed external storage configuration.
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `geography: string`
 
-  - `object: "organization.external_storage"`
+  - `object: "organization.external_storage" (default: "organization.external_storage")`
 
     - `"organization.external_storage"`
 
@@ -92,7 +94,7 @@ Register one customer-managed external storage configuration.
 
       - `role_arn: string`
 
-      - `type: "aws"`
+      - `type: "aws" (default: "aws")`
 
         - `"aws"`
 
@@ -110,7 +112,7 @@ Register one customer-managed external storage configuration.
 
       - `tenant_id: string`
 
-      - `type: "azure"`
+      - `type: "azure" (default: "azure")`
 
         - `"azure"`
 
@@ -122,7 +124,7 @@ Register one customer-managed external storage configuration.
 
       - `region: string`
 
-      - `type: "gcp"`
+      - `type: "gcp" (default: "gcp")`
 
         - `"gcp"`
 
@@ -140,15 +142,17 @@ Register one customer-managed external storage configuration.
 
       - `tenancy_ocid: string`
 
-      - `type: "oci"`
+      - `type: "oci" (default: "oci")`
 
         - `"oci"`
 
-  - `status: "pending" or "validated" or "unhealthy"`
+  - `status: "pending" or "validated" or "degraded" or "unhealthy"`
 
     - `"pending"`
 
     - `"validated"`
+
+    - `"degraded"`
 
     - `"unhealthy"`
 
@@ -168,7 +172,7 @@ curl https://api.openai.com/v1/organization/external_storage \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -205,7 +209,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -245,7 +249,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -285,7 +289,7 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -304,5 +308,41 @@ curl -X POST https://api.openai.com/v1/organization/external_storage \
   "geography": "US",
   "status": "pending",
   "created_at": 1711471400
+}
+```
+
+### OCI Object Storage
+
+```http
+curl -X POST https://api.openai.com/v1/organization/external_storage \
+  -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "project_id": "proj_oci123",
+    "provider": {
+      "type": "oci",
+      "tenancy_ocid": "ocid1.tenancy.oc1..example",
+      "region": "us-ashburn-1",
+      "bucket": "customer-oci-retention"
+    }
+  }'
+```
+
+#### Response example
+
+```json
+{
+  "object": "organization.external_storage",
+  "id": "extstorage_oci123",
+  "project_id": "proj_oci123",
+  "provider": {
+    "type": "oci",
+    "tenancy_ocid": "ocid1.tenancy.oc1..example",
+    "region": "us-ashburn-1",
+    "bucket": "customer-oci-retention"
+  },
+  "geography": "US",
+  "status": "pending",
+  "created_at": 1711471300
 }
 ```

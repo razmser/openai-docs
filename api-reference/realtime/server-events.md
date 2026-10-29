@@ -10,7 +10,7 @@ These are events emitted from the OpenAI Realtime WebSocket server to the client
 
 Returned when an error occurs, which could be a client problem or a server
 problem. Most errors are recoverable and the session will stay open, we
-recommend to implementors to monitor and log error messages by default.
+recommend to implementers to monitor and log error messages by default.
 
 ### Schema
 
@@ -152,7 +152,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
               - `"audio/pcma"`
 
-        - `noise_reduction: optional object { type }  or null`
+        - `noise_reduction: optional object { type }  or null (default: null)`
 
           Configuration for input audio noise reduction. This can be set to `null` to turn off.
           Noise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.
@@ -177,6 +177,8 @@ Schema name: `RealtimeServerEventSessionCreated`
           - `languages: optional array of string`
 
             The possible input audio languages configured for transcription, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.
+
+            `minItems: 1`
 
           - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
@@ -223,19 +225,19 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             Server-side voice activity detection (VAD) which flips on when user speech is detected and off after a period of silence.
 
-            - `type: "server_vad"`
+            - `type: "server_vad" (default: "server_vad")`
 
               Type of turn detection, `server_vad` to turn on simple Server VAD.
 
               - `"server_vad"`
 
-            - `create_response: optional boolean`
+            - `create_response: optional boolean (default: true)`
 
               Whether or not to automatically generate a response when a VAD stop event occurs. If `interrupt_response` is set to `false` this may fail to create a response if the model is already responding.
 
               If both `create_response` and `interrupt_response` are set to `false`, the model will never respond automatically but VAD events will still be emitted.
 
-            - `idle_timeout_ms: optional number or null`
+            - `idle_timeout_ms: optional integer or null`
 
               Optional timeout after which a model response will be triggered automatically. This is
               useful for situations in which a long pause from the user is unexpected, such as a phone
@@ -249,19 +251,21 @@ Schema name: `RealtimeServerEventSessionCreated`
               associated with the Response) will be emitted when the timeout is reached.
               Idle timeout is currently only supported for `server_vad` mode.
 
-            - `interrupt_response: optional boolean`
+              `minimum: 5000`, `maximum: 30000`
+
+            - `interrupt_response: optional boolean (default: true)`
 
               Whether or not to automatically interrupt (cancel) any ongoing response with output to the default
               conversation (i.e. `conversation` of `auto`) when a VAD start event occurs. If `true` then the response will be cancelled, otherwise it will continue until complete.
 
               If both `create_response` and `interrupt_response` are set to `false`, the model will never respond automatically but VAD events will still be emitted.
 
-            - `prefix_padding_ms: optional number`
+            - `prefix_padding_ms: optional integer`
 
               Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in
               milliseconds). Defaults to 300ms.
 
-            - `silence_duration_ms: optional number`
+            - `silence_duration_ms: optional integer`
 
               Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults
               to 500ms. With shorter values the model will respond more quickly,
@@ -283,11 +287,11 @@ Schema name: `RealtimeServerEventSessionCreated`
 
               - `"semantic_vad"`
 
-            - `create_response: optional boolean`
+            - `create_response: optional boolean (default: true)`
 
               Whether or not to automatically generate a response when a VAD stop event occurs.
 
-            - `eagerness: optional "low" or "medium" or "high" or "auto"`
+            - `eagerness: optional "low" or "medium" or "high" or "auto" (default: "auto")`
 
               Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`. `low`, `medium`, and `high` have max timeouts of 8s, 4s, and 2s respectively.
 
@@ -299,7 +303,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
               - `"auto"`
 
-            - `interrupt_response: optional boolean`
+            - `interrupt_response: optional boolean (default: true)`
 
               Whether or not to automatically interrupt any ongoing response with output to the default
               conversation (i.e. `conversation` of `auto`) when a VAD start event occurs.
@@ -310,7 +314,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
           The format of the output audio.
 
-        - `speed: optional number`
+        - `speed: optional number (default: 1)`
 
           The speed of the model's spoken response as a multiple of the original speed.
           1.0 is the default speed. 0.25 is the minimum speed. 1.5 is the maximum speed. This value can only be changed in between model turns, not while a response is in progress.
@@ -318,7 +322,9 @@ Schema name: `RealtimeServerEventSessionCreated`
           This parameter is a post-processing adjustment to the audio after it is generated, it's
           also possible to prompt the model to speak faster or slower.
 
-        - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more`
+          `minimum: 0.25`, `maximum: 1.5`
+
+        - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more (default: "alloy")`
 
           The voice the model uses to respond. Voice cannot be changed during the
           session once the model has responded with audio at least once. Current
@@ -356,9 +362,11 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             - `"cedar"`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       Expiration timestamp for the session, in seconds since epoch.
+
+      `format: unixtime`
 
     - `include: optional array of "item.input_audio_transcription.logprobs" or null`
 
@@ -435,7 +443,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
         - `"gpt-audio-mini-2025-12-15"`
 
-    - `output_modalities: optional array of "text" or "audio"`
+    - `output_modalities: optional array of "text" or "audio" (default: ["audio"])`
 
       The set of modalities the model can respond with. It defaults to `["audio"]`, indicating
       that the model will respond with audio plus a transcript. `["text"]` can be used to make
@@ -470,21 +478,29 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `ResponseInputImage object { detail, type, file_id, 2 more }`
 
@@ -502,7 +518,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             - `"original"`
 
-          - `type: "input_image"`
+          - `type: "input_image" (default: "input_image")`
 
             The type of the input item. Always `input_image`.
 
@@ -516,21 +532,31 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+            `format: uri`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            - `mode: "explicit"`
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
 
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
+
         - `ResponseInputFile object { type, detail, file_data, 4 more }`
 
           A file input to the model.
 
-          - `type: "input_file"`
+          - `type: "input_file" (default: "input_file")`
 
             The type of the input item. Always `input_file`.
 
@@ -558,19 +584,29 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             The URL of the file to be sent to the model.
 
+            `format: uri`
+
           - `filename: optional string`
 
             The name of the file to be sent to the model.
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
       - `version: optional string or null`
 
@@ -580,7 +616,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
       Configuration for reasoning-capable Realtime models such as `gpt-realtime-2`.
 
-      - `effort: optional RealtimeReasoningEffort`
+      - `effort: optional RealtimeReasoningEffort (default: "low")`
 
         Constrains effort on reasoning for reasoning-capable Realtime models such as
         `gpt-realtime-2`.
@@ -595,7 +631,7 @@ Schema name: `RealtimeServerEventSessionCreated`
 
         - `"xhigh"`
 
-    - `tool_choice: optional ToolChoiceOptions or ToolChoiceFunction or ToolChoiceMcp`
+    - `tool_choice: optional ToolChoiceOptions or ToolChoiceFunction or ToolChoiceMcp (default: "auto")`
 
       How the model chooses tools. Provide one of the string modes or force a specific
       function/MCP tool.
@@ -694,6 +730,8 @@ Schema name: `RealtimeServerEventSessionCreated`
 
           The tool invocation context(s).
 
+          `minItems: 1`
+
           - `"direct"`
 
           - `"programmatic"`
@@ -772,7 +810,7 @@ Schema name: `RealtimeServerEventSessionCreated`
           Optional HTTP headers to send to the MCP server. Use for authentication
           or other purposes.
 
-        - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+        - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
           Specify which of the MCP server's tools require approval.
 
@@ -829,10 +867,14 @@ Schema name: `RealtimeServerEventSessionCreated`
           The URL for the MCP server. One of `server_url`, `connector_id`, or
           `tunnel_id` must be provided.
 
+          `format: uri`
+
         - `tunnel_id: optional string`
 
           The Secure MCP Tunnel ID to use instead of a direct server URL. One of
           `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+          `pattern: ^tunnel_[a-z0-9]{32}$`
 
     - `tracing: optional "auto" or TracingConfiguration { group_id, metadata, workflow_name }  or null`
 
@@ -893,6 +935,8 @@ Schema name: `RealtimeServerEventSessionCreated`
 
           Fraction of post-instruction conversation tokens to retain (`0.0` - `1.0`) when the conversation exceeds the input token limit. Setting this to `0.8` means that messages will be dropped until 80% of the maximum allowed tokens are used. This helps reduce the frequency of truncations and improve cache rates.
 
+          `minimum: 0`, `maximum: 1`
+
         - `type: "retention_ratio"`
 
           Use retention ratio truncation.
@@ -903,9 +947,11 @@ Schema name: `RealtimeServerEventSessionCreated`
 
           Optional custom token limits for this truncation strategy. If not provided, the model's default token limits will be used.
 
-          - `post_instructions: optional number`
+          - `post_instructions: optional integer`
 
             Maximum tokens allowed in the conversation after instructions (which including tool definitions). For example, setting this to 5,000 would mean that truncation would occur when the conversation exceeds 5,000 tokens after instructions. This cannot be higher than the model's context window size minus the maximum output tokens.
+
+            `minimum: 0`
 
   - `RealtimeTranscriptionSessionCreateResponse object { id, object, type, 3 more }`
 
@@ -955,6 +1001,8 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             The possible input audio languages configured for transcription, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.
 
+            `minItems: 1`
+
           - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
             The model used for transcription. Current options are `whisper-1`, `gpt-transcribe`, `gpt-live-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `gpt-4o-transcribe`, `gpt-4o-transcribe-diarize`, and `gpt-realtime-whisper`.
@@ -991,12 +1039,12 @@ Schema name: `RealtimeServerEventSessionCreated`
           VAD means that the model will detect the start and end of speech based on
           audio volume and respond at the end of user speech. For `gpt-realtime-whisper`, this must be `null`; VAD is not supported.
 
-          - `prefix_padding_ms: optional number`
+          - `prefix_padding_ms: optional integer`
 
             Amount of audio to include before the VAD detected speech (in
             milliseconds). Defaults to 300ms.
 
-          - `silence_duration_ms: optional number`
+          - `silence_duration_ms: optional integer`
 
             Duration of silence to detect speech stop (in milliseconds). Defaults
             to 500ms. With shorter values the model will respond more quickly,
@@ -1012,9 +1060,11 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             Type of turn detection, only `server_vad` is currently supported.
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       Expiration timestamp for the session, in seconds since epoch.
+
+      `format: unixtime`
 
     - `include: optional array of "item.input_audio_transcription.logprobs" or null`
 
@@ -1079,7 +1129,7 @@ Schema name: `RealtimeServerEventSessionCreated`
       }
     },
     "include": null
-  },
+  }
 }
 ```
 
@@ -1168,7 +1218,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
               - `"audio/pcma"`
 
-        - `noise_reduction: optional object { type }  or null`
+        - `noise_reduction: optional object { type }  or null (default: null)`
 
           Configuration for input audio noise reduction. This can be set to `null` to turn off.
           Noise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.
@@ -1193,6 +1243,8 @@ Schema name: `RealtimeServerEventSessionUpdated`
           - `languages: optional array of string`
 
             The possible input audio languages configured for transcription, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.
+
+            `minItems: 1`
 
           - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
@@ -1239,19 +1291,19 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             Server-side voice activity detection (VAD) which flips on when user speech is detected and off after a period of silence.
 
-            - `type: "server_vad"`
+            - `type: "server_vad" (default: "server_vad")`
 
               Type of turn detection, `server_vad` to turn on simple Server VAD.
 
               - `"server_vad"`
 
-            - `create_response: optional boolean`
+            - `create_response: optional boolean (default: true)`
 
               Whether or not to automatically generate a response when a VAD stop event occurs. If `interrupt_response` is set to `false` this may fail to create a response if the model is already responding.
 
               If both `create_response` and `interrupt_response` are set to `false`, the model will never respond automatically but VAD events will still be emitted.
 
-            - `idle_timeout_ms: optional number or null`
+            - `idle_timeout_ms: optional integer or null`
 
               Optional timeout after which a model response will be triggered automatically. This is
               useful for situations in which a long pause from the user is unexpected, such as a phone
@@ -1265,19 +1317,21 @@ Schema name: `RealtimeServerEventSessionUpdated`
               associated with the Response) will be emitted when the timeout is reached.
               Idle timeout is currently only supported for `server_vad` mode.
 
-            - `interrupt_response: optional boolean`
+              `minimum: 5000`, `maximum: 30000`
+
+            - `interrupt_response: optional boolean (default: true)`
 
               Whether or not to automatically interrupt (cancel) any ongoing response with output to the default
               conversation (i.e. `conversation` of `auto`) when a VAD start event occurs. If `true` then the response will be cancelled, otherwise it will continue until complete.
 
               If both `create_response` and `interrupt_response` are set to `false`, the model will never respond automatically but VAD events will still be emitted.
 
-            - `prefix_padding_ms: optional number`
+            - `prefix_padding_ms: optional integer`
 
               Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in
               milliseconds). Defaults to 300ms.
 
-            - `silence_duration_ms: optional number`
+            - `silence_duration_ms: optional integer`
 
               Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults
               to 500ms. With shorter values the model will respond more quickly,
@@ -1299,11 +1353,11 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
               - `"semantic_vad"`
 
-            - `create_response: optional boolean`
+            - `create_response: optional boolean (default: true)`
 
               Whether or not to automatically generate a response when a VAD stop event occurs.
 
-            - `eagerness: optional "low" or "medium" or "high" or "auto"`
+            - `eagerness: optional "low" or "medium" or "high" or "auto" (default: "auto")`
 
               Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`. `low`, `medium`, and `high` have max timeouts of 8s, 4s, and 2s respectively.
 
@@ -1315,7 +1369,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
               - `"auto"`
 
-            - `interrupt_response: optional boolean`
+            - `interrupt_response: optional boolean (default: true)`
 
               Whether or not to automatically interrupt any ongoing response with output to the default
               conversation (i.e. `conversation` of `auto`) when a VAD start event occurs.
@@ -1326,7 +1380,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
           The format of the output audio.
 
-        - `speed: optional number`
+        - `speed: optional number (default: 1)`
 
           The speed of the model's spoken response as a multiple of the original speed.
           1.0 is the default speed. 0.25 is the minimum speed. 1.5 is the maximum speed. This value can only be changed in between model turns, not while a response is in progress.
@@ -1334,7 +1388,9 @@ Schema name: `RealtimeServerEventSessionUpdated`
           This parameter is a post-processing adjustment to the audio after it is generated, it's
           also possible to prompt the model to speak faster or slower.
 
-        - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more`
+          `minimum: 0.25`, `maximum: 1.5`
+
+        - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more (default: "alloy")`
 
           The voice the model uses to respond. Voice cannot be changed during the
           session once the model has responded with audio at least once. Current
@@ -1372,9 +1428,11 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             - `"cedar"`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       Expiration timestamp for the session, in seconds since epoch.
+
+      `format: unixtime`
 
     - `include: optional array of "item.input_audio_transcription.logprobs" or null`
 
@@ -1451,7 +1509,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
         - `"gpt-audio-mini-2025-12-15"`
 
-    - `output_modalities: optional array of "text" or "audio"`
+    - `output_modalities: optional array of "text" or "audio" (default: ["audio"])`
 
       The set of modalities the model can respond with. It defaults to `["audio"]`, indicating
       that the model will respond with audio plus a transcript. `["text"]` can be used to make
@@ -1486,21 +1544,29 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `ResponseInputImage object { detail, type, file_id, 2 more }`
 
@@ -1518,7 +1584,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             - `"original"`
 
-          - `type: "input_image"`
+          - `type: "input_image" (default: "input_image")`
 
             The type of the input item. Always `input_image`.
 
@@ -1532,21 +1598,31 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+            `format: uri`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            - `mode: "explicit"`
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
 
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
+
         - `ResponseInputFile object { type, detail, file_data, 4 more }`
 
           A file input to the model.
 
-          - `type: "input_file"`
+          - `type: "input_file" (default: "input_file")`
 
             The type of the input item. Always `input_file`.
 
@@ -1574,19 +1650,29 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             The URL of the file to be sent to the model.
 
+            `format: uri`
+
           - `filename: optional string`
 
             The name of the file to be sent to the model.
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
       - `version: optional string or null`
 
@@ -1596,7 +1682,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
       Configuration for reasoning-capable Realtime models such as `gpt-realtime-2`.
 
-      - `effort: optional RealtimeReasoningEffort`
+      - `effort: optional RealtimeReasoningEffort (default: "low")`
 
         Constrains effort on reasoning for reasoning-capable Realtime models such as
         `gpt-realtime-2`.
@@ -1611,7 +1697,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
         - `"xhigh"`
 
-    - `tool_choice: optional ToolChoiceOptions or ToolChoiceFunction or ToolChoiceMcp`
+    - `tool_choice: optional ToolChoiceOptions or ToolChoiceFunction or ToolChoiceMcp (default: "auto")`
 
       How the model chooses tools. Provide one of the string modes or force a specific
       function/MCP tool.
@@ -1710,6 +1796,8 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
           The tool invocation context(s).
 
+          `minItems: 1`
+
           - `"direct"`
 
           - `"programmatic"`
@@ -1788,7 +1876,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
           Optional HTTP headers to send to the MCP server. Use for authentication
           or other purposes.
 
-        - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+        - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
           Specify which of the MCP server's tools require approval.
 
@@ -1845,10 +1933,14 @@ Schema name: `RealtimeServerEventSessionUpdated`
           The URL for the MCP server. One of `server_url`, `connector_id`, or
           `tunnel_id` must be provided.
 
+          `format: uri`
+
         - `tunnel_id: optional string`
 
           The Secure MCP Tunnel ID to use instead of a direct server URL. One of
           `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+          `pattern: ^tunnel_[a-z0-9]{32}$`
 
     - `tracing: optional "auto" or TracingConfiguration { group_id, metadata, workflow_name }  or null`
 
@@ -1909,6 +2001,8 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
           Fraction of post-instruction conversation tokens to retain (`0.0` - `1.0`) when the conversation exceeds the input token limit. Setting this to `0.8` means that messages will be dropped until 80% of the maximum allowed tokens are used. This helps reduce the frequency of truncations and improve cache rates.
 
+          `minimum: 0`, `maximum: 1`
+
         - `type: "retention_ratio"`
 
           Use retention ratio truncation.
@@ -1919,9 +2013,11 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
           Optional custom token limits for this truncation strategy. If not provided, the model's default token limits will be used.
 
-          - `post_instructions: optional number`
+          - `post_instructions: optional integer`
 
             Maximum tokens allowed in the conversation after instructions (which including tool definitions). For example, setting this to 5,000 would mean that truncation would occur when the conversation exceeds 5,000 tokens after instructions. This cannot be higher than the model's context window size minus the maximum output tokens.
+
+            `minimum: 0`
 
   - `RealtimeTranscriptionSessionCreateResponse object { id, object, type, 3 more }`
 
@@ -1971,6 +2067,8 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             The possible input audio languages configured for transcription, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.
 
+            `minItems: 1`
+
           - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
             The model used for transcription. Current options are `whisper-1`, `gpt-transcribe`, `gpt-live-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `gpt-4o-transcribe`, `gpt-4o-transcribe-diarize`, and `gpt-realtime-whisper`.
@@ -2007,12 +2105,12 @@ Schema name: `RealtimeServerEventSessionUpdated`
           VAD means that the model will detect the start and end of speech based on
           audio volume and respond at the end of user speech. For `gpt-realtime-whisper`, this must be `null`; VAD is not supported.
 
-          - `prefix_padding_ms: optional number`
+          - `prefix_padding_ms: optional integer`
 
             Amount of audio to include before the VAD detected speech (in
             milliseconds). Defaults to 300ms.
 
-          - `silence_duration_ms: optional number`
+          - `silence_duration_ms: optional integer`
 
             Duration of silence to detect speech stop (in milliseconds). Defaults
             to 500ms. With shorter values the model will respond more quickly,
@@ -2028,9 +2126,11 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             Type of turn detection, only `server_vad` is currently supported.
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       Expiration timestamp for the session, in seconds since epoch.
+
+      `format: unixtime`
 
     - `include: optional array of "item.input_audio_transcription.logprobs" or null`
 
@@ -2123,7 +2223,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
       }
     },
     "include": null
-  },
+  }
 }
 ```
 
@@ -2212,7 +2312,7 @@ Schema name: `RealtimeServerEventConversationItemAdded`
 
         Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-      - `detail: optional "auto" or "low" or "high"`
+      - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
         The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -2225,6 +2325,8 @@ Schema name: `RealtimeServerEventConversationItemAdded`
       - `image_url: optional string`
 
         Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+        `format: uri`
 
       - `text: optional string`
 
@@ -2516,7 +2618,7 @@ Schema name: `RealtimeServerEventConversationItemAdded`
 
       - `RealtimeMcpProtocolError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -2534,7 +2636,7 @@ Schema name: `RealtimeServerEventConversationItemAdded`
 
       - `RealtimeMcphttpError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -2687,7 +2789,7 @@ Schema name: `RealtimeServerEventConversationItemDone`
 
         Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-      - `detail: optional "auto" or "low" or "high"`
+      - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
         The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -2700,6 +2802,8 @@ Schema name: `RealtimeServerEventConversationItemDone`
       - `image_url: optional string`
 
         Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+        `format: uri`
 
       - `text: optional string`
 
@@ -2991,7 +3095,7 @@ Schema name: `RealtimeServerEventConversationItemDone`
 
       - `RealtimeMcpProtocolError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -3009,7 +3113,7 @@ Schema name: `RealtimeServerEventConversationItemDone`
 
       - `RealtimeMcphttpError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -3160,7 +3264,7 @@ Schema name: `RealtimeServerEventConversationItemRetrieved`
 
         Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-      - `detail: optional "auto" or "low" or "high"`
+      - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
         The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -3173,6 +3277,8 @@ Schema name: `RealtimeServerEventConversationItemRetrieved`
       - `image_url: optional string`
 
         Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+        `format: uri`
 
       - `text: optional string`
 
@@ -3464,7 +3570,7 @@ Schema name: `RealtimeServerEventConversationItemRetrieved`
 
       - `RealtimeMcpProtocolError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -3482,7 +3588,7 @@ Schema name: `RealtimeServerEventConversationItemRetrieved`
 
       - `RealtimeMcphttpError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -3540,10 +3646,9 @@ Schema name: `RealtimeServerEventConversationItemRetrieved`
     "role": "assistant",
     "content": [
       {
-        "type": "audio",
+        "type": "output_audio",
         "transcript": "Yes, I can hear you loud and clear. How can I help you today?",
-        "audio": "8//2//v/9//q/+//+P/s...",
-        "format": "pcm16"
+        "audio": "AAABAP//AAA="
       }
     ]
   }
@@ -3569,7 +3674,7 @@ should be treated as a rough guide.
 
 Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionCompleted`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part containing the audio.
 
@@ -3600,15 +3705,15 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionComplete
 
     Usage statistics for models billed by token usage.
 
-    - `input_tokens: number`
+    - `input_tokens: integer`
 
       Number of input tokens billed for this request.
 
-    - `output_tokens: number`
+    - `output_tokens: integer`
 
       Number of output tokens generated.
 
-    - `total_tokens: number`
+    - `total_tokens: integer`
 
       Total number of tokens used (input + output).
 
@@ -3622,11 +3727,11 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionComplete
 
       Details about the input tokens billed for this request.
 
-      - `audio_tokens: optional number`
+      - `audio_tokens: optional integer`
 
         Number of audio tokens billed for this request.
 
-      - `text_tokens: optional number`
+      - `text_tokens: optional integer`
 
         Number of text tokens billed for this request.
 
@@ -3637,6 +3742,8 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionComplete
     - `seconds: number`
 
       Duration of the input audio in seconds.
+
+      `format: double`
 
     - `type: "duration"`
 
@@ -3714,7 +3821,7 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionDelta`
 
   - `"conversation.item.input_audio_transcription.delta"`
 
-- `content_index: optional number`
+- `content_index: optional integer`
 
   The index of the content part in the item's content array.
 
@@ -3724,7 +3831,7 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionDelta`
 
 - `logprobs: optional array of LogProbProperties or null`
 
-  The log probabilities of the transcription. These can be enabled by configurating the session with `"include": ["item.input_audio_transcription.logprobs"]`. Each entry in the array corresponds a log probability of which token would be selected for this chunk of transcription. This can help to identify if it was possible there were multiple valid options for a given chunk of transcription.
+  The log probabilities of the transcription. These can be enabled by configuring the session with `"include": ["item.input_audio_transcription.logprobs"]`. Each entry in the array corresponds a log probability of which token would be selected for this chunk of transcription. This can help to identify if it was possible there were multiple valid options for a given chunk of transcription.
 
   - `token: string`
 
@@ -3765,13 +3872,15 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionSegment`
 
   The segment identifier.
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the input audio content part within the item.
 
 - `end: number`
 
   End time of the segment in seconds.
+
+  `format: double`
 
 - `event_id: string`
 
@@ -3788,6 +3897,8 @@ Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionSegment`
 - `start: number`
 
   Start time of the segment in seconds.
+
+  `format: double`
 
 - `text: string`
 
@@ -3827,7 +3938,7 @@ request for a user message failed. These events are separate from other
 
 Schema name: `RealtimeServerEventConversationItemInputAudioTranscriptionFailed`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part containing the audio.
 
@@ -3898,11 +4009,11 @@ to ensure there is no text in the context that hasn't been heard by the user.
 
 Schema name: `RealtimeServerEventConversationItemTruncated`
 
-- `audio_end_ms: number`
+- `audio_end_ms: integer`
 
   The duration up to which the audio was truncated, in milliseconds.
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part that was truncated.
 
@@ -4028,7 +4139,7 @@ Schema name: `RealtimeServerEventInputAudioBufferDtmfEventReceived`
 
   The telephone keypad that was pressed by the user.
 
-- `received_at: number`
+- `received_at: integer`
 
   UTC Unix Timestamp when DTMF Event was received by server.
 
@@ -4042,9 +4153,9 @@ Schema name: `RealtimeServerEventInputAudioBufferDtmfEventReceived`
 
 ```json
 {
-    "type":" input_audio_buffer.dtmf_event_received",
-    "event": "9",
-    "received_at": 1763605109,
+  "type": "input_audio_buffer.dtmf_event_received",
+  "event": "9",
+  "received_at": 1763605109
 }
 ```
 
@@ -4097,7 +4208,7 @@ the audio buffer during VAD activation).
 
 Schema name: `RealtimeServerEventInputAudioBufferSpeechStarted`
 
-- `audio_start_ms: number`
+- `audio_start_ms: integer`
 
   Milliseconds from the start of all audio written to the buffer during the
   session when speech was first detected. This will correspond to the
@@ -4141,7 +4252,7 @@ event with the user message item that is created from the audio buffer.
 
 Schema name: `RealtimeServerEventInputAudioBufferSpeechStopped`
 
-- `audio_end_ms: number`
+- `audio_end_ms: integer`
 
   Milliseconds since the session started when speech stopped. This will
   correspond to the end of audio sent to the model, and thus includes the
@@ -4194,11 +4305,11 @@ something relevant to the conversation or a prompt to continue speaking.
 
 Schema name: `RealtimeServerEventInputAudioBufferTimeoutTriggered`
 
-- `audio_end_ms: number`
+- `audio_end_ms: integer`
 
   Millisecond offset of audio written to the input audio buffer at the time the timeout was triggered.
 
-- `audio_start_ms: number`
+- `audio_start_ms: integer`
 
   Millisecond offset of audio written to the input audio buffer that was after the playback time of the last model response.
 
@@ -4409,7 +4520,7 @@ Schema name: `RealtimeServerEventResponseCreated`
 
             - `"audio/pcma"`
 
-      - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more`
+      - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more (default: "alloy")`
 
         The voice the model uses to respond. Voice cannot be changed during the
         session once the model has responded with audio at least once. Current
@@ -4548,7 +4659,7 @@ Schema name: `RealtimeServerEventResponseCreated`
 
           Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-        - `detail: optional "auto" or "low" or "high"`
+        - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
           The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -4561,6 +4672,8 @@ Schema name: `RealtimeServerEventResponseCreated`
         - `image_url: optional string`
 
           Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+          `format: uri`
 
         - `text: optional string`
 
@@ -4852,7 +4965,7 @@ Schema name: `RealtimeServerEventResponseCreated`
 
         - `RealtimeMcpProtocolError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
@@ -4870,7 +4983,7 @@ Schema name: `RealtimeServerEventResponseCreated`
 
         - `RealtimeMcphttpError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
@@ -4937,7 +5050,7 @@ Schema name: `RealtimeServerEventResponseCreated`
 
     Additional details about the status.
 
-    - `error: optional object { code, type }`
+    - `error: optional object { code, message, type }`
 
       A description of the error that caused the response to fail,
       populated when the `status` is `failed`.
@@ -4945,6 +5058,10 @@ Schema name: `RealtimeServerEventResponseCreated`
       - `code: optional string`
 
         Error code, if any.
+
+      - `message: optional string`
+
+        A human-readable error message.
 
       - `type: optional string`
 
@@ -4987,11 +5104,11 @@ Schema name: `RealtimeServerEventResponseCreated`
 
       Details about the input tokens used in the Response. Cached tokens are tokens from previous turns in the conversation that are included as context for the current response. Cached tokens here are counted as a subset of input tokens, meaning input tokens will include cached and uncached tokens.
 
-      - `audio_tokens: optional number`
+      - `audio_tokens: optional integer`
 
         The number of audio tokens used as input for the Response.
 
-      - `cached_tokens: optional number`
+      - `cached_tokens: optional integer`
 
         The number of cached tokens used as input for the Response.
 
@@ -4999,27 +5116,27 @@ Schema name: `RealtimeServerEventResponseCreated`
 
         Details about the cached tokens used as input for the Response.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           The number of cached audio tokens used as input for the Response.
 
-        - `image_tokens: optional number`
+        - `image_tokens: optional integer`
 
           The number of cached image tokens used as input for the Response.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           The number of cached text tokens used as input for the Response.
 
-      - `image_tokens: optional number`
+      - `image_tokens: optional integer`
 
         The number of image tokens used as input for the Response.
 
-      - `text_tokens: optional number`
+      - `text_tokens: optional integer`
 
         The number of text tokens used as input for the Response.
 
-    - `input_tokens: optional number`
+    - `input_tokens: optional integer`
 
       The number of input tokens used in the Response, including text and
       audio tokens.
@@ -5028,20 +5145,20 @@ Schema name: `RealtimeServerEventResponseCreated`
 
       Details about the output tokens used in the Response.
 
-      - `audio_tokens: optional number`
+      - `audio_tokens: optional integer`
 
         The number of audio tokens used in the Response.
 
-      - `text_tokens: optional number`
+      - `text_tokens: optional integer`
 
         The number of text tokens used in the Response.
 
-    - `output_tokens: optional number`
+    - `output_tokens: optional integer`
 
       The number of output tokens sent in the Response, including text and
       audio tokens.
 
-    - `total_tokens: optional number`
+    - `total_tokens: optional integer`
 
       The total number of tokens in the Response including input and output
       text and audio tokens.
@@ -5080,7 +5197,7 @@ Schema name: `RealtimeServerEventResponseCreated`
     },
     "usage": null,
     "metadata": null
-  },
+  }
 }
 ```
 
@@ -5160,7 +5277,7 @@ Schema name: `RealtimeServerEventResponseDone`
 
             - `"audio/pcma"`
 
-      - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more`
+      - `voice: optional string or "alloy" or "ash" or "ballad" or 7 more (default: "alloy")`
 
         The voice the model uses to respond. Voice cannot be changed during the
         session once the model has responded with audio at least once. Current
@@ -5299,7 +5416,7 @@ Schema name: `RealtimeServerEventResponseDone`
 
           Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-        - `detail: optional "auto" or "low" or "high"`
+        - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
           The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -5312,6 +5429,8 @@ Schema name: `RealtimeServerEventResponseDone`
         - `image_url: optional string`
 
           Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+          `format: uri`
 
         - `text: optional string`
 
@@ -5603,7 +5722,7 @@ Schema name: `RealtimeServerEventResponseDone`
 
         - `RealtimeMcpProtocolError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
@@ -5621,7 +5740,7 @@ Schema name: `RealtimeServerEventResponseDone`
 
         - `RealtimeMcphttpError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
@@ -5688,7 +5807,7 @@ Schema name: `RealtimeServerEventResponseDone`
 
     Additional details about the status.
 
-    - `error: optional object { code, type }`
+    - `error: optional object { code, message, type }`
 
       A description of the error that caused the response to fail,
       populated when the `status` is `failed`.
@@ -5696,6 +5815,10 @@ Schema name: `RealtimeServerEventResponseDone`
       - `code: optional string`
 
         Error code, if any.
+
+      - `message: optional string`
+
+        A human-readable error message.
 
       - `type: optional string`
 
@@ -5738,11 +5861,11 @@ Schema name: `RealtimeServerEventResponseDone`
 
       Details about the input tokens used in the Response. Cached tokens are tokens from previous turns in the conversation that are included as context for the current response. Cached tokens here are counted as a subset of input tokens, meaning input tokens will include cached and uncached tokens.
 
-      - `audio_tokens: optional number`
+      - `audio_tokens: optional integer`
 
         The number of audio tokens used as input for the Response.
 
-      - `cached_tokens: optional number`
+      - `cached_tokens: optional integer`
 
         The number of cached tokens used as input for the Response.
 
@@ -5750,27 +5873,27 @@ Schema name: `RealtimeServerEventResponseDone`
 
         Details about the cached tokens used as input for the Response.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           The number of cached audio tokens used as input for the Response.
 
-        - `image_tokens: optional number`
+        - `image_tokens: optional integer`
 
           The number of cached image tokens used as input for the Response.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           The number of cached text tokens used as input for the Response.
 
-      - `image_tokens: optional number`
+      - `image_tokens: optional integer`
 
         The number of image tokens used as input for the Response.
 
-      - `text_tokens: optional number`
+      - `text_tokens: optional integer`
 
         The number of text tokens used as input for the Response.
 
-    - `input_tokens: optional number`
+    - `input_tokens: optional integer`
 
       The number of input tokens used in the Response, including text and
       audio tokens.
@@ -5779,20 +5902,20 @@ Schema name: `RealtimeServerEventResponseDone`
 
       Details about the output tokens used in the Response.
 
-      - `audio_tokens: optional number`
+      - `audio_tokens: optional integer`
 
         The number of audio tokens used in the Response.
 
-      - `text_tokens: optional number`
+      - `text_tokens: optional integer`
 
         The number of text tokens used in the Response.
 
-    - `output_tokens: optional number`
+    - `output_tokens: optional integer`
 
       The number of output tokens sent in the Response, including text and
       audio tokens.
 
-    - `total_tokens: optional number`
+    - `total_tokens: optional integer`
 
       The total number of tokens in the Response including input and output
       text and audio tokens.
@@ -5947,7 +6070,7 @@ Schema name: `RealtimeServerEventResponseOutputItemAdded`
 
         Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-      - `detail: optional "auto" or "low" or "high"`
+      - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
         The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -5960,6 +6083,8 @@ Schema name: `RealtimeServerEventResponseOutputItemAdded`
       - `image_url: optional string`
 
         Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+        `format: uri`
 
       - `text: optional string`
 
@@ -6251,7 +6376,7 @@ Schema name: `RealtimeServerEventResponseOutputItemAdded`
 
       - `RealtimeMcpProtocolError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -6269,7 +6394,7 @@ Schema name: `RealtimeServerEventResponseOutputItemAdded`
 
       - `RealtimeMcphttpError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -6307,7 +6432,7 @@ Schema name: `RealtimeServerEventResponseOutputItemAdded`
 
       - `"mcp_approval_request"`
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the Response.
 
@@ -6421,7 +6546,7 @@ Schema name: `RealtimeServerEventResponseOutputItemDone`
 
         Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-      - `detail: optional "auto" or "low" or "high"`
+      - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
         The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -6434,6 +6559,8 @@ Schema name: `RealtimeServerEventResponseOutputItemDone`
       - `image_url: optional string`
 
         Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+        `format: uri`
 
       - `text: optional string`
 
@@ -6725,7 +6852,7 @@ Schema name: `RealtimeServerEventResponseOutputItemDone`
 
       - `RealtimeMcpProtocolError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -6743,7 +6870,7 @@ Schema name: `RealtimeServerEventResponseOutputItemDone`
 
       - `RealtimeMcphttpError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -6781,7 +6908,7 @@ Schema name: `RealtimeServerEventResponseOutputItemDone`
 
       - `"mcp_approval_request"`
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the Response.
 
@@ -6799,23 +6926,23 @@ Schema name: `RealtimeServerEventResponseOutputItemDone`
 
 ```json
 {
-    "event_id": "event_3536",
-    "type": "response.output_item.done",
-    "response_id": "resp_001",
-    "output_index": 0,
-    "item": {
-        "id": "msg_007",
-        "object": "realtime.item",
-        "type": "message",
-        "status": "completed",
-        "role": "assistant",
-        "content": [
-            {
-                "type": "text",
-                "text": "Sure, I can help with that."
-            }
-        ]
-    }
+  "event_id": "event_3536",
+  "type": "response.output_item.done",
+  "response_id": "resp_001",
+  "output_index": 0,
+  "item": {
+    "id": "msg_007",
+    "object": "realtime.item",
+    "type": "message",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "Sure, I can help with that."
+      }
+    ]
+  }
 }
 ```
 
@@ -6830,7 +6957,7 @@ response generation.
 
 Schema name: `RealtimeServerEventResponseContentPartAdded`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -6842,7 +6969,7 @@ Schema name: `RealtimeServerEventResponseContentPartAdded`
 
   The ID of the item to which the content part was added.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -6908,7 +7035,7 @@ Also emitted when a Response is interrupted, incomplete, or cancelled.
 
 Schema name: `RealtimeServerEventResponseContentPartDone`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -6920,7 +7047,7 @@ Schema name: `RealtimeServerEventResponseContentPartDone`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -6985,7 +7112,7 @@ Returned when the text value of an "output_text" content part is updated.
 
 Schema name: `RealtimeServerEventResponseTextDelta`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -7001,7 +7128,7 @@ Schema name: `RealtimeServerEventResponseTextDelta`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7040,7 +7167,7 @@ emitted when a Response is interrupted, incomplete, or cancelled.
 
 Schema name: `RealtimeServerEventResponseTextDone`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -7052,7 +7179,7 @@ Schema name: `RealtimeServerEventResponseTextDone`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7094,7 +7221,7 @@ Returned when the model-generated transcription of audio output is updated.
 
 Schema name: `RealtimeServerEventResponseAudioTranscriptDelta`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -7110,7 +7237,7 @@ Schema name: `RealtimeServerEventResponseAudioTranscriptDelta`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7150,7 +7277,7 @@ cancelled.
 
 Schema name: `RealtimeServerEventResponseAudioTranscriptDone`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -7162,7 +7289,7 @@ Schema name: `RealtimeServerEventResponseAudioTranscriptDone`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7204,7 +7331,7 @@ Returned when the model-generated audio is updated.
 
 Schema name: `RealtimeServerEventResponseAudioDelta`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -7220,7 +7347,7 @@ Schema name: `RealtimeServerEventResponseAudioDelta`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7259,7 +7386,7 @@ is interrupted, incomplete, or cancelled.
 
 Schema name: `RealtimeServerEventResponseAudioDone`
 
-- `content_index: number`
+- `content_index: integer`
 
   The index of the content part in the item's content array.
 
@@ -7271,7 +7398,7 @@ Schema name: `RealtimeServerEventResponseAudioDone`
 
   The ID of the item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7324,7 +7451,7 @@ Schema name: `RealtimeServerEventResponseFunctionCallArgumentsDelta`
 
   The ID of the function call item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7383,7 +7510,7 @@ Schema name: `RealtimeServerEventResponseFunctionCallArgumentsDone`
 
   The name of the function that was called.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7434,7 +7561,7 @@ Schema name: `RealtimeServerEventResponseMCPCallArgumentsDelta`
 
   The ID of the MCP tool call item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7487,7 +7614,7 @@ Schema name: `RealtimeServerEventResponseMCPCallArgumentsDone`
 
   The ID of the MCP tool call item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7532,7 +7659,7 @@ Schema name: `RealtimeServerEventResponseMCPCallInProgress`
 
   The ID of the MCP tool call item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7571,7 +7698,7 @@ Schema name: `RealtimeServerEventResponseMCPCallCompleted`
 
   The ID of the MCP tool call item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7610,7 +7737,7 @@ Schema name: `RealtimeServerEventResponseMCPCallFailed`
 
   The ID of the MCP tool call item.
 
-- `output_index: number`
+- `output_index: integer`
 
   The index of the output item in the response.
 
@@ -7754,7 +7881,7 @@ Schema name: `RealtimeServerEventRateLimitsUpdated`
 
   List of rate limit information.
 
-  - `limit: optional number`
+  - `limit: optional integer`
 
     The maximum allowed value for the rate limit.
 
@@ -7766,7 +7893,7 @@ Schema name: `RealtimeServerEventRateLimitsUpdated`
 
     - `"tokens"`
 
-  - `remaining: optional number`
+  - `remaining: optional integer`
 
     The remaining value before the limit is reached.
 
@@ -7936,7 +8063,7 @@ Schema name: `RealtimeServerEventConversationItemCreated`
 
         Base64-encoded audio bytes (for `input_audio`), these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified.
 
-      - `detail: optional "auto" or "low" or "high"`
+      - `detail: optional "auto" or "low" or "high" (default: "auto")`
 
         The detail level of the image (for `input_image`). `auto` will default to `high`.
 
@@ -7949,6 +8076,8 @@ Schema name: `RealtimeServerEventConversationItemCreated`
       - `image_url: optional string`
 
         Base64-encoded image bytes (for `input_image`) as a data URI. For example `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`. Supported formats are PNG and JPEG.
+
+        `format: uri`
 
       - `text: optional string`
 
@@ -8240,7 +8369,7 @@ Schema name: `RealtimeServerEventConversationItemCreated`
 
       - `RealtimeMcpProtocolError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
@@ -8258,7 +8387,7 @@ Schema name: `RealtimeServerEventConversationItemCreated`
 
       - `RealtimeMcphttpError object { code, message, type }`
 
-        - `code: number`
+        - `code: integer`
 
         - `message: string`
 
