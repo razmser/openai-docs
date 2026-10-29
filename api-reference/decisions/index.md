@@ -4,39 +4,423 @@
 
 **post** `/decisions`
 
-Use this endpoint to ask classification or scoring questions about the same input. You’ll get the answers back in the order you asked the questions.
-
-For text, you can pass a string. You can also send user messages containing `input_text` and `input_image` parts, with up to 128 images per request. Images can be base64 data URLs or publicly accessible HTTP(S) URLs. File IDs aren’t accepted. Other message roles, function calls, files, audio, and item references aren’t supported.
-
-Sometimes a question returns a refusal instead of an answer. The result has type `refusal` and includes the question’s name, or `null` if you didn’t give it one.
+Use this endpoint to quickly answer classification or scoring questions about some input. You can ask multiple questions in one request.
 
 ### Body Parameters
 
-- `input: string or array of DecisionInputMessage`
+- `input: string or array of DecisionInputMessage or object { content, role, type }  or object { content, role, type }  or 2 more`
 
-  The text or images to evaluate for every question. Provide a text string or user messages containing text and images. Images can be base64 data URLs or publicly accessible HTTP(S) URLs; at most 128 images are allowed across all messages in one request. Files, audio, tools, and item references are not supported.
+  The input to evaluate for every question. Provide a text string or an ordered array of messages, function calls and outputs, or custom tool calls and outputs. Each tool output must identify a matching call by call ID.
 
   - `string`
 
-  - `array of DecisionInputMessage`
+    `minLength: 0`, `maxLength: 10485760`
 
-    - `content: string or array of DecisionInputPart`
+  - `array of DecisionInputUserMessage { content, role, type }  or DecisionInputDeveloperMessage { content, role, type }  or DecisionInputSystemMessage { content, role, type }  or 5 more`
 
-      Text evidence or an ordered list of text and image parts.
+    `minItems: 0`, `maxItems: 131072`
 
-      - `string`
+    - `DecisionInputUserMessage object { content, role, type }`
 
-      - `Parts = array of DecisionInputPart`
+      A user message containing input text, images, or JSON.
 
-        - `DecisionInputText object { text, type }`
+      - `content: string or array of DecisionInputPart`
+
+        A text string or an ordered list of text, image, and JSON parts.
+
+        - `string`
+
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `Parts = array of DecisionInputPart`
+
+          `minItems: 0`, `maxItems: 16384`
+
+          - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
+
+            - `text: string`
+
+              `minLength: 0`, `maxLength: 10485760`
+
+            - `type: "input_text" (default: "input_text")`
+
+              - `"input_text"`
+
+            - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit" (default: "explicit")`
+
+                The breakpoint mode. Always `explicit`.
+
+                - `"explicit"`
+
+          - `DecisionInputImage object { image_url, type, detail, prompt_cache_breakpoint }`
+
+            An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+            - `image_url: string`
+
+              A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+
+              `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+            - `type: "input_image" (default: "input_image")`
+
+              - `"input_image"`
+
+            - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
+
+              The image detail level, using the selected model's image profile. Defaults to auto.
+
+              - `"low"`
+
+              - `"high"`
+
+              - `"auto"`
+
+              - `"original"`
+
+            - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit" (default: "explicit")`
+
+                The breakpoint mode. Always `explicit`.
+
+                - `"explicit"`
+
+          - `DecisionInputJSON object { data, type }`
+
+            A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+            - `data: map[unknown] or array of map[unknown]`
+
+              - `map[unknown]`
+
+              - `array of map[unknown]`
+
+                `minItems: 0`
+
+            - `type: "input_json" (default: "input_json")`
+
+              - `"input_json"`
+
+      - `role: "user" (default: "user")`
+
+        - `"user"`
+
+      - `type: optional "message" (default: "message")`
+
+        - `"message"`
+
+    - `DecisionInputDeveloperMessage object { content, role, type }`
+
+      A developer message containing input text.
+
+      - `content: string or array of DecisionInputText`
+
+        A text string or an ordered list of input text parts.
+
+        - `string`
+
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `Parts = array of DecisionInputText`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `text: string`
 
-          - `type: "input_text"`
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+      - `role: "developer" (default: "developer")`
+
+        - `"developer"`
+
+      - `type: optional "message" (default: "message")`
+
+        - `"message"`
+
+    - `DecisionInputSystemMessage object { content, role, type }`
+
+      A system message containing input text.
+
+      - `content: string or array of DecisionInputText`
+
+        A text string or an ordered list of input text parts.
+
+        - `string`
+
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `Parts = array of DecisionInputText`
+
+          `minItems: 0`, `maxItems: 16384`
+
+          - `text: string`
+
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+      - `role: "system" (default: "system")`
+
+        - `"system"`
+
+      - `type: optional "message" (default: "message")`
+
+        - `"message"`
+
+    - `DecisionInputAssistantMessage object { content, role, phase, type }`
+
+      An assistant message containing output text or refusals.
+
+      - `content: string or array of OutputText { text, type }  or Refusal { refusal, type }`
+
+        A text string or an ordered list of output text and refusal parts.
+
+        - `string`
+
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `Parts = array of OutputText { text, type }  or Refusal { refusal, type }`
+
+          `minItems: 0`, `maxItems: 16384`
+
+          - `OutputText object { text, type }`
+
+            - `text: string`
+
+              `minLength: 0`, `maxLength: 10485760`
+
+            - `type: "output_text" (default: "output_text")`
+
+              - `"output_text"`
+
+          - `Refusal object { refusal, type }`
+
+            - `refusal: string`
+
+              `minLength: 0`, `maxLength: 10485760`
+
+            - `type: "refusal" (default: "refusal")`
+
+              - `"refusal"`
+
+      - `role: "assistant" (default: "assistant")`
+
+        - `"assistant"`
+
+      - `phase: optional "commentary" or "final_answer" or null`
+
+        The phase of an assistant message.
+
+        - `"commentary"`
+
+        - `"final_answer"`
+
+      - `type: optional "message" (default: "message")`
+
+        - `"message"`
+
+    - `FunctionCall object { arguments, call_id, name, 4 more }`
+
+      - `arguments: string`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `call_id: string`
+
+        `minLength: 1`, `maxLength: 64`
+
+      - `name: string`
+
+        `pattern: ^[a-zA-Z0-9_.-]+$`, `minLength: 1`, `maxLength: 128`
+
+      - `type: "function_call" (default: "function_call")`
+
+        - `"function_call"`
+
+      - `id: optional string or null`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `namespace: optional string or null`
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
+
+      - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+        - `"in_progress"`
+
+        - `"completed"`
+
+        - `"incomplete"`
+
+    - `FunctionCallOutput object { call_id, output, type, 2 more }`
+
+      - `call_id: string`
+
+        `minLength: 1`, `maxLength: 64`
+
+      - `output: string or array of DecisionInputText or DecisionInputImage`
+
+        Text evidence or an ordered list of text and image parts.
+
+        - `string`
+
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `Parts = array of DecisionInputText or DecisionInputImage`
+
+          `minItems: 0`, `maxItems: 16384`
+
+          - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
+
+          - `DecisionInputImage object { image_url, type, detail, prompt_cache_breakpoint }`
+
+            An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+      - `type: "function_call_output" (default: "function_call_output")`
+
+        - `"function_call_output"`
+
+      - `id: optional string or null`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+        - `"in_progress"`
+
+        - `"completed"`
+
+        - `"incomplete"`
+
+    - `CustomToolCall object { call_id, input, name, 4 more }`
+
+      - `call_id: string`
+
+        `minLength: 1`, `maxLength: 64`
+
+      - `input: string`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `name: string`
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
+
+      - `type: "custom_tool_call" (default: "custom_tool_call")`
+
+        - `"custom_tool_call"`
+
+      - `id: optional string or null`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `namespace: optional string or null`
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
+
+      - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+        - `"in_progress"`
+
+        - `"completed"`
+
+        - `"incomplete"`
+
+    - `CustomToolCallOutput object { call_id, output, type, 2 more }`
+
+      - `call_id: string`
+
+        `minLength: 1`, `maxLength: 64`
+
+      - `output: string or array of DecisionInputText or DecisionInputImage`
+
+        Text evidence or an ordered list of text and image parts.
+
+        - `string`
+
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `Parts = array of DecisionInputText or DecisionInputImage`
+
+          `minItems: 0`, `maxItems: 16384`
+
+          - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
+
+          - `DecisionInputImage object { image_url, type, detail, prompt_cache_breakpoint }`
+
+            An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+      - `type: "custom_tool_call_output" (default: "custom_tool_call_output")`
+
+        - `"custom_tool_call_output"`
+
+      - `id: optional string or null`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+        - `"in_progress"`
+
+        - `"completed"`
+
+        - `"incomplete"`
+
+- `model: string`
+
+  The model to use. Only `gpt-6-luna` is supported.
+
+  `minLength: 0`, `maxLength: 1048576`
+
+- `questions: array of Predicate { instructions, type, name }  or Choice { choices, instructions, type, name }  or Score { instructions, levels, type, name }`
+
+  Ask 1–400 questions about the input. Each question can be a predicate, choice, or score. Answers come back in the same order.
+
+  `minItems: 1`, `maxItems: 400`
+
+  - `Predicate object { instructions, type, name }`
+
+    Estimate how likely it is that a statement about the input is true.
+
+    - `instructions: string or array of DecisionQuestionInputPart`
+
+      - `string`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `array of DecisionQuestionInputPart`
+
+        `minItems: 1`, `maxItems: 16384`
+
+        - `DecisionQuestionInputText object { text, type }`
+
+          - `text: string`
+
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
 
             - `"input_text"`
 
-        - `DecisionInputImage object { image_url, type, detail }`
+        - `DecisionQuestionInputImage object { image_url, type, detail }`
 
           An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
 
@@ -44,11 +428,13 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
             A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-          - `type: "input_image"`
+            `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+          - `type: "input_image" (default: "input_image")`
 
             - `"input_image"`
 
-          - `detail: optional "low" or "high" or "auto" or "original" or null`
+          - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
             The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -60,31 +446,19 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
             - `"original"`
 
-    - `role: "user"`
+        - `DecisionInputJSON object { data, type }`
 
-      - `"user"`
+          A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
 
-    - `type: optional "message"`
-
-      - `"message"`
-
-- `model: string`
-
-- `questions: array of Predicate { instructions, type, name }  or Choice { choices, instructions, type, name }  or Score { instructions, levels, type, name }`
-
-  - `Predicate object { instructions, type, name }`
-
-    Estimate how likely it is that a statement about the input is true.
-
-    - `instructions: string`
-
-    - `type: "predicate"`
+    - `type: "predicate" (default: "predicate")`
 
       The type of the object. Always `predicate`.
 
       - `"predicate"`
 
     - `name: optional string`
+
+      `minLength: 0`, `maxLength: 1048576`
 
   - `Choice object { choices, instructions, type, name }`
 
@@ -94,19 +468,43 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
       Provide between 2 and 255 choices. Each choice must be unique.
 
+      `minItems: 2`, `maxItems: 255`
+
       - `value: string or boolean`
 
         Choice values are typed: a string and a boolean with the same text are distinct.
 
         - `string`
 
+          `minLength: 0`, `maxLength: 1048576`
+
         - `boolean`
 
       - `description: optional string`
 
-    - `instructions: string`
+        `minLength: 0`, `maxLength: 1048576`
 
-    - `type: "choice"`
+    - `instructions: string or array of DecisionQuestionInputPart`
+
+      - `string`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `array of DecisionQuestionInputPart`
+
+        `minItems: 1`, `maxItems: 16384`
+
+        - `DecisionQuestionInputText object { text, type }`
+
+        - `DecisionQuestionInputImage object { image_url, type, detail }`
+
+          An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+        - `DecisionInputJSON object { data, type }`
+
+          A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+    - `type: "choice" (default: "choice")`
 
       The type of the object. Always `choice`.
 
@@ -114,19 +512,45 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
     - `name: optional string`
 
+      `minLength: 0`, `maxLength: 1048576`
+
   - `Score object { instructions, levels, type, name }`
 
     Rate the input against the supplied ordered levels.
 
-    - `instructions: string`
+    - `instructions: string or array of DecisionQuestionInputPart`
+
+      - `string`
+
+        `minLength: 0`, `maxLength: 1048576`
+
+      - `array of DecisionQuestionInputPart`
+
+        `minItems: 1`, `maxItems: 16384`
+
+        - `DecisionQuestionInputText object { text, type }`
+
+        - `DecisionQuestionInputImage object { image_url, type, detail }`
+
+          An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+        - `DecisionInputJSON object { data, type }`
+
+          A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
 
     - `levels: array of object { label, description }`
 
+      `minItems: 2`, `maxItems: 10`
+
       - `label: string`
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `description: optional string`
 
-    - `type: "score"`
+        `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "score" (default: "score")`
 
       The type of the object. Always `score`.
 
@@ -134,9 +558,37 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
     - `name: optional string`
 
+      `minLength: 0`, `maxLength: 1048576`
+
+- `prompt_cache_key: optional string or null`
+
+  Partition prompt cache reuse by caller-provided key.
+
+  `minLength: 0`, `maxLength: 64`
+
+- `prompt_cache_options: optional object { mode, ttl }  or null`
+
+  Options for prompt caching. Supported for `gpt-5.6` and later models. By default, OpenAI automatically chooses one implicit cache breakpoint. You can add explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each request can write up to four breakpoints. For cache matching, OpenAI considers up to the latest 80 breakpoints in the conversation, without a content-block lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The `ttl` defaults to `30m`, which is currently the only supported value. See the [prompt caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) for current details.
+
+  - `mode: optional "implicit" or "explicit" or null`
+
+    Controls whether OpenAI automatically creates an implicit cache breakpoint. Defaults to `implicit`. With `implicit`, OpenAI creates one implicit breakpoint and writes up to the latest three explicit breakpoints in the request. With `explicit`, OpenAI does not create an implicit breakpoint and writes up to the latest four explicit breakpoints. If there are no explicit breakpoints, the request does not use prompt caching.
+
+    - `"implicit"`
+
+    - `"explicit"`
+
+  - `ttl: optional "30m" (default: "30m")`
+
+    The minimum lifetime applied to every implicit and explicit cache breakpoint written by the request. Defaults to `30m`, which is currently the only supported value. The backend may retain cache entries for longer.
+
+    - `"30m"`
+
 - `safety_identifier: optional string or null`
 
   Opaque caller-provided end-user identifier, scoped by the verified org. Match Responses' limit; this is never the authenticated user identity.
+
+  `minLength: 0`, `maxLength: 128`
 
 ### Returns
 
@@ -144,13 +596,19 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
   - `answers: array of Predicate { name, probability, type }  or Choice { choice, confidence, name, 2 more }  or Score { confidence, name, probabilities, 2 more }  or Refusal { name, type }`
 
+    Answers in question order. Any question can return a refusal instead of an answer; other questions can still receive answers. A refusal has `type: "refusal"` and the question's `name`, or `null` if it was unnamed.
+
+    `minItems: 0`, `maxItems: 2000`
+
     - `Predicate object { name, probability, type }`
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probability: number`
 
-      - `type: "predicate"`
+      - `type: "predicate" (default: "predicate")`
 
         The type of the object. Always `predicate`.
 
@@ -164,13 +622,19 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
         - `string`
 
+          `minLength: 0`
+
         - `boolean`
 
       - `confidence: number`
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probabilities: array of object { probability, value }`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `probability: number`
 
@@ -180,9 +644,11 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
           - `string`
 
+            `minLength: 0`
+
           - `boolean`
 
-      - `type: "choice"`
+      - `type: "choice" (default: "choice")`
 
         The type of the object. Always `choice`.
 
@@ -194,17 +660,25 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probabilities: array of object { label, probability, value }`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `label: string`
 
+          `minLength: 0`
+
         - `probability: number`
 
-        - `value: number`
+        - `value: integer`
+
+          `format: int64`
 
       - `score: number`
 
-      - `type: "score"`
+      - `type: "score" (default: "score")`
 
         The type of the object. Always `score`.
 
@@ -216,7 +690,9 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
       - `name: string or null`
 
-      - `type: "refusal"`
+        `minLength: 0`
+
+      - `type: "refusal" (default: "refusal")`
 
         The type of the object. Always `refusal`.
 
@@ -224,23 +700,41 @@ Sometimes a question returns a refusal instead of an answer. The result has type
 
   - `model: string`
 
+    The model used.
+
+    `minLength: 0`
+
   - `usage: object { input_tokens, input_tokens_details, output_tokens, 2 more }`
 
-    - `input_tokens: number`
+    Token usage for the request.
+
+    - `input_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
     - `input_tokens_details: object { cache_write_tokens, cached_tokens }`
 
-      - `cache_write_tokens: number`
+      - `cache_write_tokens: integer`
 
-      - `cached_tokens: number`
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
-    - `output_tokens: number`
+      - `cached_tokens: integer`
+
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
+
+    - `output_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
     - `output_tokens_details: object { reasoning_tokens }`
 
-      - `reasoning_tokens: number`
+      - `reasoning_tokens: integer`
 
-    - `total_tokens: number`
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
+
+    - `total_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
 ### Example
 
@@ -253,14 +747,14 @@ curl https://api.openai.com/v1/decisions \
           "model": "model",
           "questions": [
             {
-              "instructions": "instructions",
+              "instructions": "string",
               "type": "predicate"
             }
           ]
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -306,7 +800,7 @@ curl https://api.openai.com/v1/decisions \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -332,13 +826,19 @@ curl https://api.openai.com/v1/decisions \
 
   - `answers: array of Predicate { name, probability, type }  or Choice { choice, confidence, name, 2 more }  or Score { confidence, name, probabilities, 2 more }  or Refusal { name, type }`
 
+    Answers in question order. Any question can return a refusal instead of an answer; other questions can still receive answers. A refusal has `type: "refusal"` and the question's `name`, or `null` if it was unnamed.
+
+    `minItems: 0`, `maxItems: 2000`
+
     - `Predicate object { name, probability, type }`
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probability: number`
 
-      - `type: "predicate"`
+      - `type: "predicate" (default: "predicate")`
 
         The type of the object. Always `predicate`.
 
@@ -352,13 +852,19 @@ curl https://api.openai.com/v1/decisions \
 
         - `string`
 
+          `minLength: 0`
+
         - `boolean`
 
       - `confidence: number`
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probabilities: array of object { probability, value }`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `probability: number`
 
@@ -368,9 +874,11 @@ curl https://api.openai.com/v1/decisions \
 
           - `string`
 
+            `minLength: 0`
+
           - `boolean`
 
-      - `type: "choice"`
+      - `type: "choice" (default: "choice")`
 
         The type of the object. Always `choice`.
 
@@ -382,17 +890,25 @@ curl https://api.openai.com/v1/decisions \
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probabilities: array of object { label, probability, value }`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `label: string`
 
+          `minLength: 0`
+
         - `probability: number`
 
-        - `value: number`
+        - `value: integer`
+
+          `format: int64`
 
       - `score: number`
 
-      - `type: "score"`
+      - `type: "score" (default: "score")`
 
         The type of the object. Always `score`.
 
@@ -404,7 +920,9 @@ curl https://api.openai.com/v1/decisions \
 
       - `name: string or null`
 
-      - `type: "refusal"`
+        `minLength: 0`
+
+      - `type: "refusal" (default: "refusal")`
 
         The type of the object. Always `refusal`.
 
@@ -412,27 +930,45 @@ curl https://api.openai.com/v1/decisions \
 
   - `model: string`
 
+    The model used.
+
+    `minLength: 0`
+
   - `usage: object { input_tokens, input_tokens_details, output_tokens, 2 more }`
 
-    - `input_tokens: number`
+    Token usage for the request.
+
+    - `input_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
     - `input_tokens_details: object { cache_write_tokens, cached_tokens }`
 
-      - `cache_write_tokens: number`
+      - `cache_write_tokens: integer`
 
-      - `cached_tokens: number`
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
-    - `output_tokens: number`
+      - `cached_tokens: integer`
+
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
+
+    - `output_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
     - `output_tokens_details: object { reasoning_tokens }`
 
-      - `reasoning_tokens: number`
+      - `reasoning_tokens: integer`
 
-    - `total_tokens: number`
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
+
+    - `total_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
 ### Decision Input Image
 
-- `DecisionInputImage object { image_url, type, detail }`
+- `DecisionInputImage object { image_url, type, detail, prompt_cache_breakpoint }`
 
   An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
 
@@ -440,11 +976,13 @@ curl https://api.openai.com/v1/decisions \
 
     A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-  - `type: "input_image"`
+    `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+  - `type: "input_image" (default: "input_image")`
 
     - `"input_image"`
 
-  - `detail: optional "low" or "high" or "auto" or "original" or null`
+  - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
     The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -456,75 +994,265 @@ curl https://api.openai.com/v1/decisions \
 
     - `"original"`
 
+  - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+    Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+    - `mode: "explicit" (default: "explicit")`
+
+      The breakpoint mode. Always `explicit`.
+
+      - `"explicit"`
+
 ### Decision Input Message
 
-- `DecisionInputMessage object { content, role, type }`
+- `DecisionInputMessage = User { content, role, type }  or Developer { content, role, type }  or System { content, role, type }  or Assistant { content, role, phase, type }`
 
-  A user message containing text or images.
+  A user message containing input text, images, or JSON.
 
-  - `content: string or array of DecisionInputPart`
+  - `User object { content, role, type }`
 
-    Text evidence or an ordered list of text and image parts.
+    A user message containing input text, images, or JSON.
 
-    - `string`
+    - `content: string or array of DecisionInputPart`
 
-    - `Parts = array of DecisionInputPart`
+      A text string or an ordered list of text, image, and JSON parts.
 
-      - `DecisionInputText object { text, type }`
+      - `string`
+
+        `minLength: 0`, `maxLength: 10485760`
+
+      - `Parts = array of DecisionInputPart`
+
+        `minItems: 0`, `maxItems: 16384`
+
+        - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
+
+          - `text: string`
+
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
+
+            - `"input_text"`
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+            - `mode: "explicit" (default: "explicit")`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
+
+        - `DecisionInputImage object { image_url, type, detail, prompt_cache_breakpoint }`
+
+          An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+          - `image_url: string`
+
+            A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+
+            `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+          - `type: "input_image" (default: "input_image")`
+
+            - `"input_image"`
+
+          - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
+
+            The image detail level, using the selected model's image profile. Defaults to auto.
+
+            - `"low"`
+
+            - `"high"`
+
+            - `"auto"`
+
+            - `"original"`
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+            - `mode: "explicit" (default: "explicit")`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
+
+        - `DecisionInputJSON object { data, type }`
+
+          A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+          - `data: map[unknown] or array of map[unknown]`
+
+            - `map[unknown]`
+
+            - `array of map[unknown]`
+
+              `minItems: 0`
+
+          - `type: "input_json" (default: "input_json")`
+
+            - `"input_json"`
+
+    - `role: "user" (default: "user")`
+
+      - `"user"`
+
+    - `type: optional "message" (default: "message")`
+
+      - `"message"`
+
+  - `Developer object { content, role, type }`
+
+    A developer message containing input text.
+
+    - `content: string or array of DecisionInputText`
+
+      A text string or an ordered list of input text parts.
+
+      - `string`
+
+        `minLength: 0`, `maxLength: 10485760`
+
+      - `Parts = array of DecisionInputText`
+
+        `minItems: 0`, `maxItems: 16384`
 
         - `text: string`
 
-        - `type: "input_text"`
+          `minLength: 0`, `maxLength: 10485760`
 
-          - `"input_text"`
+        - `type: "input_text" (default: "input_text")`
 
-      - `DecisionInputImage object { image_url, type, detail }`
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
 
-        An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-        - `image_url: string`
+    - `role: "developer" (default: "developer")`
 
-          A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+      - `"developer"`
 
-        - `type: "input_image"`
+    - `type: optional "message" (default: "message")`
 
-          - `"input_image"`
+      - `"message"`
 
-        - `detail: optional "low" or "high" or "auto" or "original" or null`
+  - `System object { content, role, type }`
 
-          The image detail level, using the selected model's image profile. Defaults to auto.
+    A system message containing input text.
 
-          - `"low"`
+    - `content: string or array of DecisionInputText`
 
-          - `"high"`
+      A text string or an ordered list of input text parts.
 
-          - `"auto"`
+      - `string`
 
-          - `"original"`
+        `minLength: 0`, `maxLength: 10485760`
 
-  - `role: "user"`
+      - `Parts = array of DecisionInputText`
 
-    - `"user"`
+        `minItems: 0`, `maxItems: 16384`
 
-  - `type: optional "message"`
+        - `text: string`
 
-    - `"message"`
+          `minLength: 0`, `maxLength: 10485760`
+
+        - `type: "input_text" (default: "input_text")`
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+    - `role: "system" (default: "system")`
+
+      - `"system"`
+
+    - `type: optional "message" (default: "message")`
+
+      - `"message"`
+
+  - `Assistant object { content, role, phase, type }`
+
+    An assistant message containing output text or refusals.
+
+    - `content: string or array of OutputText { text, type }  or Refusal { refusal, type }`
+
+      A text string or an ordered list of output text and refusal parts.
+
+      - `string`
+
+        `minLength: 0`, `maxLength: 10485760`
+
+      - `Parts = array of OutputText { text, type }  or Refusal { refusal, type }`
+
+        `minItems: 0`, `maxItems: 16384`
+
+        - `OutputText object { text, type }`
+
+          - `text: string`
+
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "output_text" (default: "output_text")`
+
+            - `"output_text"`
+
+        - `Refusal object { refusal, type }`
+
+          - `refusal: string`
+
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "refusal" (default: "refusal")`
+
+            - `"refusal"`
+
+    - `role: "assistant" (default: "assistant")`
+
+      - `"assistant"`
+
+    - `phase: optional "commentary" or "final_answer" or null`
+
+      The phase of an assistant message.
+
+      - `"commentary"`
+
+      - `"final_answer"`
+
+    - `type: optional "message" (default: "message")`
+
+      - `"message"`
 
 ### Decision Input Part
 
-- `DecisionInputPart = DecisionInputText or DecisionInputImage`
+- `DecisionInputPart = DecisionInputText or DecisionInputImage or DecisionInputJSON`
 
   An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
 
-  - `DecisionInputText object { text, type }`
+  - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
 
     - `text: string`
 
-    - `type: "input_text"`
+      `minLength: 0`, `maxLength: 10485760`
+
+    - `type: "input_text" (default: "input_text")`
 
       - `"input_text"`
 
-  - `DecisionInputImage object { image_url, type, detail }`
+    - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+      Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+      - `mode: "explicit" (default: "explicit")`
+
+        The breakpoint mode. Always `explicit`.
+
+        - `"explicit"`
+
+  - `DecisionInputImage object { image_url, type, detail, prompt_cache_breakpoint }`
 
     An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
 
@@ -532,11 +1260,13 @@ curl https://api.openai.com/v1/decisions \
 
       A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-    - `type: "input_image"`
+      `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+    - `type: "input_image" (default: "input_image")`
 
       - `"input_image"`
 
-    - `detail: optional "low" or "high" or "auto" or "original" or null`
+    - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
       The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -548,12 +1278,50 @@ curl https://api.openai.com/v1/decisions \
 
       - `"original"`
 
+    - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+      Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+      - `mode: "explicit" (default: "explicit")`
+
+        The breakpoint mode. Always `explicit`.
+
+        - `"explicit"`
+
+  - `DecisionInputJSON object { data, type }`
+
+    A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+    - `data: map[unknown] or array of map[unknown]`
+
+      - `map[unknown]`
+
+      - `array of map[unknown]`
+
+        `minItems: 0`
+
+    - `type: "input_json" (default: "input_json")`
+
+      - `"input_json"`
+
 ### Decision Input Text
 
-- `DecisionInputText object { text, type }`
+- `DecisionInputText object { text, type, prompt_cache_breakpoint }`
 
   - `text: string`
 
-  - `type: "input_text"`
+    `minLength: 0`, `maxLength: 10485760`
+
+  - `type: "input_text" (default: "input_text")`
 
     - `"input_text"`
+
+  - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+    Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+    - `mode: "explicit" (default: "explicit")`
+
+      The breakpoint mode. Always `explicit`.
+
+      - `"explicit"`

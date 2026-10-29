@@ -29,9 +29,11 @@ Update certain properties of an evaluation.
 
   Unique identifier for the evaluation.
 
-- `created_at: number`
+- `created_at: integer`
 
   The Unix timestamp (in seconds) for when the eval was created.
+
+  `format: unixtime`
 
 - `data_source_config: EvalCustomDataSourceConfig or LogsDataSourceConfig { schema, type, metadata }  or EvalStoredCompletionsDataSourceConfig`
 
@@ -50,7 +52,7 @@ Update certain properties of an evaluation.
       The json schema for the run data source items.
       Learn how to build JSON schemas [here](https://json-schema.org/).
 
-    - `type: "custom"`
+    - `type: "custom" (default: "custom")`
 
       The type of data source. Always `custom`.
 
@@ -68,7 +70,7 @@ Update certain properties of an evaluation.
       The json schema for the run data source items.
       Learn how to build JSON schemas [here](https://json-schema.org/).
 
-    - `type: "logs"`
+    - `type: "logs" (default: "logs")`
 
       The type of data source. Always `logs`.
 
@@ -92,7 +94,7 @@ Update certain properties of an evaluation.
       The json schema for the run data source items.
       Learn how to build JSON schemas [here](https://json-schema.org/).
 
-    - `type: "stored_completions"`
+    - `type: "stored_completions" (default: "stored_completions")`
 
       The type of data source. Always `stored_completions`.
 
@@ -120,7 +122,7 @@ Update certain properties of an evaluation.
 
   The name of the evaluation.
 
-- `object: "eval"`
+- `object: "eval" (default: "eval")`
 
   The object type.
 
@@ -153,21 +155,29 @@ Update certain properties of an evaluation.
 
             The text input to the model.
 
-          - `type: "input_text"`
+          - `type: "input_text" (default: "input_text")`
 
             The type of the input item. Always `input_text`.
 
             - `"input_text"`
 
-          - `prompt_cache_breakpoint: optional object { mode }`
+          - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
-            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+            Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-            - `mode: "explicit"`
+            - `mode: "explicit" (default: "explicit")`
 
               The breakpoint mode. Always `explicit`.
 
               - `"explicit"`
+
+            - `ttl: optional "30m" or "12h"`
+
+              The minimum lifetime of this cache breakpoint. Defaults to the request TTL.
+
+              - `"30m"`
+
+              - `"12h"`
 
         - `OutputText object { text, type }`
 
@@ -190,6 +200,8 @@ Update certain properties of an evaluation.
           - `image_url: string`
 
             The URL of the image input.
+
+            `format: uri`
 
           - `type: "input_image"`
 
@@ -260,6 +272,8 @@ Update certain properties of an evaluation.
             - `image_url: string`
 
               The URL of the image input.
+
+              `format: uri`
 
             - `type: "input_image"`
 
@@ -383,7 +397,7 @@ curl https://api.openai.com/v1/evals/$EVAL_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -448,7 +462,7 @@ curl https://api.openai.com/v1/evals/eval_67abd54d9b0081909a86353f6fb9317a \
   -d '{"name": "Updated Eval", "metadata": {"description": "Updated description"}}'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

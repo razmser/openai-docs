@@ -4,15 +4,17 @@
 
 ### All Models
 
-- `AllModels = string or "gpt-6-astra" or "gpt-6.1-sol" or "gpt-6-sol" or 86 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 17 more`
+- `AllModels = string or "gpt-6-astra" or "gpt-6.1-sol" or "gpt-6.1-terra" or 87 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 17 more`
 
   - `string`
 
-  - `"gpt-6-astra" or "gpt-6.1-sol" or "gpt-6-sol" or 86 more`
+  - `"gpt-6-astra" or "gpt-6.1-sol" or "gpt-6.1-terra" or 87 more`
 
     - `"gpt-6-astra"`
 
     - `"gpt-6.1-sol"`
+
+    - `"gpt-6.1-terra"`
 
     - `"gpt-6-sol"`
 
@@ -240,7 +242,7 @@
 
     The key to compare against the value.
 
-  - `type: "eq" or "ne" or "gt" or 5 more`
+  - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
     Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -303,7 +305,7 @@
 
         The key to compare against the value.
 
-      - `type: "eq" or "ne" or "gt" or 5 more`
+      - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
         Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -370,7 +372,7 @@
 
     Unconstrained free-form text.
 
-    - `type: "text"`
+    - `type: "text" (default: "text")`
 
       Unconstrained text format. Always `text`.
 
@@ -392,11 +394,127 @@
 
       - `"regex"`
 
-    - `type: "grammar"`
+    - `type: "grammar" (default: "grammar")`
 
       Grammar format. Always `grammar`.
 
       - `"grammar"`
+
+### Decision Input JSON
+
+- `DecisionInputJSON object { data, type }`
+
+  A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+  - `data: map[unknown] or array of map[unknown]`
+
+    - `map[unknown]`
+
+    - `array of map[unknown]`
+
+      `minItems: 0`
+
+  - `type: "input_json" (default: "input_json")`
+
+    - `"input_json"`
+
+### Decision Question Input Image
+
+- `DecisionQuestionInputImage object { image_url, type, detail }`
+
+  An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+  - `image_url: string`
+
+    A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+
+    `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+  - `type: "input_image" (default: "input_image")`
+
+    - `"input_image"`
+
+  - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
+
+    The image detail level, using the selected model's image profile. Defaults to auto.
+
+    - `"low"`
+
+    - `"high"`
+
+    - `"auto"`
+
+    - `"original"`
+
+### Decision Question Input Part
+
+- `DecisionQuestionInputPart = DecisionQuestionInputText or DecisionQuestionInputImage or DecisionInputJSON`
+
+  A text, image, or JSON content part in a question instruction.
+
+  - `DecisionQuestionInputText object { text, type }`
+
+    - `text: string`
+
+      `minLength: 0`, `maxLength: 10485760`
+
+    - `type: "input_text" (default: "input_text")`
+
+      - `"input_text"`
+
+  - `DecisionQuestionInputImage object { image_url, type, detail }`
+
+    An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+    - `image_url: string`
+
+      A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+
+      `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+    - `type: "input_image" (default: "input_image")`
+
+      - `"input_image"`
+
+    - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
+
+      The image detail level, using the selected model's image profile. Defaults to auto.
+
+      - `"low"`
+
+      - `"high"`
+
+      - `"auto"`
+
+      - `"original"`
+
+  - `DecisionInputJSON object { data, type }`
+
+    A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+    - `data: map[unknown] or array of map[unknown]`
+
+      - `map[unknown]`
+
+      - `array of map[unknown]`
+
+        `minItems: 0`
+
+    - `type: "input_json" (default: "input_json")`
+
+      - `"input_json"`
+
+### Decision Question Input Text
+
+- `DecisionQuestionInputText object { text, type }`
+
+  - `text: string`
+
+    `minLength: 0`, `maxLength: 10485760`
+
+  - `type: "input_text" (default: "input_text")`
+
+    - `"input_text"`
 
 ### Error Object
 
@@ -438,6 +556,8 @@
 
       An opaque target for explicitly continuing this review, or null when unavailable.
 
+      `pattern: ^[A-Za-z0-9._~:-]+$`, `minLength: 1`, `maxLength: 96`
+
     - `steer: optional object { message }`
 
       An optional public continuation instruction.
@@ -464,7 +584,7 @@
 
     Omitting `parameters` defines a function with an empty parameter list.
 
-  - `strict: optional boolean or null`
+  - `strict: optional boolean or null (default: false)`
 
     Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](https://developers.openai.com/api/docs/guides/function-calling).
 
@@ -510,7 +630,7 @@
 
     - `"all_turns"`
 
-  - `effort: optional ReasoningEffort or null`
+  - `effort: optional ReasoningEffort or null (default: "medium")`
 
     Constrains effort on reasoning for reasoning models. Currently supported
     values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -647,13 +767,13 @@
       The schema for the response format, described as a JSON Schema object.
       Learn how to build JSON schemas [here](https://json-schema.org/).
 
-    - `strict: optional boolean or null`
+    - `strict: optional boolean or null (default: false)`
 
       Whether to enable strict schema adherence when generating the output.
       If set to true, the model will always follow the exact schema defined
       in the `schema` field. Only a subset of JSON Schema is supported when
       `strict` is `true`. To learn more, read the [Structured Outputs
-      guide](https://developers.openai.com/api/docs/guides/structured-outputs).
+      guide](/api/docs/guides/structured-outputs).
 
   - `type: "json_schema"`
 
@@ -705,15 +825,17 @@
 
 ### Responses Model
 
-- `ResponsesModel = string or "gpt-6-astra" or "gpt-6.1-sol" or "gpt-6-sol" or 86 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 17 more`
+- `ResponsesModel = string or "gpt-6-astra" or "gpt-6.1-sol" or "gpt-6.1-terra" or 87 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 17 more`
 
   - `string`
 
-  - `"gpt-6-astra" or "gpt-6.1-sol" or "gpt-6-sol" or 86 more`
+  - `"gpt-6-astra" or "gpt-6.1-sol" or "gpt-6.1-terra" or 87 more`
 
     - `"gpt-6-astra"`
 
     - `"gpt-6.1-sol"`
+
+    - `"gpt-6.1-terra"`
 
     - `"gpt-6-sol"`
 

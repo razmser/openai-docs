@@ -38,6 +38,8 @@ more in the [moderation guide](https://developers.openai.com/api/docs/guides/mod
 
           Either a URL of the image or the base64 encoded image data.
 
+          `format: uri`
+
       - `type: "image_url"`
 
         Always `image_url`.
@@ -58,7 +60,7 @@ more in the [moderation guide](https://developers.openai.com/api/docs/guides/mod
 
         - `"text"`
 
-- `model: optional string or ModerationModel`
+- `model: optional string or ModerationModel (default: "omni-moderation-latest")`
 
   The content moderation model you would like to use. Learn more in
   [the moderation guide](https://developers.openai.com/api/docs/guides/moderation), and learn about
@@ -307,12 +309,12 @@ curl https://api.openai.com/v1/moderations \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d '{
-          "input": "I want to kill them.",
+          "input": "...text to classify goes here...",
           "model": "omni-moderation-2024-09-26"
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -418,7 +420,7 @@ curl https://api.openai.com/v1/moderations \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -517,93 +519,8 @@ curl https://api.openai.com/v1/moderations \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
     "model": "omni-moderation-latest",
-    "input": "I want to kill them."
+    "input": "...text to classify goes here..."
   }'
-```
-
-#### Response
-
-```json
-{
-  "id": "modr-AB8CjOTu2jiq12hp1AQPfeqFWaORR",
-  "model": "omni-moderation-latest",
-  "results": [
-    {
-      "flagged": true,
-      "categories": {
-        "sexual": false,
-        "hate": false,
-        "harassment": true,
-        "self-harm": false,
-        "sexual/minors": false,
-        "hate/threatening": false,
-        "violence/graphic": false,
-        "self-harm/intent": false,
-        "self-harm/instructions": false,
-        "harassment/threatening": true,
-        "violence": true,
-        "illicit": false,
-        "illicit/violent": false
-      },
-      "category_scores": {
-        "sexual": 1.1726012417057063e-05,
-        "hate": 0.22706663608551025,
-        "harassment": 0.5215635299682617,
-        "self-harm": 2.227119921371923e-06,
-        "sexual/minors": 7.107352217872176e-08,
-        "hate/threatening": 0.023547329008579254,
-        "violence/graphic": 3.391829886822961e-05,
-        "self-harm/intent": 1.646940972932498e-06,
-        "self-harm/instructions": 1.1198755256458526e-09,
-        "harassment/threatening": 0.5694745779037476,
-        "violence": 0.9971134662628174,
-        "illicit": 0.001,
-        "illicit/violent": 0.001
-      },
-      "category_applied_input_types": {
-        "sexual": [
-          "text"
-        ],
-        "hate": [
-          "text"
-        ],
-        "harassment": [
-          "text"
-        ],
-        "self-harm": [
-          "text"
-        ],
-        "sexual/minors": [
-          "text"
-        ],
-        "hate/threatening": [
-          "text"
-        ],
-        "violence/graphic": [
-          "text"
-        ],
-        "self-harm/intent": [
-          "text"
-        ],
-        "self-harm/instructions": [
-          "text"
-        ],
-        "harassment/threatening": [
-          "text"
-        ],
-        "violence": [
-          "text"
-        ],
-        "illicit": [
-          "text"
-        ],
-        "illicit/violent": [
-          "text"
-        ]
-      }
-    }
-  ]
-}
 ```
 
 ## Domain Types

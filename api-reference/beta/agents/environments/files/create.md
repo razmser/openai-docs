@@ -1,12 +1,14 @@
-## Create an agent environment file
+## Write an agent environment file
 
 **post** `/agents/environments/{environment_id}/files`
 
-Copies inline bytes or a Files API file into a connected execution environment. See [environment files](https://developers.openai.com/api/docs/guides/agents-api/environments/files).
+Copies inline bytes or a Files API file into a connected execution environment, replacing an existing regular file at the same path. Upload between turns and wait for success before starting the next turn. See [environment files](https://developers.openai.com/api/docs/guides/agents-api/environments/files).
 
 ### Path Parameters
 
 - `environment_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
 
@@ -22,11 +24,15 @@ Copies inline bytes or a Files API file into a connected execution environment. 
 
       The ID of the uploaded file.
 
+      `minLength: 1`, `maxLength: 256`
+
     - `path: string`
 
       The absolute destination path inside `/workspace`.
 
-    - `type: "file_id"`
+      `minLength: 1`, `maxLength: 4096`
+
+    - `type: "file_id" (default: "file_id")`
 
       The type of the object. Always `file_id`.
 
@@ -40,11 +46,15 @@ Copies inline bytes or a Files API file into a connected execution environment. 
 
       The standard-base64-encoded file contents.
 
+      `minLength: 0`, `maxLength: 6990508`
+
     - `path: string`
 
       The absolute destination path inside `/workspace`.
 
-    - `type: "inline"`
+      `minLength: 1`, `maxLength: 4096`
+
+    - `type: "inline" (default: "inline")`
 
       The type of the object. Always `inline`.
 
@@ -60,7 +70,9 @@ Copies inline bytes or a Files API file into a connected execution environment. 
 
     The ID of the environment containing this file.
 
-  - `object: "agent.environment.file"`
+    `minLength: 0`
+
+  - `object: "agent.environment.file" (default: "agent.environment.file")`
 
     The object type. Always `agent.environment.file`.
 
@@ -70,9 +82,13 @@ Copies inline bytes or a Files API file into a connected execution environment. 
 
     The absolute file path inside the environment's workspace.
 
-  - `size_bytes: number`
+    `minLength: 0`
+
+  - `size_bytes: integer`
 
     The file size in bytes.
+
+    `format: int64`, `minimum: 0`
 
 ### Example
 
@@ -83,7 +99,7 @@ curl https://api.openai.com/v1/agents/environments/$ENVIRONMENT_ID/files \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 201 — Example
 
 ```json
 {
