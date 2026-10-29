@@ -33,9 +33,9 @@ Use Bearer Auth (header Authorization).
 
 ### Events
 
-[Client events](/api/reference/resources/realtime#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_client_event%20%3E%20\(schema\))
+[Client events](index.md#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_client_event%20%3E%20\(schema\))
 
-[Server events](/api/reference/resources/realtime#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_server_event%20%3E%20\(schema\))
+[Server events](index.md#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_server_event%20%3E%20\(schema\))
 
 ## Domain Types
 
@@ -29956,9 +29956,9 @@ Use Bearer Auth (header Authorization).
 
 ### Events
 
-[Client events](/api/reference/resources/realtime#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_translation_client_event%20%3E%20\(schema\))
+[Client events](index.md#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_translation_client_event%20%3E%20\(schema\))
 
-[Server events](/api/reference/resources/realtime#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_translation_server_event%20%3E%20\(schema\))
+[Server events](index.md#\(resource\)%20realtime%20%3E%20\(model\)%20realtime_translation_server_event%20%3E%20\(schema\))
 
 # Client Secrets
 

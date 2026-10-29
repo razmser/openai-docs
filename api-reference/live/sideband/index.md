@@ -24,9 +24,9 @@ Use Bearer Auth (header Authorization).
 
 ### Events
 
-[Client events](/api/reference/resources/live#\(resource\)%20live.sideband%20%3E%20\(model\)%20sideband_client_event%20%3E%20\(schema\))
+[Client events](../index.md#\(resource\)%20live.sideband%20%3E%20\(model\)%20sideband_client_event%20%3E%20\(schema\))
 
-[Server events](/api/reference/resources/live#\(resource\)%20live.sideband%20%3E%20\(model\)%20sideband_server_event%20%3E%20\(schema\))
+[Server events](../index.md#\(resource\)%20live.sideband%20%3E%20\(model\)%20sideband_server_event%20%3E%20\(schema\))
 
 ## Domain Types
 

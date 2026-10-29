@@ -66409,7 +66409,7 @@ Create an assistant with a model and instructions.
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `type: "json_schema"`
 
@@ -66794,7 +66794,7 @@ Create an assistant with a model and instructions.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -67259,7 +67259,7 @@ Returns a list of assistants.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -67643,7 +67643,7 @@ Retrieves an assistant.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -67988,7 +67988,7 @@ Modifies an assistant.
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `type: "json_schema"`
 
@@ -68316,7 +68316,7 @@ Modifies an assistant.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -68656,7 +68656,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -69019,7 +69019,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
               If set to true, the model will always follow the exact schema defined
               in the `schema` field. Only a subset of JSON Schema is supported when
               `strict` is `true`. To learn more, read the [Structured Outputs
-              guide](/api/docs/guides/structured-outputs).
+              guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
           - `type: "json_schema"`
 
@@ -71835,7 +71835,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
               If set to true, the model will always follow the exact schema defined
               in the `schema` field. Only a subset of JSON Schema is supported when
               `strict` is `true`. To learn more, read the [Structured Outputs
-              guide](/api/docs/guides/structured-outputs).
+              guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
           - `type: "json_schema"`
 
@@ -86446,7 +86446,7 @@ the `background` parameter set to `true` can be cancelled.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `JSONObject object { type }`
 
@@ -97541,9 +97541,9 @@ Use Bearer Auth (header Authorization).
 
 ### Events
 
-[Client events](/api/reference/resources/beta#\(resource\)%20beta.responses%20%3E%20\(model\)%20beta_responses_client_event%20%3E%20\(schema\))
+[Client events](index.md#\(resource\)%20beta.responses%20%3E%20\(model\)%20beta_responses_client_event%20%3E%20\(schema\))
 
-[Server events](/api/reference/resources/beta#\(resource\)%20beta.responses%20%3E%20\(model\)%20beta_responses_server_event%20%3E%20\(schema\))
+[Server events](index.md#\(resource\)%20beta.responses%20%3E%20\(model\)%20beta_responses_server_event%20%3E%20\(schema\))
 
 ## Create a model response
 
@@ -103498,7 +103498,7 @@ as input for the model's response.
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `JSONObject object { type }`
 
@@ -116251,7 +116251,7 @@ as input for the model's response.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `JSONObject object { type }`
 
@@ -128941,7 +128941,7 @@ Retrieves a model response with the given ID.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `JSONObject object { type }`
 
@@ -146819,7 +146819,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `JSONObject object { type }`
 
@@ -158775,7 +158775,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -171196,7 +171196,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -183088,7 +183088,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -183428,7 +183428,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
       If set to true, the model will always follow the exact schema defined
       in the `schema` field. Only a subset of JSON Schema is supported when
       `strict` is `true`. To learn more, read the [Structured Outputs
-      guide](/api/docs/guides/structured-outputs).
+      guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
   - `JSONObject object { type }`
 
@@ -183477,7 +183477,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
     If set to true, the model will always follow the exact schema defined
     in the `schema` field. Only a subset of JSON Schema is supported when
     `strict` is `true`. To learn more, read the [Structured Outputs
-    guide](/api/docs/guides/structured-outputs).
+    guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
 ### Beta Response Function Call Arguments Delta Event
 
@@ -195233,7 +195233,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -206938,7 +206938,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -245592,7 +245592,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -259581,7 +259581,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
               If set to true, the model will always follow the exact schema defined
               in the `schema` field. Only a subset of JSON Schema is supported when
               `strict` is `true`. To learn more, read the [Structured Outputs
-              guide](/api/docs/guides/structured-outputs).
+              guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
           - `JSONObject object { type }`
 
@@ -261824,7 +261824,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `JSONObject object { type }`
 
@@ -268085,7 +268085,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
             If set to true, the model will always follow the exact schema defined
             in the `schema` field. Only a subset of JSON Schema is supported when
             `strict` is `true`. To learn more, read the [Structured Outputs
-            guide](/api/docs/guides/structured-outputs).
+            guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
         - `JSONObject object { type }`
 
@@ -296132,7 +296132,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `JSONObject object { type }`
 
@@ -297976,7 +297976,7 @@ Create a thread and run it in one request.
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `type: "json_schema"`
 
@@ -298601,7 +298601,7 @@ Create a thread and run it in one request.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -299506,7 +299506,7 @@ curl https://api.openai.com/v1/threads/thread_abc123 \
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `type: "json_schema"`
 
@@ -302985,7 +302985,7 @@ Cancels a run that is `in_progress`.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -303696,7 +303696,7 @@ Create a run.
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `type: "json_schema"`
 
@@ -304076,7 +304076,7 @@ Create a run.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -304811,7 +304811,7 @@ Returns a list of runs belonging to a thread.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -305453,7 +305453,7 @@ Retrieves a run.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -306033,7 +306033,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -306708,7 +306708,7 @@ Modifies a run.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 
@@ -307306,7 +307306,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `type: "json_schema"`
 

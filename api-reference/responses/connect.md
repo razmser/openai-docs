@@ -12,6 +12,6 @@ Use Bearer Auth (header Authorization).
 
 ### Events
 
-[Client events](/api/reference/resources/responses#\(resource\)%20responses%20%3E%20\(model\)%20responses_client_event%20%3E%20\(schema\))
+[Client events](index.md#\(resource\)%20responses%20%3E%20\(model\)%20responses_client_event%20%3E%20\(schema\))
 
-[Server events](/api/reference/resources/responses#\(resource\)%20responses%20%3E%20\(model\)%20responses_server_event%20%3E%20\(schema\))
+[Server events](index.md#\(resource\)%20responses%20%3E%20\(model\)%20responses_server_event%20%3E%20\(schema\))
