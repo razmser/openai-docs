@@ -1036,7 +1036,7 @@ chunk objects if the request is streamed.
   Setting to `{ "type": "json_schema", "json_schema": {...} }` enables
   Structured Outputs which ensures the model will match your supplied JSON
   schema. Learn more in the [Structured Outputs
-  guide](/api/docs/guides/structured-outputs).
+  guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
   Setting to `{ "type": "json_object" }` enables the older JSON mode, which
   ensures the message the model generates is valid JSON. Using `json_schema`
@@ -1082,7 +1082,7 @@ chunk objects if the request is streamed.
         If set to true, the model will always follow the exact schema defined
         in the `schema` field. Only a subset of JSON Schema is supported when
         `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](/api/docs/guides/structured-outputs).
+        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `type: "json_schema"`
 

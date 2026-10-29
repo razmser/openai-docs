@@ -4,6 +4,9 @@
 
 The Assistants API was officially sunset on August 26, 2026, and is no longer available. Use the [Responses API](https://developers.openai.com/api/docs/guides/migrate-to-responses) for new integrations.
 
+
+
+
 Thank you to everyone who used the Assistants API. We appreciate everything you built and the feedback you shared along the way.
 
 Use this guide to migrate your integration to the [Responses API](https://developers.openai.com/api/docs/guides/migrate-to-responses).
@@ -82,6 +85,8 @@ A thread was a collection of messages stored server-side. Threads could _only_ s
 
 #### Python
 
+
+
 #### Thread object
 
 ```python
@@ -100,7 +105,11 @@ conversation = openai.conversations.create(
 )
 ```
 
+
+
 #### Go
+
+
 
 #### Thread object (Go)
 
@@ -133,7 +142,11 @@ if err != nil {
 }
 ```
 
+
+
 #### JavaScript
+
+
 
 #### Thread object (JavaScript)
 
@@ -163,7 +176,11 @@ const conversation = await client.conversations.create({
 console.log(conversation.id);
 ```
 
+
+
 ### Response example
+
+
 
 #### Thread object
 
@@ -192,6 +209,8 @@ console.log(conversation.id);
 }
 ```
 
+
+
 ---
 
 ## From runs to responses
@@ -203,6 +222,8 @@ Responses are designed to be used alone, but you can also use them with prompt a
 ### Request example
 
 #### Python
+
+
 
 #### Run object
 
@@ -243,7 +264,11 @@ response = openai.responses.create(
 )
 ```
 
+
+
 #### Go
+
+
 
 #### Run object (Go)
 
@@ -278,7 +303,11 @@ if err != nil {
 }
 ```
 
+
+
 #### JavaScript
+
+
 
 #### Run object (JavaScript)
 
@@ -320,7 +349,11 @@ const response = await client.responses.create({
 console.log(response.output_text);
 ```
 
+
+
 ### Response example
+
+
 
 #### Run object
 
@@ -441,6 +474,8 @@ console.log(response.output_text);
 }
 ```
 
+
+
 ---
 
 ## Migrating your integration
@@ -547,17 +582,21 @@ conversation = client.conversations.create(
 puts(conversation.id)
 ```
 
+
 ## Comparing full examples
 
 Here are a few examples of integrations using both the Assistants API and the Responses API so you can see how they compare.
 
 ### User chat app
 
+
+
 Assistants API
 
 ```python
 # Replace the illustrative IDs and URLs below with your own resource values.
 threads_by_session: dict[str, str] = {}
+
 
 @app.post("/messages")
 async def message(message: Message):
@@ -638,6 +677,7 @@ puts(
 )
 ```
 
+
   
 
   
@@ -701,6 +741,7 @@ app.listen(Number(process.env.OPENAI_EXAMPLE_PORT ?? 8000), "127.0.0.1");
 ```python
 # Replace the illustrative IDs and URLs below with your own resource values.
 conversations_by_session: dict[str, str] = {}
+
 
 @app.post("/messages")
 async def message(message: Message):

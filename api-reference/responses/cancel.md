@@ -10037,7 +10037,7 @@ the `background` parameter set to `true` can be cancelled.
           If set to true, the model will always follow the exact schema defined
           in the `schema` field. Only a subset of JSON Schema is supported when
           `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](/api/docs/guides/structured-outputs).
+          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 

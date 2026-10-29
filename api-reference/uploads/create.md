@@ -18,7 +18,7 @@ Please refer to documentation for the
 
 For guidance on the proper filename extensions for each purpose, please
 follow the documentation on [creating a
-File](/api/reference/resources/files/methods/create).
+File](../files/create.md).
 
 Returns the Upload object with status `pending`.
 
@@ -44,7 +44,7 @@ Returns the Upload object with status `pending`.
   The intended purpose of the uploaded file.
 
   See the [documentation on File
-  purposes](/api/reference/resources/files/methods/create#%28resource%29%20files%20%3E%20%28method%29%20create%20%3E%20%28params%29%200%20%3E%20%28param%29%20purpose%20%3E%20%28schema%29).
+  purposes](../files/create.md#%28resource%29%20files%20%3E%20%28method%29%20create%20%3E%20%28params%29%200%20%3E%20%28param%29%20purpose%20%3E%20%28schema%29).
 
   - `"assistants"`
 

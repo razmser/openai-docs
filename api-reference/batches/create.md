@@ -205,7 +205,7 @@ Creates and executes a batch from an uploaded file of requests
     Model ID used to process the batch, like `gpt-6-astra`. OpenAI
     offers a wide range of models with different capabilities, performance
     characteristics, and price points. Refer to the [model
-    guide](/api/docs/models) to browse and compare available models.
+    guide](https://developers.openai.com/api/docs/models) to browse and compare available models.
 
   - `output_file_id: optional string or null`
 
@@ -244,7 +244,7 @@ Creates and executes a batch from an uploaded file of requests
       - `cached_tokens: integer`
 
         The number of tokens that were retrieved from the cache. [More on
-        prompt caching](/api/docs/guides/prompt-caching).
+        prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching).
 
     - `output_tokens: integer`
 
