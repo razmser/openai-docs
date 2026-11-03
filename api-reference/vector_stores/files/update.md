@@ -8,9 +8,15 @@ Update attributes on a vector store file.
 
 - `vector_store_id: string`
 
+  The ID of the vector store the file belongs to.
+
 - `file_id: string`
 
+  The ID of the file to update attributes.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `attributes: map[string or number or boolean] or null`
 

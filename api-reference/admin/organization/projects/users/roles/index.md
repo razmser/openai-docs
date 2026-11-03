@@ -10,9 +10,15 @@ Assigns a project role to a user within a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `user_id: string`
 
+  The ID of the user that should receive the project role.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `role_id: string`
 
@@ -283,9 +289,15 @@ Unassigns a project role from a user within a project.
 
 - `project_id: string`
 
+  The ID of the project to modify.
+
 - `user_id: string`
 
+  The ID of the user whose project role assignment should be removed.
+
 - `role_id: string`
+
+  The ID of the project role to remove from the user.
 
 ### Returns
 
@@ -341,7 +353,11 @@ Lists the project roles assigned to a user within a project.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `user_id: string`
+
+  The ID of the user to inspect.
 
 ### Query Parameters
 
@@ -539,9 +555,15 @@ Retrieves a project role assigned to a user.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `user_id: string`
 
+  The ID of the user to inspect.
+
 - `role_id: string`
+
+  The ID of the project role to retrieve for the user.
 
 ### Returns
 

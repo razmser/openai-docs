@@ -14,6 +14,8 @@ You can send either a multipart/form-data request with the raw file content, or 
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `file: optional string`
 
   The File object (not file name) to be uploaded.
@@ -511,6 +513,10 @@ Retrieve Container File Content
 - `container_id: string`
 
 - `file_id: string`
+
+### Returns
+
+`file`
 
 ### Example
 

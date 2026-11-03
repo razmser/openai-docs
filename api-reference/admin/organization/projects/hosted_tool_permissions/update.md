@@ -8,7 +8,11 @@ Updates hosted tool permissions for a project.
 
 - `project_id: string`
 
+  The ID of the project.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `code_interpreter: optional object { enabled }  or null`
 

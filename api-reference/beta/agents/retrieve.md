@@ -8,6 +8,8 @@ Retrieves a reusable agent by ID. See [agent configuration](https://developers.o
 
 - `agent_id: string`
 
+  The ID of the reusable agent.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Returns

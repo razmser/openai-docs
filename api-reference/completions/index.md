@@ -10,6 +10,8 @@ Returns a completion object, or a sequence of completion objects if the request 
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `model: string or "gpt-3.5-turbo-instruct" or "davinci-002" or "babbage-002"`
 
   ID of the model to use. You can use the [List models](../models/list.md) API to see all of your available models, or see our [Model overview](https://developers.openai.com/api/docs/models) for descriptions of them.

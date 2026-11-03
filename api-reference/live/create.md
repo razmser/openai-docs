@@ -8,8 +8,7 @@ and [Telephony and SIP](https://developers.openai.com/api/docs/guides/voice-sip?
 for trunk setup and call monitoring.
 
 Set transport.type to `webrtc` and supply an SDP offer, or set it to `sip`
-and supply an E.164 destination and trunk credentials. Outbound SIP calling
-must be enabled for your organization.
+and supply an E.164 destination and trunk credentials.
 Ringing is limited to 3 minutes and connected calls to 2 hours; these limits
 are not configurable in the request.
 
@@ -22,6 +21,8 @@ fails, retry with caution: the original request may have succeeded, and a
 retry can place another call.
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `session: MediaSessionConfig`
 
@@ -1253,7 +1254,7 @@ retry can place another call.
 
   - `Sip object { destination, trunk, type }`
 
-    Place an outbound SIP call using your provider's trunk. Outbound SIP calling must be enabled for your organization. The trunk must support TLS signaling, Opus audio, and SDES-SRTP media. See [Telephony and SIP](https://developers.openai.com/api/docs/guides/voice-sip?api=live#place-an-outbound-call).
+    Place an outbound SIP call using your provider's trunk. The trunk must support TLS signaling, Opus audio, and SDES-SRTP media. See [Telephony and SIP](https://developers.openai.com/api/docs/guides/voice-sip?api=live#place-an-outbound-call).
 
     - `destination: string`
 

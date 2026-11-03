@@ -8,6 +8,8 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `metadata: optional map[string] or null`
 
   Key-value pairs to associate with the vault, such as an application or team identifier.
@@ -84,6 +86,8 @@ Deletes a vault and all its credentials. See [vaults](https://developers.openai.
 ### Path Parameters
 
 - `vault_id: string`
+
+  The ID of the vault.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -282,6 +286,8 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
@@ -350,9 +356,13 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `metadata: optional map[string]`
 
@@ -524,9 +534,13 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `auth: CredentialAuthCreateParam`
 
@@ -977,9 +991,13 @@ Deletes a vault credential. See [vaults](https://developers.openai.com/api/docs/
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `credential_id: string`
+
+  The ID of the vault credential.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -1033,6 +1051,8 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 ### Path Parameters
 
 - `vault_id: string`
+
+  The ID of the vault.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -1362,9 +1382,13 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `credential_id: string`
+
+  The ID of the vault credential.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -1612,13 +1636,19 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `credential_id: string`
 
+  The ID of the vault credential.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `auth: optional CredentialAuthRotateParam`
 

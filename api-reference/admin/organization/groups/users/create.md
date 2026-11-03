@@ -8,7 +8,11 @@ Adds a user to a group.
 
 - `group_id: string`
 
+  The ID of the group to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `user_id: string`
 

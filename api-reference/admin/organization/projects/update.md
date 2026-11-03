@@ -8,7 +8,11 @@ Modifies a project in the organization.
 
 - `project_id: string`
 
+  The ID of the project.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `external_key_id: optional string or null`
 

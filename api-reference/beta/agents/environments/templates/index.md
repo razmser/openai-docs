@@ -8,6 +8,8 @@ Creates reusable environment configuration without returning confidential setup 
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `capability_directories: optional array of string or null`
 
   Directories that contain capabilities exposed to the agent. Defaults to an empty list.
@@ -169,8 +171,6 @@ Creates reusable environment configuration without returning confidential setup 
       The archive media type, always `application/zip`.
 
       - `"application/zip"`
-
-        A ZIP archive.
 
     - `type: "base64" (default: "base64")`
 
@@ -552,6 +552,8 @@ Deletes reusable environment configuration and all confidential template inputs.
 ### Path Parameters
 
 - `environment_template_id: string`
+
+  The ID of the reusable environment template.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -956,6 +958,8 @@ Retrieves reusable environment configuration without returning confidential valu
 
 - `environment_template_id: string`
 
+  The ID of the reusable environment template.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
@@ -1254,9 +1258,13 @@ Updates reusable environment configuration without returning confidential values
 
 - `environment_template_id: string`
 
+  The ID of the reusable environment template.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `capability_directories: optional array of string or null`
 
@@ -1419,8 +1427,6 @@ Updates reusable environment configuration without returning confidential values
       The archive media type, always `application/zip`.
 
       - `"application/zip"`
-
-        A ZIP archive.
 
     - `type: "base64" (default: "base64")`
 

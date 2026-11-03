@@ -12,6 +12,8 @@ Returns the Upload object with status `cancelled`.
 
 - `upload_id: string`
 
+  The ID of the Upload.
+
 ### Returns
 
 - `Upload object { id, bytes, created_at, 6 more }`
@@ -206,7 +208,11 @@ Returns the Upload object with status `completed`, including an additional `file
 
 - `upload_id: string`
 
+  The ID of the Upload.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `part_ids: array of string`
 
@@ -435,6 +441,8 @@ File](../files/create.md).
 Returns the Upload object with status `pending`.
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `bytes: integer`
 
@@ -815,6 +823,16 @@ It is possible to add multiple Parts in parallel. You can decide the intended or
 ### Path Parameters
 
 - `upload_id: string`
+
+  The ID of the Upload.
+
+### Body Parameters
+
+Content type: `multipart/form-data`
+
+- `data: string`
+
+  The chunk of bytes for this Part.
 
 ### Returns
 

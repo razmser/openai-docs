@@ -10,7 +10,11 @@ Creates a custom role for a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `permissions: array of string`
 
@@ -133,7 +137,11 @@ Deletes a custom role from a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `role_id: string`
+
+  The ID of the role to delete.
 
 ### Returns
 
@@ -196,6 +204,8 @@ Lists the roles configured for a project.
 ### Path Parameters
 
 - `project_id: string`
+
+  The ID of the project to inspect.
 
 ### Query Parameters
 
@@ -339,7 +349,11 @@ Retrieves a project role.
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `role_id: string`
+
+  The ID of the role to retrieve.
 
 ### Returns
 
@@ -435,9 +449,15 @@ Updates an existing project role.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `role_id: string`
 
+  The ID of the role to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `description: optional string or null`
 

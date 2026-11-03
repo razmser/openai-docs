@@ -10,7 +10,11 @@ Creates a new service account in the project. By default, this also returns an u
 
 - `project_id: string`
 
+  The ID of the project.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `name: string`
 
@@ -146,7 +150,11 @@ is archived (archived projects have no service accounts).
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `service_account_id: string`
+
+  The ID of the service account.
 
 ### Returns
 
@@ -203,6 +211,8 @@ Returns a list of service accounts in the project.
 ### Path Parameters
 
 - `project_id: string`
+
+  The ID of the project.
 
 ### Query Parameters
 
@@ -323,7 +333,11 @@ Retrieves a service account in the project.
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `service_account_id: string`
+
+  The ID of the service account.
 
 ### Returns
 
@@ -410,9 +424,15 @@ Updates a service account in the project.
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `service_account_id: string`
 
+  The ID of the service account.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `name: optional string`
 
@@ -624,6 +644,8 @@ Creates an API key for a service account in the project.
   The ID of the service account.
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `expires_in_seconds: optional integer or null`
 

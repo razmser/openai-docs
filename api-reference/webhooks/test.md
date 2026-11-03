@@ -8,7 +8,11 @@ Sends a sample event to a webhook endpoint for the authenticated project.
 
 - `webhook_endpoint_id: string`
 
+  The ID of the webhook endpoint to test.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `event_type: "batch.completed" or "batch.failed" or "batch.expired" or 24 more`
 

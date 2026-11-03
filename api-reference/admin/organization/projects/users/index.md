@@ -10,7 +10,11 @@ Adds a user to the project. Users must already be members of the organization to
 
 - `project_id: string`
 
+  The ID of the project.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `role: string`
 
@@ -119,7 +123,11 @@ archived (archived projects have no users).
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `user_id: string`
+
+  The ID of the user.
 
 ### Returns
 
@@ -176,6 +184,8 @@ Returns a list of users in the project.
 ### Path Parameters
 
 - `project_id: string`
+
+  The ID of the project.
 
 ### Query Parameters
 
@@ -294,7 +304,11 @@ Retrieves a user in the project.
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `user_id: string`
+
+  The ID of the user.
 
 ### Returns
 
@@ -381,9 +395,15 @@ Modifies a user's role in the project.
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `user_id: string`
 
+  The ID of the user.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `role: optional string or null`
 
@@ -529,9 +549,15 @@ Assigns a project role to a user within a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `user_id: string`
 
+  The ID of the user that should receive the project role.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `role_id: string`
 
@@ -802,9 +828,15 @@ Unassigns a project role from a user within a project.
 
 - `project_id: string`
 
+  The ID of the project to modify.
+
 - `user_id: string`
 
+  The ID of the user whose project role assignment should be removed.
+
 - `role_id: string`
+
+  The ID of the project role to remove from the user.
 
 ### Returns
 
@@ -860,7 +892,11 @@ Lists the project roles assigned to a user within a project.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `user_id: string`
+
+  The ID of the user to inspect.
 
 ### Query Parameters
 
@@ -1058,9 +1094,15 @@ Retrieves a project role assigned to a user.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `user_id: string`
 
+  The ID of the user to inspect.
+
 - `role_id: string`
+
+  The ID of the project role to retrieve for the user.
 
 ### Returns
 

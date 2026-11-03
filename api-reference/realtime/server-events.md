@@ -152,11 +152,19 @@ Schema name: `RealtimeServerEventSessionCreated`
 
               - `"audio/pcma"`
 
-        - `noise_reduction: optional object { type }  or null (default: null)`
+        - `noise_reduction: optional object { strength, type }  or null (default: null)`
 
           Configuration for input audio noise reduction. This can be set to `null` to turn off.
           Noise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.
           Filtering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.
+
+          - `strength: optional number (default: 1)`
+
+            Input noise suppression strength. Higher values apply more suppression.
+            Defaults to 1 when noise reduction is first enabled. Omitting strength
+            from a session update preserves the current strength.
+
+            `minimum: 0`, `maximum: 1`
 
           - `type: optional NoiseReductionType`
 
@@ -166,9 +174,13 @@ Schema name: `RealtimeServerEventSessionCreated`
 
             - `"far_field"`
 
-        - `transcription: optional object { language, languages, model, prompt }  or null`
+        - `transcription: optional object { keywords, language, languages, 2 more }  or null`
 
           Configuration for input audio transcription, defaults to off and can be set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs asynchronously through [the /audio/transcriptions endpoint](../audio/transcriptions/create.md) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.
+
+          - `keywords: optional array of string`
+
+            Words or phrases configured to guide transcription of the input audio.
 
           - `language: optional string or null`
 
@@ -981,17 +993,29 @@ Schema name: `RealtimeServerEventSessionCreated`
 
           The PCM audio format. Only a 24kHz sample rate is supported.
 
-        - `noise_reduction: optional object { type }  or null`
+        - `noise_reduction: optional object { strength, type }  or null`
 
           Configuration for input audio noise reduction.
+
+          - `strength: optional number (default: 1)`
+
+            Input noise suppression strength. Higher values apply more suppression.
+            Defaults to 1 when noise reduction is first enabled. Omitting strength
+            from a session update preserves the current strength.
+
+            `minimum: 0`, `maximum: 1`
 
           - `type: optional NoiseReductionType`
 
             Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.
 
-        - `transcription: optional object { language, languages, model, prompt }  or null`
+        - `transcription: optional object { keywords, language, languages, 2 more }  or null`
 
           Configuration of the transcription model.
+
+          - `keywords: optional array of string`
+
+            Words or phrases configured to guide transcription of the input audio.
 
           - `language: optional string or null`
 
@@ -1218,11 +1242,19 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
               - `"audio/pcma"`
 
-        - `noise_reduction: optional object { type }  or null (default: null)`
+        - `noise_reduction: optional object { strength, type }  or null (default: null)`
 
           Configuration for input audio noise reduction. This can be set to `null` to turn off.
           Noise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.
           Filtering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.
+
+          - `strength: optional number (default: 1)`
+
+            Input noise suppression strength. Higher values apply more suppression.
+            Defaults to 1 when noise reduction is first enabled. Omitting strength
+            from a session update preserves the current strength.
+
+            `minimum: 0`, `maximum: 1`
 
           - `type: optional NoiseReductionType`
 
@@ -1232,9 +1264,13 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
             - `"far_field"`
 
-        - `transcription: optional object { language, languages, model, prompt }  or null`
+        - `transcription: optional object { keywords, language, languages, 2 more }  or null`
 
           Configuration for input audio transcription, defaults to off and can be set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs asynchronously through [the /audio/transcriptions endpoint](../audio/transcriptions/create.md) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.
+
+          - `keywords: optional array of string`
+
+            Words or phrases configured to guide transcription of the input audio.
 
           - `language: optional string or null`
 
@@ -2047,17 +2083,29 @@ Schema name: `RealtimeServerEventSessionUpdated`
 
           The PCM audio format. Only a 24kHz sample rate is supported.
 
-        - `noise_reduction: optional object { type }  or null`
+        - `noise_reduction: optional object { strength, type }  or null`
 
           Configuration for input audio noise reduction.
+
+          - `strength: optional number (default: 1)`
+
+            Input noise suppression strength. Higher values apply more suppression.
+            Defaults to 1 when noise reduction is first enabled. Omitting strength
+            from a session update preserves the current strength.
+
+            `minimum: 0`, `maximum: 1`
 
           - `type: optional NoiseReductionType`
 
             Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.
 
-        - `transcription: optional object { language, languages, model, prompt }  or null`
+        - `transcription: optional object { keywords, language, languages, 2 more }  or null`
 
           Configuration of the transcription model.
+
+          - `keywords: optional array of string`
+
+            Words or phrases configured to guide transcription of the input audio.
 
           - `language: optional string or null`
 

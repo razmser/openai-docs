@@ -12,6 +12,8 @@ Returns the saved voice's metadata. Voices created from text prompts are support
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `name: string`
 
   The name of the new voice.
@@ -142,6 +144,8 @@ Deleting a voice does not delete its consent recording. Deleting an already dele
 ### Path Parameters
 
 - `voice_id: string`
+
+  The ID of the voice to delete.
 
 ### Returns
 

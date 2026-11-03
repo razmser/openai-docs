@@ -8,7 +8,11 @@ Update certain properties of an evaluation.
 
 - `eval_id: string`
 
+  The ID of the evaluation to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `metadata: optional Metadata or null`
 

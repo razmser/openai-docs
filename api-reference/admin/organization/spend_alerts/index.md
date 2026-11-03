@@ -8,6 +8,8 @@ Creates an organization spend alert.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `currency: "USD"`
 
   The currency for the threshold amount.
@@ -176,6 +178,8 @@ Deletes an organization spend alert.
 ### Path Parameters
 
 - `alert_id: string`
+
+  The ID of the spend alert to delete.
 
 ### Returns
 
@@ -408,6 +412,8 @@ Retrieves an organization spend alert.
 
 - `alert_id: string`
 
+  The ID of the spend alert to retrieve.
+
 ### Returns
 
 - `OrganizationSpendAlert object { id, currency, interval, 3 more }`
@@ -519,7 +525,11 @@ Updates an organization spend alert.
 
 - `alert_id: string`
 
+  The ID of the spend alert to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `currency: "USD"`
 

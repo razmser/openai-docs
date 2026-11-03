@@ -8,7 +8,11 @@ Update the default version pointer for a skill.
 
 - `skill_id: string`
 
+  The identifier of the skill.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `default_version: string`
 

@@ -10,7 +10,11 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
 - `session_id: string`
 
+  Opaque Live session identifier from the creation response or incoming-call webhook. Preserve the returned value unchanged, including its prefix.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `session: object { model, type, audio, 5 more }`
 
@@ -1212,6 +1216,10 @@ Get Live session content
 
   `pattern: ^live_[A-Za-z0-9_-]{1,128}$`
 
+### Returns
+
+`file`
+
 ### Example
 
 ```http
@@ -1229,7 +1237,11 @@ Fork a stored Live session onto a new WebRTC connection.
 
 - `session_id: string`
 
+  The ID of the stored Live session to fork.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `transport: object { sdp, type }`
 
@@ -2000,6 +2012,8 @@ End a SIP call identified by session_id.
 
 - `session_id: string`
 
+  Opaque Live session identifier from the creation response or incoming-call webhook. Preserve the returned value unchanged, including its prefix.
+
 ### Example
 
 ```http
@@ -2018,7 +2032,11 @@ Transfer a SIP call to another destination. Supply a nonblank target_uri for the
 
 - `session_id: string`
 
+  Opaque Live session identifier from the creation response or incoming-call webhook. Preserve the returned value unchanged, including its prefix.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `target_uri: string`
 
@@ -2047,7 +2065,11 @@ Reject an incoming SIP call. Send a required SIP rejection status_code between 3
 
 - `session_id: string`
 
+  Opaque Live session identifier from the creation response or incoming-call webhook. Preserve the returned value unchanged, including its prefix.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `status_code: integer`
 

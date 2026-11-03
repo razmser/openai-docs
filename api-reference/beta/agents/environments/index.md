@@ -14,6 +14,8 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `environment: object { type, capability_directories, desktop, 8 more }`
 
   The required hosting type and its configuration.
@@ -185,8 +187,6 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
         The archive media type, always `application/zip`.
 
         - `"application/zip"`
-
-          A ZIP archive.
 
       - `type: "base64" (default: "base64")`
 
@@ -856,6 +856,8 @@ Retrieves an execution environment's connection status and safe installed metada
 
 - `environment_id: string`
 
+  The ID of the environment.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
@@ -1320,9 +1322,13 @@ Copies inline bytes or a Files API file into a connected execution environment, 
 
 - `environment_id: string`
 
+  The ID of the environment.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `hosted_environment_file_param: HostedEnvironmentFileParam`
 
@@ -1431,6 +1437,8 @@ Lists live files on a connected execution environment with optional directory fi
 ### Path Parameters
 
 - `environment_id: string`
+
+  The ID of the environment.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -1581,6 +1589,8 @@ curl https://api.openai.com/v1/agents/environments/$ENVIRONMENT_ID/files \
 Creates reusable environment configuration without returning confidential setup commands or environment values. See [reusing a hosted setup](https://developers.openai.com/api/docs/guides/agents-api/tools#reuse-a-hosted-plugin-setup).
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `capability_directories: optional array of string or null`
 
@@ -1743,8 +1753,6 @@ Creates reusable environment configuration without returning confidential setup 
       The archive media type, always `application/zip`.
 
       - `"application/zip"`
-
-        A ZIP archive.
 
     - `type: "base64" (default: "base64")`
 
@@ -2126,6 +2134,8 @@ Deletes reusable environment configuration and all confidential template inputs.
 ### Path Parameters
 
 - `environment_template_id: string`
+
+  The ID of the reusable environment template.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -2530,6 +2540,8 @@ Retrieves reusable environment configuration without returning confidential valu
 
 - `environment_template_id: string`
 
+  The ID of the reusable environment template.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
@@ -2828,9 +2840,13 @@ Updates reusable environment configuration without returning confidential values
 
 - `environment_template_id: string`
 
+  The ID of the reusable environment template.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `capability_directories: optional array of string or null`
 
@@ -2993,8 +3009,6 @@ Updates reusable environment configuration without returning confidential values
       The archive media type, always `application/zip`.
 
       - `"application/zip"`
-
-        A ZIP archive.
 
     - `type: "base64" (default: "base64")`
 

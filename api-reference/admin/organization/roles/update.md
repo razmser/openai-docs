@@ -8,7 +8,11 @@ Updates an existing organization role.
 
 - `role_id: string`
 
+  The ID of the role to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `description: optional string or null`
 

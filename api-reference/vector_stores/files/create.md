@@ -8,7 +8,11 @@ Create a vector store file by attaching a [File](../../files/index.md) to a [vec
 
 - `vector_store_id: string`
 
+  The ID of the vector store for which to create a File.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `file_id: string`
 
