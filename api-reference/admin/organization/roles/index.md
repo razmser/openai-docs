@@ -8,6 +8,8 @@ Creates a custom role for the organization.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `permissions: array of string`
 
   Permissions to grant to the role.
@@ -128,6 +130,8 @@ Deletes a custom role from the organization.
 ### Path Parameters
 
 - `role_id: string`
+
+  The ID of the role to delete.
 
 ### Returns
 
@@ -329,6 +333,8 @@ Retrieves an organization role.
 
 - `role_id: string`
 
+  The ID of the role to retrieve.
+
 ### Returns
 
 - `Role object { id, description, name, 4 more }`
@@ -423,7 +429,11 @@ Updates an existing organization role.
 
 - `role_id: string`
 
+  The ID of the role to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `description: optional string or null`
 

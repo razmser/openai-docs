@@ -8,7 +8,11 @@ Update a conversation
 
 - `conversation_id: string`
 
+  The ID of the conversation to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `metadata: Metadata or null`
 

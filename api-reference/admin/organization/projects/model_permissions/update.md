@@ -8,7 +8,11 @@ Updates model permissions for a project.
 
 - `project_id: string`
 
+  The ID of the project.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `mode: "allow_list" or "deny_list"`
 

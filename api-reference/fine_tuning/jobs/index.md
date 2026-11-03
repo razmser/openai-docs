@@ -10,6 +10,8 @@ Immediately cancel a fine-tune job.
 
 - `fine_tuning_job_id: string`
 
+  The ID of the fine-tuning job to cancel.
+
 ### Returns
 
 - `FineTuningJob object { id, created_at, error, 16 more }`
@@ -1035,6 +1037,8 @@ Response includes details of the enqueued job including job status and the name 
 [Learn more about fine-tuning](https://developers.openai.com/api/docs/guides/model-optimization)
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `model: string or "babbage-002" or "davinci-002" or "gpt-3.5-turbo" or "gpt-4o-mini"`
 
@@ -4317,6 +4321,8 @@ Get status updates for a fine-tuning job.
 
 - `fine_tuning_job_id: string`
 
+  The ID of the fine-tuning job to get events for.
+
 ### Query Parameters
 
 - `after: optional string`
@@ -4451,6 +4457,8 @@ Pause a fine-tune job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to pause.
 
 ### Returns
 
@@ -5489,6 +5497,8 @@ Resume a fine-tune job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to resume.
 
 ### Returns
 
@@ -6529,6 +6539,8 @@ Get info about a fine-tuning job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job.
 
 ### Returns
 
@@ -8574,6 +8586,8 @@ List checkpoints for a fine-tuning job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to get checkpoints for.
 
 ### Query Parameters
 

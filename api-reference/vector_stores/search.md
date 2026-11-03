@@ -8,7 +8,11 @@ Search a vector store for relevant chunks based on a query and file attributes f
 
 - `vector_store_id: string`
 
+  The ID of the vector store to search.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `query: string or array of string`
 

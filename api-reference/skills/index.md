@@ -8,6 +8,8 @@ Create a new skill.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `files: array of string or string`
 
   Skill files to upload (directory upload) or a single zip file.
@@ -94,6 +96,8 @@ Delete a skill by its ID.
 ### Path Parameters
 
 - `skill_id: string`
+
+  The identifier of the skill to delete.
 
 ### Returns
 
@@ -248,6 +252,8 @@ Get a skill by its ID.
 
 - `skill_id: string`
 
+  The identifier of the skill to retrieve.
+
 ### Returns
 
 - `Skill object { id, created_at, default_version, 4 more }`
@@ -315,7 +321,11 @@ Update the default version pointer for a skill.
 
 - `skill_id: string`
 
+  The identifier of the skill.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `default_version: string`
 
@@ -502,6 +512,12 @@ Download a skill zip bundle by its ID.
 
 - `skill_id: string`
 
+  The identifier of the skill to download.
+
+### Returns
+
+`file`
+
 ### Example
 
 ```http
@@ -521,7 +537,11 @@ Create a new immutable skill version.
 
 - `skill_id: string`
 
+  The identifier of the skill to version.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `files: array of string or string`
 
@@ -614,6 +634,8 @@ Delete a skill version.
 
 - `skill_id: string`
 
+  The identifier of the skill.
+
 - `version: string`
 
   The skill version number.
@@ -662,6 +684,8 @@ List skill versions for a skill.
 ### Path Parameters
 
 - `skill_id: string`
+
+  The identifier of the skill.
 
 ### Query Parameters
 
@@ -779,6 +803,8 @@ Get a specific skill version.
 ### Path Parameters
 
 - `skill_id: string`
+
+  The identifier of the skill.
 
 - `version: string`
 
@@ -965,9 +991,15 @@ Download a skill version zip bundle.
 
 - `skill_id: string`
 
+  The identifier of the skill.
+
 - `version: string`
 
   The skill version number.
+
+### Returns
+
+`file`
 
 ### Example
 

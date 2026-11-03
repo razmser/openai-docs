@@ -8,6 +8,8 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Returns

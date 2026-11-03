@@ -8,9 +8,13 @@ Deletes a vault credential. See [vaults](https://developers.openai.com/api/docs/
 
 - `vault_id: string`
 
+  The ID of the vault.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `credential_id: string`
+
+  The ID of the vault credential.
 
   `minLength: 0`, `maxLength: 1048576`
 

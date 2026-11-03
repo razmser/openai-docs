@@ -10,6 +10,8 @@ Cancels an in-progress batch. The batch will be in status `cancelling` for up to
 
 - `batch_id: string`
 
+  The ID of the batch to cancel.
+
 ### Returns
 
 - `Batch object { id, completion_window, created_at, 19 more }`
@@ -320,6 +322,8 @@ curl https://api.openai.com/v1/batches/batch_abc123/cancel \
 Creates and executes a batch from an uploaded file of requests
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `completion_window: "24h"`
 
@@ -1044,6 +1048,8 @@ Retrieves a batch.
 ### Path Parameters
 
 - `batch_id: string`
+
+  The ID of the batch to retrieve.
 
 ### Returns
 

@@ -10,7 +10,11 @@ Assigns an organization role to a user within the organization.
 
 - `user_id: string`
 
+  The ID of the user that should receive the organization role.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `role_id: string`
 
@@ -281,7 +285,11 @@ Unassigns an organization role from a user within the organization.
 
 - `user_id: string`
 
+  The ID of the user to modify.
+
 - `role_id: string`
+
+  The ID of the organization role to remove from the user.
 
 ### Returns
 
@@ -336,6 +344,8 @@ Lists the organization roles assigned to a user within the organization.
 ### Path Parameters
 
 - `user_id: string`
+
+  The ID of the user to inspect.
 
 ### Query Parameters
 
@@ -533,7 +543,11 @@ Retrieves an organization role assigned to a user.
 
 - `user_id: string`
 
+  The ID of the user to inspect.
+
 - `role_id: string`
+
+  The ID of the organization role to retrieve for the user.
 
 ### Returns
 

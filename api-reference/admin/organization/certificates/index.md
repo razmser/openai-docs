@@ -10,6 +10,8 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `certificate_ids: array of string`
 
   `minItems: 1`, `maxItems: 10`
@@ -149,6 +151,8 @@ Organizations can upload up to 50 certificates.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `certificate: string`
 
   The certificate content in PEM format
@@ -277,6 +281,8 @@ Deactivate certificates at the organization level.
 You can atomically and idempotently deactivate up to 10 certificates at a time.
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `certificate_ids: array of string`
 
@@ -418,6 +424,8 @@ The certificate must be inactive for the organization and all projects.
 ### Path Parameters
 
 - `certificate_id: string`
+
+  Unique ID of the certificate to delete.
 
 ### Returns
 
@@ -614,6 +622,8 @@ You can get a certificate regardless of whether it is active or not.
 
 - `certificate_id: string`
 
+  Unique ID of the certificate to retrieve.
+
 ### Query Parameters
 
 - `include: optional array of "content"`
@@ -735,7 +745,11 @@ Modify a certificate. Note that only the name can be modified.
 
 - `certificate_id: string`
 
+  Unique ID of the certificate to modify.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `name: optional string`
 

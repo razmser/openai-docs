@@ -9,7 +9,13 @@ handle it.
 
 - `call_id: string`
 
+  The identifier for the call provided in the
+  [`realtime.call.incoming`](../../webhooks/index.md#realtime.call.incoming)
+  webhook.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `type: "realtime"`
 
@@ -63,11 +69,19 @@ handle it.
 
           - `"audio/pcma"`
 
-    - `noise_reduction: optional object { type }`
+    - `noise_reduction: optional object { strength, type }`
 
       Configuration for input audio noise reduction. This can be set to `null` to turn off.
       Noise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.
       Filtering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.
+
+      - `strength: optional number (default: 1)`
+
+        Input noise suppression strength. Higher values apply more suppression.
+        Defaults to 1 when noise reduction is first enabled. Omitting strength
+        from a session update preserves the current strength.
+
+        `minimum: 0`, `maximum: 1`
 
       - `type: optional NoiseReductionType`
 

@@ -9,7 +9,11 @@ idempotently deactivate up to 10 certificates at a time.
 
 - `project_id: string`
 
+  The ID of the project.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `certificate_ids: array of string`
 

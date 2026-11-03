@@ -8,7 +8,11 @@ Fork a stored Live session onto a new WebRTC connection.
 
 - `session_id: string`
 
+  The ID of the stored Live session to fork.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `transport: object { sdp, type }`
 

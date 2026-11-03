@@ -8,6 +8,8 @@ Create an invite for a user to the organization. The invite must be accepted by 
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `email: string`
 
   Send an email to this address
@@ -197,6 +199,8 @@ Delete an invite. If the invite has already been accepted, it cannot be deleted.
 ### Path Parameters
 
 - `invite_id: string`
+
+  The ID of the invite to delete.
 
 ### Returns
 
@@ -427,6 +431,8 @@ Retrieves an invite.
 ### Path Parameters
 
 - `invite_id: string`
+
+  The ID of the invite to retrieve.
 
 ### Returns
 

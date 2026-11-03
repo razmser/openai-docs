@@ -8,7 +8,11 @@ Create a vector store file batch.
 
 - `vector_store_id: string`
 
+  The ID of the vector store for which to create a File Batch.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `attributes: optional map[string or number or boolean] or null`
 

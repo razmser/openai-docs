@@ -10,9 +10,13 @@ Lists all turns of this subagent, including turns after a resume. See [subagent 
 
 - `session_id: string`
 
+  The ID of the session.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `subagent_id: string`
+
+  The ID of the subagent in this session.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -353,13 +357,19 @@ Retrieves a turn belonging to this subagent. See [subagent workflows](https://de
 
 - `session_id: string`
 
+  The ID of the session.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `subagent_id: string`
 
+  The ID of the subagent in this session.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `turn_id: string`
+
+  The ID of a turn belonging to this subagent.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -644,13 +654,19 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
 
 - `session_id: string`
 
+  The ID of the session.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `subagent_id: string`
 
+  The ID of the subagent in this session.
+
   `minLength: 0`, `maxLength: 1048576`
 
 - `turn_id: string`
+
+  The ID of a turn belonging to this subagent.
 
   `minLength: 0`, `maxLength: 1048576`
 
@@ -1522,8 +1538,6 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
 
       - `"create_subagent_call"`
 
-        The current public item type.
-
   - `AgentSendSubagentInputCallItem object { id, content, recipient_agent_id, 4 more }`
 
     A request to send input to another agent.
@@ -1576,8 +1590,6 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
 
       - `"send_subagent_input_call"`
 
-        The current public item type.
-
   - `AgentResumeSubagentCallItem object { id, recipient_agent_id, sender_agent_id, 3 more }`
 
     A request to resume a subagent.
@@ -1615,8 +1627,6 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
       The item type. Always `resume_subagent_call`.
 
       - `"resume_subagent_call"`
-
-        The current public item type.
 
   - `AgentWaitForSubagentsCallItem object { id, recipient_agent_ids, sender_agent_id, 3 more }`
 
@@ -1656,8 +1666,6 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
 
       - `"wait_for_subagents_call"`
 
-        The current public item type.
-
   - `AgentInterruptSubagentCallItem object { id, recipient_agent_id, sender_agent_id, 3 more }`
 
     A request to interrupt a subagent's current turn. The subagent remains available.
@@ -1696,8 +1704,6 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
 
       - `"interrupt_subagent_call"`
 
-        The current public item type.
-
   - `AgentCloseSubagentCallItem object { id, recipient_agent_id, sender_agent_id, 3 more }`
 
     A request to close a subagent.
@@ -1735,8 +1741,6 @@ Lists items belonging to one turn of this subagent. See [subagent workflows](htt
       The item type. Always `close_subagent_call`.
 
       - `"close_subagent_call"`
-
-        The current public item type.
 
 - `first_id: string or null`
 

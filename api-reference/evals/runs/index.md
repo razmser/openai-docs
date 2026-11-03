@@ -10,7 +10,11 @@ Cancel an ongoing evaluation run.
 
 - `eval_id: string`
 
+  The ID of the evaluation whose run you want to cancel.
+
 - `run_id: string`
+
+  The ID of the run to cancel.
 
 ### Returns
 
@@ -2523,7 +2527,11 @@ Kicks off a new run for a given evaluation, specifying the data source, and what
 
 - `eval_id: string`
 
+  The ID of the evaluation to create a run for.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `data_source: CreateEvalJSONLRunDataSource or CreateEvalCompletionsRunDataSource or ResponsesRunDataSource { source, type, input_messages, 2 more }`
 
@@ -7131,7 +7139,11 @@ Delete an eval run.
 
 - `eval_id: string`
 
+  The ID of the evaluation to delete the run from.
+
 - `run_id: string`
+
+  The ID of the run to delete.
 
 ### Returns
 
@@ -7187,6 +7199,8 @@ Get a list of runs for an evaluation.
 ### Path Parameters
 
 - `eval_id: string`
+
+  The ID of the evaluation to retrieve runs for.
 
 ### Query Parameters
 
@@ -9694,7 +9708,11 @@ Get an evaluation run by ID.
 
 - `eval_id: string`
 
+  The ID of the evaluation to retrieve runs for.
+
 - `run_id: string`
+
+  The ID of the run to retrieve.
 
 ### Returns
 
@@ -21988,7 +22006,11 @@ Get a list of output items for an evaluation run.
 
 - `eval_id: string`
 
+  The ID of the evaluation to retrieve runs for.
+
 - `run_id: string`
+
+  The ID of the run to retrieve output items for.
 
 ### Query Parameters
 
@@ -22350,9 +22372,15 @@ Get an evaluation run output item by ID.
 
 - `eval_id: string`
 
+  The ID of the evaluation to retrieve runs for.
+
 - `run_id: string`
 
+  The ID of the run to retrieve.
+
 - `output_item_id: string`
+
+  The ID of the output item to retrieve.
 
 ### Returns
 

@@ -8,7 +8,11 @@ Modifies a vector store.
 
 - `vector_store_id: string`
 
+  The ID of the vector store to modify.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `expires_after: optional object { anchor, days }  or null`
 

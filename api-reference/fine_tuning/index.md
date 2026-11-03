@@ -12,6 +12,8 @@ Run a grader.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `grader: StringCheckGrader or TextSimilarityGrader or PythonGrader or 2 more`
 
   The grader used for the fine-tuning job.
@@ -807,6 +809,8 @@ curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
 Validate a grader.
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `grader: StringCheckGrader or TextSimilarityGrader or PythonGrader or 2 more`
 
@@ -2426,7 +2430,11 @@ This enables organization owners to share fine-tuned models with other projects 
 
 - `fine_tuned_model_checkpoint: string`
 
+  The ID of the fine-tuned model checkpoint to create a permission for.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `project_ids: array of string`
 
@@ -2537,7 +2545,11 @@ Organization owners can use this endpoint to delete a permission for a fine-tune
 
 - `fine_tuned_model_checkpoint: string`
 
+  The ID of the fine-tuned model checkpoint to delete a permission for.
+
 - `permission_id: string`
+
+  The ID of the fine-tuned model checkpoint permission to delete.
 
 ### Returns
 
@@ -2601,6 +2613,8 @@ Organization owners can use this endpoint to view all permissions for a fine-tun
 ### Path Parameters
 
 - `fine_tuned_model_checkpoint: string`
+
+  The ID of the fine-tuned model checkpoint to get permissions for.
 
 ### Query Parameters
 
@@ -2727,6 +2741,8 @@ Organization owners can use this endpoint to view all permissions for a fine-tun
 ### Path Parameters
 
 - `fine_tuned_model_checkpoint: string`
+
+  The ID of the fine-tuned model checkpoint to get permissions for.
 
 ### Query Parameters
 
@@ -2961,6 +2977,8 @@ Immediately cancel a fine-tune job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to cancel.
 
 ### Returns
 
@@ -3987,6 +4005,8 @@ Response includes details of the enqueued job including job status and the name 
 [Learn more about fine-tuning](https://developers.openai.com/api/docs/guides/model-optimization)
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `model: string or "babbage-002" or "davinci-002" or "gpt-3.5-turbo" or "gpt-4o-mini"`
 
@@ -7269,6 +7289,8 @@ Get status updates for a fine-tuning job.
 
 - `fine_tuning_job_id: string`
 
+  The ID of the fine-tuning job to get events for.
+
 ### Query Parameters
 
 - `after: optional string`
@@ -7403,6 +7425,8 @@ Pause a fine-tune job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to pause.
 
 ### Returns
 
@@ -8441,6 +8465,8 @@ Resume a fine-tune job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to resume.
 
 ### Returns
 
@@ -9481,6 +9507,8 @@ Get info about a fine-tuning job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job.
 
 ### Returns
 
@@ -11526,6 +11554,8 @@ List checkpoints for a fine-tuning job.
 ### Path Parameters
 
 - `fine_tuning_job_id: string`
+
+  The ID of the fine-tuning job to get checkpoints for.
 
 ### Query Parameters
 

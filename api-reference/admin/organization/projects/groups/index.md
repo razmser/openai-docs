@@ -10,7 +10,11 @@ Grants a group access to a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `group_id: string`
 
@@ -118,7 +122,11 @@ Revokes a group's access to a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `group_id: string`
+
+  The ID of the group to remove from the project.
 
 ### Returns
 
@@ -175,6 +183,8 @@ Lists the groups that have access to a project.
 ### Path Parameters
 
 - `project_id: string`
+
+  The ID of the project to inspect.
 
 ### Query Parameters
 
@@ -313,7 +323,11 @@ Retrieves a project's group.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `group_id: string`
+
+  The ID of the group to retrieve.
 
 ### Query Parameters
 
@@ -472,9 +486,15 @@ Assigns a project role to a group within a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `group_id: string`
 
+  The ID of the group that should receive the project role.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `role_id: string`
 
@@ -635,9 +655,15 @@ Unassigns a project role from a group within a project.
 
 - `project_id: string`
 
+  The ID of the project to modify.
+
 - `group_id: string`
 
+  The ID of the group whose project role assignment should be removed.
+
 - `role_id: string`
+
+  The ID of the project role to remove from the group.
 
 ### Returns
 
@@ -693,7 +719,11 @@ Lists the project roles assigned to a group within a project.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `group_id: string`
+
+  The ID of the group to inspect.
 
 ### Query Parameters
 
@@ -891,9 +921,15 @@ Retrieves a project role assigned to a group.
 
 - `project_id: string`
 
+  The ID of the project to inspect.
+
 - `group_id: string`
 
+  The ID of the group to inspect.
+
 - `role_id: string`
+
+  The ID of the project role to retrieve for the group.
 
 ### Returns
 

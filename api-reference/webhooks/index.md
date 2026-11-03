@@ -8,6 +8,8 @@ Creates a webhook endpoint for the authenticated project.
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `event_types: array of "batch.completed" or "batch.failed" or "batch.expired" or 24 more`
 
   The event types that trigger deliveries to this endpoint.
@@ -169,6 +171,8 @@ Deletes a webhook endpoint for the authenticated project.
 
 - `webhook_endpoint_id: string`
 
+  The ID of the webhook endpoint to delete.
+
 ### Returns
 
 - `DeletedWebhookEndpoint object { id, deleted, object }`
@@ -329,6 +333,8 @@ Retrieves a webhook endpoint for the authenticated project.
 
 - `webhook_endpoint_id: string`
 
+  The ID of the webhook endpoint to retrieve.
+
 ### Returns
 
 - `WebhookEndpoint object { id, created_at, event_types, 5 more }`
@@ -405,7 +411,11 @@ Rotates the signing secret for a webhook endpoint in the authenticated project.
 
 - `webhook_endpoint_id: string`
 
+  The ID of the webhook endpoint whose signing secret will be rotated.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `keep_old_secret_active_for_24_hours: optional boolean`
 
@@ -493,7 +503,11 @@ Sends a sample event to a webhook endpoint for the authenticated project.
 
 - `webhook_endpoint_id: string`
 
+  The ID of the webhook endpoint to test.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `event_type: "batch.completed" or "batch.failed" or "batch.expired" or 24 more`
 
@@ -620,7 +634,11 @@ Updates a webhook endpoint for the authenticated project.
 
 - `webhook_endpoint_id: string`
 
+  The ID of the webhook endpoint to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `event_types: optional array of "batch.completed" or "batch.failed" or "batch.expired" or 24 more`
 

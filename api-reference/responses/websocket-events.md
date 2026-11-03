@@ -85,6 +85,12 @@ Schema name: `ResponsesClientEventResponseCreate`
 
       The unique ID of the conversation.
 
+- `generate: optional boolean`
+
+  Whether to generate output for this response. Defaults to true when omitted.
+  Set to false to prepare request state without model output; the response
+  ID can be used as previous_response_id on a later turn.
+
 - `include: optional array of ResponseIncludable or null`
 
   Specify additional output data to include in the model response. Currently supported values are:
@@ -3539,11 +3545,10 @@ Schema name: `ResponsesClientEventResponseCreate`
 
         The unique ID of this additional tools item.
 
-    - `ConfigurationUpdate object { type, id, reasoning }`
+    - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-      An update to the conversation's response configuration. The configuration
-      remains in effect for subsequent responses until it is replaced by another
-      configuration update.
+      An update to the conversation's response configuration. Supply reasoning,
+      text, or both. Each setting stays in effect until a later update replaces it.
 
       - `type: "configuration_update" (default: "configuration_update")`
 
@@ -3577,6 +3582,58 @@ Schema name: `ResponsesClientEventResponseCreate`
           - `"xhigh"`
 
           - `"max"`
+
+      - `text: optional object { format }`
+
+        The text output configuration for subsequent responses.
+
+        - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+          Use a JSON schema for structured output or text to return to plain text.
+
+          - `ResponseFormatText object { type }`
+
+            Default response format. Used to generate text responses.
+
+            - `type: "text"`
+
+              The type of response format being defined. Always `text`.
+
+              - `"text"`
+
+          - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+            JSON Schema response format. Used to generate structured JSON responses.
+            Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+            - `name: string`
+
+              The name of the response format. Must be a-z, A-Z, 0-9, or contain
+              underscores and dashes, with a maximum length of 64.
+
+            - `schema: map[unknown]`
+
+              The schema for the response format, described as a JSON Schema object.
+              Learn how to build JSON schemas [here](https://json-schema.org/).
+
+            - `type: "json_schema"`
+
+              The type of response format being defined. Always `json_schema`.
+
+              - `"json_schema"`
+
+            - `description: optional string`
+
+              A description of what the response format is for, used by the model to
+              determine how to respond in the format.
+
+            - `strict: optional boolean or null (default: false)`
+
+              Whether to enable strict schema adherence when generating the output.
+              If set to true, the model will always follow the exact schema defined
+              in the `schema` field. Only a subset of JSON Schema is supported when
+              `strict` is `true`. To learn more, read the [Structured Outputs
+              guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `Reasoning object { id, summary, type, 3 more }`
 
@@ -5277,45 +5334,10 @@ Schema name: `ResponsesClientEventResponseCreate`
 
       Default response format. Used to generate text responses.
 
-      - `type: "text"`
-
-        The type of response format being defined. Always `text`.
-
-        - `"text"`
-
     - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
       JSON Schema response format. Used to generate structured JSON responses.
       Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-      - `name: string`
-
-        The name of the response format. Must be a-z, A-Z, 0-9, or contain
-        underscores and dashes, with a maximum length of 64.
-
-      - `schema: map[unknown]`
-
-        The schema for the response format, described as a JSON Schema object.
-        Learn how to build JSON schemas [here](https://json-schema.org/).
-
-      - `type: "json_schema"`
-
-        The type of response format being defined. Always `json_schema`.
-
-        - `"json_schema"`
-
-      - `description: optional string`
-
-        A description of what the response format is for, used by the model to
-        determine how to respond in the format.
-
-      - `strict: optional boolean or null (default: false)`
-
-        Whether to enable strict schema adherence when generating the output.
-        If set to true, the model will always follow the exact schema defined
-        in the `schema` field. Only a subset of JSON Schema is supported when
-        `strict` is `true`. To learn more, read the [Structured Outputs
-        guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
     - `ResponseFormatJSONObject object { type }`
 
@@ -11210,11 +11232,10 @@ Schema name: `ResponseCreatedEvent`
 
           The unique ID of this additional tools item.
 
-      - `ConfigurationUpdate object { type, id, reasoning }`
+      - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-        An update to the conversation's response configuration. The configuration
-        remains in effect for subsequent responses until it is replaced by another
-        configuration update.
+        An update to the conversation's response configuration. Supply reasoning,
+        text, or both. Each setting stays in effect until a later update replaces it.
 
         - `type: "configuration_update" (default: "configuration_update")`
 
@@ -11248,6 +11269,58 @@ Schema name: `ResponseCreatedEvent`
             - `"xhigh"`
 
             - `"max"`
+
+        - `text: optional object { format }`
+
+          The text output configuration for subsequent responses.
+
+          - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+            Use a JSON schema for structured output or text to return to plain text.
+
+            - `ResponseFormatText object { type }`
+
+              Default response format. Used to generate text responses.
+
+              - `type: "text"`
+
+                The type of response format being defined. Always `text`.
+
+                - `"text"`
+
+            - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+              JSON Schema response format. Used to generate structured JSON responses.
+              Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+              - `name: string`
+
+                The name of the response format. Must be a-z, A-Z, 0-9, or contain
+                underscores and dashes, with a maximum length of 64.
+
+              - `schema: map[unknown]`
+
+                The schema for the response format, described as a JSON Schema object.
+                Learn how to build JSON schemas [here](https://json-schema.org/).
+
+              - `type: "json_schema"`
+
+                The type of response format being defined. Always `json_schema`.
+
+                - `"json_schema"`
+
+              - `description: optional string`
+
+                A description of what the response format is for, used by the model to
+                determine how to respond in the format.
+
+              - `strict: optional boolean or null (default: false)`
+
+                Whether to enable strict schema adherence when generating the output.
+                If set to true, the model will always follow the exact schema defined
+                in the `schema` field. Only a subset of JSON Schema is supported when
+                `strict` is `true`. To learn more, read the [Structured Outputs
+                guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `Reasoning object { id, summary, type, 3 more }`
 
@@ -17632,45 +17705,10 @@ Schema name: `ResponseCreatedEvent`
 
         Default response format. Used to generate text responses.
 
-        - `type: "text"`
-
-          The type of response format being defined. Always `text`.
-
-          - `"text"`
-
       - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
         JSON Schema response format. Used to generate structured JSON responses.
         Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-        - `name: string`
-
-          The name of the response format. Must be a-z, A-Z, 0-9, or contain
-          underscores and dashes, with a maximum length of 64.
-
-        - `schema: map[unknown]`
-
-          The schema for the response format, described as a JSON Schema object.
-          Learn how to build JSON schemas [here](https://json-schema.org/).
-
-        - `type: "json_schema"`
-
-          The type of response format being defined. Always `json_schema`.
-
-          - `"json_schema"`
-
-        - `description: optional string`
-
-          A description of what the response format is for, used by the model to
-          determine how to respond in the format.
-
-        - `strict: optional boolean or null (default: false)`
-
-          Whether to enable strict schema adherence when generating the output.
-          If set to true, the model will always follow the exact schema defined
-          in the `schema` field. Only a subset of JSON Schema is supported when
-          `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 
@@ -21472,11 +21510,10 @@ Schema name: `ResponseInProgressEvent`
 
           The unique ID of this additional tools item.
 
-      - `ConfigurationUpdate object { type, id, reasoning }`
+      - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-        An update to the conversation's response configuration. The configuration
-        remains in effect for subsequent responses until it is replaced by another
-        configuration update.
+        An update to the conversation's response configuration. Supply reasoning,
+        text, or both. Each setting stays in effect until a later update replaces it.
 
         - `type: "configuration_update" (default: "configuration_update")`
 
@@ -21510,6 +21547,58 @@ Schema name: `ResponseInProgressEvent`
             - `"xhigh"`
 
             - `"max"`
+
+        - `text: optional object { format }`
+
+          The text output configuration for subsequent responses.
+
+          - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+            Use a JSON schema for structured output or text to return to plain text.
+
+            - `ResponseFormatText object { type }`
+
+              Default response format. Used to generate text responses.
+
+              - `type: "text"`
+
+                The type of response format being defined. Always `text`.
+
+                - `"text"`
+
+            - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+              JSON Schema response format. Used to generate structured JSON responses.
+              Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+              - `name: string`
+
+                The name of the response format. Must be a-z, A-Z, 0-9, or contain
+                underscores and dashes, with a maximum length of 64.
+
+              - `schema: map[unknown]`
+
+                The schema for the response format, described as a JSON Schema object.
+                Learn how to build JSON schemas [here](https://json-schema.org/).
+
+              - `type: "json_schema"`
+
+                The type of response format being defined. Always `json_schema`.
+
+                - `"json_schema"`
+
+              - `description: optional string`
+
+                A description of what the response format is for, used by the model to
+                determine how to respond in the format.
+
+              - `strict: optional boolean or null (default: false)`
+
+                Whether to enable strict schema adherence when generating the output.
+                If set to true, the model will always follow the exact schema defined
+                in the `schema` field. Only a subset of JSON Schema is supported when
+                `strict` is `true`. To learn more, read the [Structured Outputs
+                guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `Reasoning object { id, summary, type, 3 more }`
 
@@ -27894,45 +27983,10 @@ Schema name: `ResponseInProgressEvent`
 
         Default response format. Used to generate text responses.
 
-        - `type: "text"`
-
-          The type of response format being defined. Always `text`.
-
-          - `"text"`
-
       - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
         JSON Schema response format. Used to generate structured JSON responses.
         Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-        - `name: string`
-
-          The name of the response format. Must be a-z, A-Z, 0-9, or contain
-          underscores and dashes, with a maximum length of 64.
-
-        - `schema: map[unknown]`
-
-          The schema for the response format, described as a JSON Schema object.
-          Learn how to build JSON schemas [here](https://json-schema.org/).
-
-        - `type: "json_schema"`
-
-          The type of response format being defined. Always `json_schema`.
-
-          - `"json_schema"`
-
-        - `description: optional string`
-
-          A description of what the response format is for, used by the model to
-          determine how to respond in the format.
-
-        - `strict: optional boolean or null (default: false)`
-
-          Whether to enable strict schema adherence when generating the output.
-          If set to true, the model will always follow the exact schema defined
-          in the `schema` field. Only a subset of JSON Schema is supported when
-          `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 
@@ -31734,11 +31788,10 @@ Schema name: `ResponseCompletedEvent`
 
           The unique ID of this additional tools item.
 
-      - `ConfigurationUpdate object { type, id, reasoning }`
+      - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-        An update to the conversation's response configuration. The configuration
-        remains in effect for subsequent responses until it is replaced by another
-        configuration update.
+        An update to the conversation's response configuration. Supply reasoning,
+        text, or both. Each setting stays in effect until a later update replaces it.
 
         - `type: "configuration_update" (default: "configuration_update")`
 
@@ -31772,6 +31825,58 @@ Schema name: `ResponseCompletedEvent`
             - `"xhigh"`
 
             - `"max"`
+
+        - `text: optional object { format }`
+
+          The text output configuration for subsequent responses.
+
+          - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+            Use a JSON schema for structured output or text to return to plain text.
+
+            - `ResponseFormatText object { type }`
+
+              Default response format. Used to generate text responses.
+
+              - `type: "text"`
+
+                The type of response format being defined. Always `text`.
+
+                - `"text"`
+
+            - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+              JSON Schema response format. Used to generate structured JSON responses.
+              Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+              - `name: string`
+
+                The name of the response format. Must be a-z, A-Z, 0-9, or contain
+                underscores and dashes, with a maximum length of 64.
+
+              - `schema: map[unknown]`
+
+                The schema for the response format, described as a JSON Schema object.
+                Learn how to build JSON schemas [here](https://json-schema.org/).
+
+              - `type: "json_schema"`
+
+                The type of response format being defined. Always `json_schema`.
+
+                - `"json_schema"`
+
+              - `description: optional string`
+
+                A description of what the response format is for, used by the model to
+                determine how to respond in the format.
+
+              - `strict: optional boolean or null (default: false)`
+
+                Whether to enable strict schema adherence when generating the output.
+                If set to true, the model will always follow the exact schema defined
+                in the `schema` field. Only a subset of JSON Schema is supported when
+                `strict` is `true`. To learn more, read the [Structured Outputs
+                guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `Reasoning object { id, summary, type, 3 more }`
 
@@ -38156,45 +38261,10 @@ Schema name: `ResponseCompletedEvent`
 
         Default response format. Used to generate text responses.
 
-        - `type: "text"`
-
-          The type of response format being defined. Always `text`.
-
-          - `"text"`
-
       - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
         JSON Schema response format. Used to generate structured JSON responses.
         Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-        - `name: string`
-
-          The name of the response format. Must be a-z, A-Z, 0-9, or contain
-          underscores and dashes, with a maximum length of 64.
-
-        - `schema: map[unknown]`
-
-          The schema for the response format, described as a JSON Schema object.
-          Learn how to build JSON schemas [here](https://json-schema.org/).
-
-        - `type: "json_schema"`
-
-          The type of response format being defined. Always `json_schema`.
-
-          - `"json_schema"`
-
-        - `description: optional string`
-
-          A description of what the response format is for, used by the model to
-          determine how to respond in the format.
-
-        - `strict: optional boolean or null (default: false)`
-
-          Whether to enable strict schema adherence when generating the output.
-          If set to true, the model will always follow the exact schema defined
-          in the `schema` field. Only a subset of JSON Schema is supported when
-          `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 
@@ -42020,11 +42090,10 @@ Schema name: `ResponseFailedEvent`
 
           The unique ID of this additional tools item.
 
-      - `ConfigurationUpdate object { type, id, reasoning }`
+      - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-        An update to the conversation's response configuration. The configuration
-        remains in effect for subsequent responses until it is replaced by another
-        configuration update.
+        An update to the conversation's response configuration. Supply reasoning,
+        text, or both. Each setting stays in effect until a later update replaces it.
 
         - `type: "configuration_update" (default: "configuration_update")`
 
@@ -42058,6 +42127,58 @@ Schema name: `ResponseFailedEvent`
             - `"xhigh"`
 
             - `"max"`
+
+        - `text: optional object { format }`
+
+          The text output configuration for subsequent responses.
+
+          - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+            Use a JSON schema for structured output or text to return to plain text.
+
+            - `ResponseFormatText object { type }`
+
+              Default response format. Used to generate text responses.
+
+              - `type: "text"`
+
+                The type of response format being defined. Always `text`.
+
+                - `"text"`
+
+            - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+              JSON Schema response format. Used to generate structured JSON responses.
+              Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+              - `name: string`
+
+                The name of the response format. Must be a-z, A-Z, 0-9, or contain
+                underscores and dashes, with a maximum length of 64.
+
+              - `schema: map[unknown]`
+
+                The schema for the response format, described as a JSON Schema object.
+                Learn how to build JSON schemas [here](https://json-schema.org/).
+
+              - `type: "json_schema"`
+
+                The type of response format being defined. Always `json_schema`.
+
+                - `"json_schema"`
+
+              - `description: optional string`
+
+                A description of what the response format is for, used by the model to
+                determine how to respond in the format.
+
+              - `strict: optional boolean or null (default: false)`
+
+                Whether to enable strict schema adherence when generating the output.
+                If set to true, the model will always follow the exact schema defined
+                in the `schema` field. Only a subset of JSON Schema is supported when
+                `strict` is `true`. To learn more, read the [Structured Outputs
+                guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `Reasoning object { id, summary, type, 3 more }`
 
@@ -48442,45 +48563,10 @@ Schema name: `ResponseFailedEvent`
 
         Default response format. Used to generate text responses.
 
-        - `type: "text"`
-
-          The type of response format being defined. Always `text`.
-
-          - `"text"`
-
       - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
         JSON Schema response format. Used to generate structured JSON responses.
         Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-        - `name: string`
-
-          The name of the response format. Must be a-z, A-Z, 0-9, or contain
-          underscores and dashes, with a maximum length of 64.
-
-        - `schema: map[unknown]`
-
-          The schema for the response format, described as a JSON Schema object.
-          Learn how to build JSON schemas [here](https://json-schema.org/).
-
-        - `type: "json_schema"`
-
-          The type of response format being defined. Always `json_schema`.
-
-          - `"json_schema"`
-
-        - `description: optional string`
-
-          A description of what the response format is for, used by the model to
-          determine how to respond in the format.
-
-        - `strict: optional boolean or null (default: false)`
-
-          Whether to enable strict schema adherence when generating the output.
-          If set to true, the model will always follow the exact schema defined
-          in the `schema` field. Only a subset of JSON Schema is supported when
-          `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 
@@ -52286,11 +52372,10 @@ Schema name: `ResponseIncompleteEvent`
 
           The unique ID of this additional tools item.
 
-      - `ConfigurationUpdate object { type, id, reasoning }`
+      - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-        An update to the conversation's response configuration. The configuration
-        remains in effect for subsequent responses until it is replaced by another
-        configuration update.
+        An update to the conversation's response configuration. Supply reasoning,
+        text, or both. Each setting stays in effect until a later update replaces it.
 
         - `type: "configuration_update" (default: "configuration_update")`
 
@@ -52324,6 +52409,58 @@ Schema name: `ResponseIncompleteEvent`
             - `"xhigh"`
 
             - `"max"`
+
+        - `text: optional object { format }`
+
+          The text output configuration for subsequent responses.
+
+          - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+            Use a JSON schema for structured output or text to return to plain text.
+
+            - `ResponseFormatText object { type }`
+
+              Default response format. Used to generate text responses.
+
+              - `type: "text"`
+
+                The type of response format being defined. Always `text`.
+
+                - `"text"`
+
+            - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+              JSON Schema response format. Used to generate structured JSON responses.
+              Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+              - `name: string`
+
+                The name of the response format. Must be a-z, A-Z, 0-9, or contain
+                underscores and dashes, with a maximum length of 64.
+
+              - `schema: map[unknown]`
+
+                The schema for the response format, described as a JSON Schema object.
+                Learn how to build JSON schemas [here](https://json-schema.org/).
+
+              - `type: "json_schema"`
+
+                The type of response format being defined. Always `json_schema`.
+
+                - `"json_schema"`
+
+              - `description: optional string`
+
+                A description of what the response format is for, used by the model to
+                determine how to respond in the format.
+
+              - `strict: optional boolean or null (default: false)`
+
+                Whether to enable strict schema adherence when generating the output.
+                If set to true, the model will always follow the exact schema defined
+                in the `schema` field. Only a subset of JSON Schema is supported when
+                `strict` is `true`. To learn more, read the [Structured Outputs
+                guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `Reasoning object { id, summary, type, 3 more }`
 
@@ -58708,45 +58845,10 @@ Schema name: `ResponseIncompleteEvent`
 
         Default response format. Used to generate text responses.
 
-        - `type: "text"`
-
-          The type of response format being defined. Always `text`.
-
-          - `"text"`
-
       - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
         JSON Schema response format. Used to generate structured JSON responses.
         Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-        - `name: string`
-
-          The name of the response format. Must be a-z, A-Z, 0-9, or contain
-          underscores and dashes, with a maximum length of 64.
-
-        - `schema: map[unknown]`
-
-          The schema for the response format, described as a JSON Schema object.
-          Learn how to build JSON schemas [here](https://json-schema.org/).
-
-        - `type: "json_schema"`
-
-          The type of response format being defined. Always `json_schema`.
-
-          - `"json_schema"`
-
-        - `description: optional string`
-
-          A description of what the response format is for, used by the model to
-          determine how to respond in the format.
-
-        - `strict: optional boolean or null (default: false)`
-
-          Whether to enable strict schema adherence when generating the output.
-          If set to true, the model will always follow the exact schema defined
-          in the `schema` field. Only a subset of JSON Schema is supported when
-          `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 
@@ -73656,11 +73758,10 @@ Schema name: `ResponseQueuedEvent`
 
           The unique ID of this additional tools item.
 
-      - `ConfigurationUpdate object { type, id, reasoning }`
+      - `ConfigurationUpdate object { type, id, reasoning, text }`
 
-        An update to the conversation's response configuration. The configuration
-        remains in effect for subsequent responses until it is replaced by another
-        configuration update.
+        An update to the conversation's response configuration. Supply reasoning,
+        text, or both. Each setting stays in effect until a later update replaces it.
 
         - `type: "configuration_update" (default: "configuration_update")`
 
@@ -73694,6 +73795,58 @@ Schema name: `ResponseQueuedEvent`
             - `"xhigh"`
 
             - `"max"`
+
+        - `text: optional object { format }`
+
+          The text output configuration for subsequent responses.
+
+          - `format: ResponseFormatText or ResponseFormatTextJSONSchemaConfig`
+
+            Use a JSON schema for structured output or text to return to plain text.
+
+            - `ResponseFormatText object { type }`
+
+              Default response format. Used to generate text responses.
+
+              - `type: "text"`
+
+                The type of response format being defined. Always `text`.
+
+                - `"text"`
+
+            - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
+
+              JSON Schema response format. Used to generate structured JSON responses.
+              Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+
+              - `name: string`
+
+                The name of the response format. Must be a-z, A-Z, 0-9, or contain
+                underscores and dashes, with a maximum length of 64.
+
+              - `schema: map[unknown]`
+
+                The schema for the response format, described as a JSON Schema object.
+                Learn how to build JSON schemas [here](https://json-schema.org/).
+
+              - `type: "json_schema"`
+
+                The type of response format being defined. Always `json_schema`.
+
+                - `"json_schema"`
+
+              - `description: optional string`
+
+                A description of what the response format is for, used by the model to
+                determine how to respond in the format.
+
+              - `strict: optional boolean or null (default: false)`
+
+                Whether to enable strict schema adherence when generating the output.
+                If set to true, the model will always follow the exact schema defined
+                in the `schema` field. Only a subset of JSON Schema is supported when
+                `strict` is `true`. To learn more, read the [Structured Outputs
+                guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `Reasoning object { id, summary, type, 3 more }`
 
@@ -80078,45 +80231,10 @@ Schema name: `ResponseQueuedEvent`
 
         Default response format. Used to generate text responses.
 
-        - `type: "text"`
-
-          The type of response format being defined. Always `text`.
-
-          - `"text"`
-
       - `ResponseFormatTextJSONSchemaConfig object { name, schema, type, 2 more }`
 
         JSON Schema response format. Used to generate structured JSON responses.
         Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-
-        - `name: string`
-
-          The name of the response format. Must be a-z, A-Z, 0-9, or contain
-          underscores and dashes, with a maximum length of 64.
-
-        - `schema: map[unknown]`
-
-          The schema for the response format, described as a JSON Schema object.
-          Learn how to build JSON schemas [here](https://json-schema.org/).
-
-        - `type: "json_schema"`
-
-          The type of response format being defined. Always `json_schema`.
-
-          - `"json_schema"`
-
-        - `description: optional string`
-
-          A description of what the response format is for, used by the model to
-          determine how to respond in the format.
-
-        - `strict: optional boolean or null (default: false)`
-
-          Whether to enable strict schema adherence when generating the output.
-          If set to true, the model will always follow the exact schema defined
-          in the `schema` field. Only a subset of JSON Schema is supported when
-          `strict` is `true`. To learn more, read the [Structured Outputs
-          guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
       - `ResponseFormatJSONObject object { type }`
 

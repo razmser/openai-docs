@@ -12,7 +12,11 @@ This enables organization owners to share fine-tuned models with other projects 
 
 - `fine_tuned_model_checkpoint: string`
 
+  The ID of the fine-tuned model checkpoint to create a permission for.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `project_ids: array of string`
 
@@ -123,7 +127,11 @@ Organization owners can use this endpoint to delete a permission for a fine-tune
 
 - `fine_tuned_model_checkpoint: string`
 
+  The ID of the fine-tuned model checkpoint to delete a permission for.
+
 - `permission_id: string`
+
+  The ID of the fine-tuned model checkpoint permission to delete.
 
 ### Returns
 
@@ -187,6 +195,8 @@ Organization owners can use this endpoint to view all permissions for a fine-tun
 ### Path Parameters
 
 - `fine_tuned_model_checkpoint: string`
+
+  The ID of the fine-tuned model checkpoint to get permissions for.
 
 ### Query Parameters
 
@@ -313,6 +323,8 @@ Organization owners can use this endpoint to view all permissions for a fine-tun
 ### Path Parameters
 
 - `fine_tuned_model_checkpoint: string`
+
+  The ID of the fine-tuned model checkpoint to get permissions for.
 
 ### Query Parameters
 

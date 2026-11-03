@@ -8,6 +8,8 @@ For more information, see the [Evals guide](https://developers.openai.com/api/do
 
 ### Body Parameters
 
+Content type: `application/json`
+
 - `data_source_config: CustomDataSourceConfig { item_schema, type, include_sample_schema }  or LogsDataSourceConfig { type, metadata }  or StoredCompletionsDataSourceConfig { type, metadata }`
 
   The configuration for the data source used for the evaluation runs. Dictates the schema of the data used in the evaluation.

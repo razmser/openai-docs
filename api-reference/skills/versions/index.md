@@ -10,7 +10,11 @@ Create a new immutable skill version.
 
 - `skill_id: string`
 
+  The identifier of the skill to version.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `files: array of string or string`
 
@@ -103,6 +107,8 @@ Delete a skill version.
 
 - `skill_id: string`
 
+  The identifier of the skill.
+
 - `version: string`
 
   The skill version number.
@@ -151,6 +157,8 @@ List skill versions for a skill.
 ### Path Parameters
 
 - `skill_id: string`
+
+  The identifier of the skill.
 
 ### Query Parameters
 
@@ -268,6 +276,8 @@ Get a specific skill version.
 ### Path Parameters
 
 - `skill_id: string`
+
+  The identifier of the skill.
 
 - `version: string`
 
@@ -454,9 +464,15 @@ Download a skill version zip bundle.
 
 - `skill_id: string`
 
+  The identifier of the skill.
+
 - `version: string`
 
   The skill version number.
+
+### Returns
+
+`file`
 
 ### Example
 

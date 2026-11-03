@@ -8,7 +8,11 @@ Grants a group access to a project.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `group_id: string`
 

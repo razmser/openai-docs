@@ -8,9 +8,13 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
 - `agent_id: string`
 
+  The ID of the reusable agent.
+
   `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
+
+Content type: `application/json`
 
 - `compaction: optional object { async }  or null`
 

@@ -8,9 +8,15 @@ Updates a project rate limit.
 
 - `project_id: string`
 
+  The ID of the project.
+
 - `rate_limit_id: string`
 
+  The ID of the rate limit.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `batch_1_day_max_input_tokens: optional integer`
 

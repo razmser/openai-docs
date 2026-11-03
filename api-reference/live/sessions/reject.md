@@ -8,7 +8,11 @@ Reject an incoming SIP call. Send a required SIP rejection status_code between 3
 
 - `session_id: string`
 
+  Opaque Live session identifier from the creation response or incoming-call webhook. Preserve the returned value unchanged, including its prefix.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `status_code: integer`
 

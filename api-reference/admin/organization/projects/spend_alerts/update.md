@@ -8,9 +8,15 @@ Updates a project spend alert.
 
 - `project_id: string`
 
+  The ID of the project to update.
+
 - `alert_id: string`
 
+  The ID of the spend alert to update.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `currency: "USD"`
 

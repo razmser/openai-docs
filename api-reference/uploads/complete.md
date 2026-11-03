@@ -15,7 +15,11 @@ Returns the Upload object with status `completed`, including an additional `file
 
 - `upload_id: string`
 
+  The ID of the Upload.
+
 ### Body Parameters
+
+Content type: `application/json`
 
 - `part_ids: array of string`
 
