@@ -2,7 +2,7 @@
 
 Markdown mirror of [OpenAI's documentation](https://developers.openai.com/api/reference/overview).
 
-Contains **501 pages**, discovered from the [page index](https://developers.openai.com/api/reference/index.md) and [supplementary index](https://developers.openai.com/api/reference/llms.txt).
+Contains **516 pages**, discovered from the [page index](https://developers.openai.com/api/reference/index.md) and [supplementary index](https://developers.openai.com/api/reference/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -114,6 +114,9 @@ Generated files are replaced by the next successful sync. Original content belon
 - [List project service accounts](api-reference/admin/organization/projects/service_accounts/list.md)
 - [Retrieve project service account](api-reference/admin/organization/projects/service_accounts/retrieve.md)
 - [Update project service account](api-reference/admin/organization/projects/service_accounts/update.md)
+- [Service Tier Settings](api-reference/admin/organization/projects/service_tier_settings/index.md)
+- [Retrieve project service tier settings](api-reference/admin/organization/projects/service_tier_settings/retrieve.md)
+- [Update project service tier settings](api-reference/admin/organization/projects/service_tier_settings/update.md)
 - [Create project spend alert](api-reference/admin/organization/projects/spend_alerts/create.md)
 - [Delete project spend alert](api-reference/admin/organization/projects/spend_alerts/delete.md)
 - [Spend Alerts](api-reference/admin/organization/projects/spend_alerts/index.md)
@@ -175,6 +178,18 @@ Generated files are replaced by the next successful sync. Original content belon
 - [List user organization role assignments](api-reference/admin/organization/users/roles/list.md)
 - [Retrieve user organization role](api-reference/admin/organization/users/roles/retrieve.md)
 - [Modify user](api-reference/admin/organization/users/update.md)
+- [Create Platform workload identity provider](api-reference/admin/organization/workload_identity_providers/create.md)
+- [Delete Platform workload identity provider](api-reference/admin/organization/workload_identity_providers/delete.md)
+- [Create Platform workload identity federation rule](api-reference/admin/organization/workload_identity_providers/federation_rules/create.md)
+- [Delete Platform workload identity federation rule](api-reference/admin/organization/workload_identity_providers/federation_rules/delete.md)
+- [Federation Rules](api-reference/admin/organization/workload_identity_providers/federation_rules/index.md)
+- [List Platform workload identity federation rules](api-reference/admin/organization/workload_identity_providers/federation_rules/list.md)
+- [Retrieve Platform workload identity federation rule](api-reference/admin/organization/workload_identity_providers/federation_rules/retrieve.md)
+- [Update Platform workload identity federation rule](api-reference/admin/organization/workload_identity_providers/federation_rules/update.md)
+- [Workload Identity Providers](api-reference/admin/organization/workload_identity_providers/index.md)
+- [List Platform workload identity providers](api-reference/admin/organization/workload_identity_providers/list.md)
+- [Retrieve Platform workload identity provider](api-reference/admin/organization/workload_identity_providers/retrieve.md)
+- [Update Platform workload identity provider](api-reference/admin/organization/workload_identity_providers/update.md)
 - [Administration Overview](api-reference/administration/overview.md)
 - [Audio](api-reference/audio/index.md)
 - [Create speech](api-reference/audio/speech/create.md)
