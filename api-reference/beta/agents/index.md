@@ -2930,10 +2930,27 @@ Content type: `application/json`
 ### Example
 
 ```http
-curl https://api.openai.com/v1/agents/$AGENT_ID \
-    -X POST \
-    -H 'OpenAI-Beta: agents=v1' \
-    -H "Authorization: Bearer $OPENAI_API_KEY"
+# 1. Omit reasoning: keep its current settings while renaming the agent.
+curl "https://api.openai.com/v1/agents/$AGENT_ID" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "OpenAI-Beta: agents=v1" \
+  -d '{"name": "Renamed"}'
+
+# 2. Send null: reset reasoning to the model's defaults.
+curl "https://api.openai.com/v1/agents/$AGENT_ID" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "OpenAI-Beta: agents=v1" \
+  -d '{"reasoning": null}'
+
+# 3. Send an object: replace the entire reasoning configuration, without merging.
+# The agent's model must support the "low" reasoning effort.
+curl "https://api.openai.com/v1/agents/$AGENT_ID" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "OpenAI-Beta: agents=v1" \
+  -d '{"reasoning": {"effort": "low"}}'
 ```
 
 #### 200 — Example
@@ -2984,32 +3001,6 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
     "time_awareness": true
   }
 }
-```
-
-### Example
-
-```http
-# 1. Omit reasoning: keep its current settings while renaming the agent.
-curl "https://api.openai.com/v1/agents/$AGENT_ID" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -H "OpenAI-Beta: agents=v1" \
-  -d '{"name": "Renamed"}'
-
-# 2. Send null: reset reasoning to the model's defaults.
-curl "https://api.openai.com/v1/agents/$AGENT_ID" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -H "OpenAI-Beta: agents=v1" \
-  -d '{"reasoning": null}'
-
-# 3. Send an object: replace the entire reasoning configuration, without merging.
-# The agent's model must support the "low" reasoning effort.
-curl "https://api.openai.com/v1/agents/$AGENT_ID" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -H "OpenAI-Beta: agents=v1" \
-  -d '{"reasoning": {"effort": "low"}}'
 ```
 
 ## Domain Types
@@ -52586,7 +52577,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID \
 
 **post** `/agents/sessions/{session_id}`
 
-Updates session tools, metadata, model, reasoning effort, service tier, or the default prompt cache lifetime. Model settings apply to subsequent turns. Omitted fields are unchanged. See [managing sessions](https://developers.openai.com/api/docs/guides/agents-api/sessions/manage).
+Updates session tools, vaults, metadata, model, reasoning effort, service tier, or the default prompt cache lifetime. Model settings apply to subsequent turns. Omitted fields are unchanged. See [managing sessions](https://developers.openai.com/api/docs/guides/agents-api/sessions/manage).
 
 ### Path Parameters
 
@@ -52961,6 +52952,12 @@ Content type: `application/json`
   - `"auto_review"`
 
     Review eligible actions automatically. Deny manual approval fallbacks.
+
+- `vault_ids: optional array of string or null`
+
+  Replaces the session's referenced vaults. Omit to retain them; null or [] clears them.
+
+  `minItems: 0`, `maxItems: 16384`
 
 ### Returns
 
@@ -67579,7 +67576,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -H 'OpenAI-Beta: agents=v1' \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d '{
-          "metadata": {}
+          "metadata": {
+            "environment": "staging"
+          }
         }'
 ```
 
