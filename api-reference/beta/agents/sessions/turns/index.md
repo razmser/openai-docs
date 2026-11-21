@@ -76,7 +76,7 @@ Lists turns by creation time and turn ID. The after cursor is exclusive in the s
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "max_output_tokens" or "usage_limit_exceeded" or 21 more`
+    - `code: "context_length_exceeded" or "max_output_tokens" or "session_budget_exceeded" or 23 more`
 
       A stable, machine-readable failure category.
 
@@ -87,6 +87,10 @@ Lists turns by creation time and turn ID. The after cursor is exclusive in the s
       - `"max_output_tokens"`
 
         The model reached its output token limit before finishing the response.
+
+      - `"session_budget_exceeded"`
+
+        The session has reached its usage budget.
 
       - `"usage_limit_exceeded"`
 
@@ -135,6 +139,10 @@ Lists turns by creation time and turn ID. The after cursor is exclusive in the s
       - `"misalignment_policy_violation"`
 
         The request was blocked by the safety systems.
+
+      - `"audio_input_unavailable"`
+
+        Audio input is unavailable for the organization.
 
       - `"connection_failed"`
 
@@ -412,7 +420,7 @@ Retrieves a turn's current status, timestamps, usage, and error. Returns 404 if 
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "max_output_tokens" or "usage_limit_exceeded" or 21 more`
+    - `code: "context_length_exceeded" or "max_output_tokens" or "session_budget_exceeded" or 23 more`
 
       A stable, machine-readable failure category.
 
@@ -423,6 +431,10 @@ Retrieves a turn's current status, timestamps, usage, and error. Returns 404 if 
       - `"max_output_tokens"`
 
         The model reached its output token limit before finishing the response.
+
+      - `"session_budget_exceeded"`
+
+        The session has reached its usage budget.
 
       - `"usage_limit_exceeded"`
 
@@ -471,6 +483,10 @@ Retrieves a turn's current status, timestamps, usage, and error. Returns 404 if 
       - `"misalignment_policy_violation"`
 
         The request was blocked by the safety systems.
+
+      - `"audio_input_unavailable"`
+
+        Audio input is unavailable for the organization.
 
       - `"connection_failed"`
 
@@ -700,7 +716,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/turns/$TURN_ID \
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "max_output_tokens" or "usage_limit_exceeded" or 21 more`
+    - `code: "context_length_exceeded" or "max_output_tokens" or "session_budget_exceeded" or 23 more`
 
       A stable, machine-readable failure category.
 
@@ -711,6 +727,10 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/turns/$TURN_ID \
       - `"max_output_tokens"`
 
         The model reached its output token limit before finishing the response.
+
+      - `"session_budget_exceeded"`
+
+        The session has reached its usage budget.
 
       - `"usage_limit_exceeded"`
 
@@ -759,6 +779,10 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/turns/$TURN_ID \
       - `"misalignment_policy_violation"`
 
         The request was blocked by the safety systems.
+
+      - `"audio_input_unavailable"`
+
+        Audio input is unavailable for the organization.
 
       - `"connection_failed"`
 

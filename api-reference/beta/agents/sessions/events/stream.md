@@ -20,7 +20,7 @@ Streams live events for an agent session. See [session events](https://developer
 
 ### Returns
 
-- `AgentSessionEvent = AgentSessionErrorEvent or AgentSessionEnvironmentReadyEvent or AgentSessionEnvironmentSuspendedEvent or 30 more`
+- `AgentSessionEvent = AgentSessionErrorEvent or AgentSessionEnvironmentReadyEvent or AgentSessionEnvironmentSuspendedEvent or 31 more`
 
   An event emitted by a Managed Agents session.
 
@@ -1316,7 +1316,23 @@ Streams live events for an agent session. See [session events](https://developer
 
             - `"environment_connection"`
 
-      - `status: "idle" or "in_progress" or "requires_action" or "failed"`
+      - `spend_control: object { consumed, limit }`
+
+        Spending limit and best-effort consumption, in USD cents. The limit is null for an unlimited session. Consumption is null when unavailable.
+
+        - `consumed: integer or null`
+
+          Best-effort recorded spend floored to whole USD cents, or null when unavailable.
+
+          `minimum: 0`
+
+        - `limit: integer or null`
+
+          The configured positive limit in USD cents, or null when unlimited.
+
+          `format: int64`, `minimum: 1`, `maximum: 4503599627370495`
+
+      - `status: "idle" or "in_progress" or "requires_action" or 2 more`
 
         The current status of the session.
 
@@ -1335,6 +1351,10 @@ Streams live events for an agent session. See [session events](https://developer
         - `"failed"`
 
           The session failed.
+
+        - `"budget_reached"`
+
+          The session is paused because its spending limit was reached.
 
       - `usage: TokenUsage or null`
 
@@ -1462,7 +1482,7 @@ Streams live events for an agent session. See [session events](https://developer
 
         A customer-safe error. Non-null only for a failed turn.
 
-        - `code: "context_length_exceeded" or "max_output_tokens" or "usage_limit_exceeded" or 21 more`
+        - `code: "context_length_exceeded" or "max_output_tokens" or "session_budget_exceeded" or 23 more`
 
           A stable, machine-readable failure category.
 
@@ -1473,6 +1493,10 @@ Streams live events for an agent session. See [session events](https://developer
           - `"max_output_tokens"`
 
             The model reached its output token limit before finishing the response.
+
+          - `"session_budget_exceeded"`
+
+            The session has reached its usage budget.
 
           - `"usage_limit_exceeded"`
 
@@ -1521,6 +1545,10 @@ Streams live events for an agent session. See [session events](https://developer
           - `"misalignment_policy_violation"`
 
             The request was blocked by the safety systems.
+
+          - `"audio_input_unavailable"`
+
+            Audio input is unavailable for the organization.
 
           - `"connection_failed"`
 
@@ -2917,6 +2945,32 @@ Streams live events for an agent session. See [session events](https://developer
       The type of the object. Always `agent.session.idle`.
 
       - `"agent.session.idle"`
+
+    - `obfuscation: optional string`
+
+      Random alphanumeric padding. Present when stream obfuscation is enabled.
+
+      `minLength: 0`
+
+  - `AgentSessionBudgetReachedEvent object { event_id, session, type, obfuscation }`
+
+    Emitted when a session pauses because its spending limit was reached.
+
+    - `event_id: string`
+
+      The unique ID of the event.
+
+      `minLength: 0`
+
+    - `session: AgentSession`
+
+      The paused session.
+
+    - `type: "agent.session.budget_reached" (default: "agent.session.budget_reached")`
+
+      The type of the object. Always `agent.session.budget_reached`.
+
+      - `"agent.session.budget_reached"`
 
     - `obfuscation: optional string`
 
